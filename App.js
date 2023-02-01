@@ -1,21 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
+import { captureRef } from 'react-native-view-shot';
 import Button from './components/Button';
 import ImageViewer from './components/ImageViewer';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import IconButton from './components/IconButton';
 import CircleButton from './components/CircleButton';
 import EmojiPicker from './components/EmojiPicker';
 import EmojiList from './components/EmojiList';
+import EmojiSicker from './components/EmojiSticker';
 
 const PlaceholderImage = require('./assets/images/background-image.png');
 
 export default function App() {
+  const imageRef = useRef();
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedSticker, setSelectedSticker] = useState(null);
   const [showAppOptions, setShowAppOptions] = useState(null);
   const [showStickerPicker, setShowStickerPicker] = useState(null);
+  const [mediaStatus, requestMediaPermission] = MediaLibrary.usePermissions();
+
+  if (!mediaStatus) {
+    requestMediaPermission();
+  }
 
   const pickImage = useCallback(async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -36,17 +46,41 @@ export default function App() {
     setShowStickerPicker(true);
   }, []);
 
-  const onSaveImage = useCallback(() => {
-  }, []);
+  const onSaveImage = useCallback(async () => {
+    try {
+      const localUri = await captureRef(imageRef, {
+        quality: 1,
+        width: 440
+      });
+
+      console.log(localUri);
+
+      if (!localUri) {
+        return alert("Error.")
+      }
+
+      MediaLibrary.saveToLibraryAsync(localUri);
+      alert("Saved.")
+    } catch (error) {
+      console.log(error)
+    }
+  }, [imageRef]);
 
   const onModalClose = useCallback(() => {
     setShowStickerPicker(false);
   }, []);
 
   return (
-    <View style={styles.container}>
+    <GestureHandlerRootView style={styles.container}>
       <View style={styles.imageContainer}>
-        <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
+        <View ref={imageRef} collapsable={false}>
+          <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
+          {
+            selectedSticker
+            ? (<EmojiSicker source={selectedSticker} size={40}/>)
+            : null
+          }
+        </View>
       </View>
       {
         showAppOptions
@@ -70,7 +104,7 @@ export default function App() {
         <EmojiList onClose={onModalClose} onSelect={setSelectedSticker}/>
         </EmojiPicker>
       <StatusBar style="auto" />
-    </View>
+    </GestureHandlerRootView>
   );
 }
 
