@@ -1,8 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
+import * as DomToImage from 'dom-to-image';
 import { captureRef } from 'react-native-view-shot';
 import Button from './components/Button';
 import ImageViewer from './components/ImageViewer';
@@ -41,28 +42,42 @@ export default function App() {
     setShowAppOptions(true);
   }, []);
 
-  const onRefresh = useCallback(() => {}, []);
+  const onRefresh = useCallback(() => { }, []);
   const onAddSticker = useCallback(() => {
     setShowStickerPicker(true);
   }, []);
 
   const onSaveImage = useCallback(async () => {
-    try {
-      const localUri = await captureRef(imageRef, {
-        quality: 1,
-        width: 440
-      });
+    if (Platform.OS !== 'web') {
+      try {
+        const localUri = await captureRef(imageRef, {
+          quality: 1,
+          width: 320
+        });
 
-      console.log(localUri);
+        console.log(localUri);
 
-      if (!localUri) {
-        return alert("Error.")
+        if (!localUri) {
+          return alert("Error.")
+        }
+
+        MediaLibrary.saveToLibraryAsync(localUri);
+        alert("Saved.")
+      } catch (error) {
+        console.alert(error)
       }
+      return;
+    }
 
-      MediaLibrary.saveToLibraryAsync(localUri);
-      alert("Saved.")
+    try {
+      const imageLink = await DomToImage.toJpeg(imageRef.current, { quality: 1, width: 320, height: 440 });
+      const link = document.createElement('a');
+      link.download = `${Date.now()}.jpeg`;
+      link.href = imageLink;
+      link.click();
     } catch (error) {
-      console.log(error)
+      console.alert(error)
+
     }
   }, [imageRef]);
 
@@ -77,32 +92,32 @@ export default function App() {
           <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
           {
             selectedSticker
-            ? (<EmojiSicker source={selectedSticker} size={40}/>)
-            : null
+              ? (<EmojiSicker source={selectedSticker} size={40} />)
+              : null
           }
         </View>
       </View>
       {
         showAppOptions
-        ? (
-          <View style={styles.optionsContainer}>
+          ? (
+            <View style={styles.optionsContainer}>
               <View style={styles.optionsRow}>
-                <IconButton icon="refresh" label="Refresh" onPress={onRefresh}/>
-                <CircleButton onPress={onAddSticker}/>
-                <IconButton icon="save-alt" label="Save" onPress={onSaveImage}/>
+                <IconButton icon="refresh" label="Refresh" onPress={onRefresh} />
+                <CircleButton onPress={onAddSticker} />
+                <IconButton icon="save-alt" label="Save" onPress={onSaveImage} />
               </View>
-          </View>
-        )
-        : (
-          <View style={styles.footerContainer}>
-            <Button theme="primary" label="Choose a photo" onPress={pickImage}></Button>
-            <Button label="Use this photo" onPress={() => setShowAppOptions(true)}></Button>
-          </View>
-        )
+            </View>
+          )
+          : (
+            <View style={styles.footerContainer}>
+              <Button theme="primary" label="Choose a photo" onPress={pickImage}></Button>
+              <Button label="Use this photo" onPress={() => setShowAppOptions(true)}></Button>
+            </View>
+          )
       }
       <EmojiPicker visible={showStickerPicker} onClose={onModalClose}>
-        <EmojiList onClose={onModalClose} onSelect={setSelectedSticker}/>
-        </EmojiPicker>
+        <EmojiList onClose={onModalClose} onSelect={setSelectedSticker} />
+      </EmojiPicker>
       <StatusBar style="auto" />
     </GestureHandlerRootView>
   );
