@@ -42,7 +42,9 @@ export default function App() {
     setShowAppOptions(true);
   }, []);
 
-  const onRefresh = useCallback(() => { }, []);
+  const onRefresh = useCallback(() => {
+    setSelectedSticker(null);
+  }, []);
   const onAddSticker = useCallback(() => {
     setShowStickerPicker(true);
   }, []);
