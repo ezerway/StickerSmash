@@ -26,7 +26,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.ezerway.StickerSmash"
+      "package": "com.ezerway.StickerSmash",
+      "versionCode": 5
     },
     "web": {
       "favicon": "./assets/favicon.png"
