@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet, View } from 'react-native';
+import { Alert, Platform, StyleSheet, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
@@ -42,11 +42,42 @@ export default function App() {
     setShowAppOptions(true);
   }, []);
 
+  const clearAll = useCallback(() => {
+    setSelectedImage(null);
+    setSelectedSticker(null);
+    setShowAppOptions(null);
+  }, []);
   const onRefresh = useCallback(() => {
     setSelectedSticker(null);
   }, []);
   const onAddSticker = useCallback(() => {
     setShowStickerPicker(true);
+  }, []);
+  const showSaveAlert = useCallback(() => {
+    const message = "Continue editing?";
+
+    if (Platform.OS === 'web') {
+      if (confirm(message)) {
+        return;
+      }
+      
+      return clearAll();
+    }
+
+    Alert.alert(
+      "Saved",
+      message,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => clearAll(),
+        },
+        {
+          text: 'OK',
+        },
+      ]
+    );
   }, []);
 
   const onSaveImage = useCallback(async () => {
@@ -57,16 +88,14 @@ export default function App() {
           width: 320
         });
 
-        console.log(localUri);
-
         if (!localUri) {
           return alert("Error.")
         }
 
         MediaLibrary.saveToLibraryAsync(localUri);
-        alert("Saved.")
+        showSaveAlert();
       } catch (error) {
-        console.alert(error)
+        alert(error);
       }
       return;
     }
@@ -77,9 +106,9 @@ export default function App() {
       link.download = `${Date.now()}.jpeg`;
       link.href = imageLink;
       link.click();
+      showSaveAlert();
     } catch (error) {
-      console.alert(error)
-
+      alert(error)
     }
   }, [imageRef]);
 
