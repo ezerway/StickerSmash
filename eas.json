@@ -4,16 +4,26 @@
     "appVersionSource": "local"
   },
   "build": {
+    "development-simulator": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "channel": "development-simulator"
+    },
     "development": {
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
         "resourceClass": "m1-medium"
-      }
+      },
+      "channel": "development"
     },
     "preview": {
       "distribution": "internal",
-      "channel": "staging",
+      "autoIncrement": true,
+      "channel": "preview",
       "ios": {
         "resourceClass": "m1-medium"
       }
@@ -31,6 +41,12 @@
       "android": {
         "serviceAccountKeyPath": "./pc-api-7429549178999695983-644-fd25ade55dd8.json",
         "track": "production"
+      }
+    },
+    "preview": {
+      "android": {
+        "serviceAccountKeyPath": "./pc-api-7429549178999695983-644-fd25ade55dd8.json",
+        "track": "internal"
       }
     }
   }

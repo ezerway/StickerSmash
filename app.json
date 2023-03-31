@@ -13,13 +13,16 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/1ce41990-0d0d-49f6-badd-c32293a2bfca"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ezerway.StickerSmash",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +30,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.ezerway.StickerSmash",
-      "versionCode": 5
+      "versionCode": 7
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,6 +39,25 @@
       "eas": {
         "projectId": "1ce41990-0d0d-49f6-badd-c32293a2bfca"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
-  }
+  },
+  "plugins": [
+    [
+      "expo-build-properties",
+      {
+        "ios": {
+          "flipper": true
+        }
+      }
+    ],
+    [
+      "expo-updates",
+      {
+        "username": "ezerway"
+      }
+    ]
+  ]
 }
