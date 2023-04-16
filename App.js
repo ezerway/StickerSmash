@@ -39,7 +39,7 @@ export default function App() {
     });
 
     if (result.canceled) {
-      return alert(i18n.t("You didn't select any image."));
+      return alert(i18n.t("YouDidntSelectAnyImage"));
     }
 
     setSelectedImage(result.assets[0].uri);
@@ -71,7 +71,7 @@ export default function App() {
   }, []);
 
   const showSaveAlert = useCallback(() => {
-    const message = i18n.t('Continue editing?');
+    const message = i18n.t('ContinueEditing');
 
     if (Platform.OS === 'web') {
       if (confirm(message)) {
@@ -106,7 +106,7 @@ export default function App() {
         });
 
         if (!localUri) {
-          return alert("Error.")
+          return alert(i18n.t('Error'))
         }
 
         MediaLibrary.saveToLibraryAsync(localUri);
@@ -177,8 +177,8 @@ export default function App() {
             )
             : (
               <View style={styles.footerContainer}>
-                <Button theme="primary" label={i18n.t('Choose a photo')} onPress={pickImage}></Button>
-                <Button label={i18n.t('Use this photo')} onPress={() => setShowAppOptions(true)}></Button>
+                <Button theme="primary" label={i18n.t('ChooseAPhoto')} onPress={pickImage}></Button>
+                <Button label={i18n.t('UseThisPhoto')} onPress={() => setShowAppOptions(true)}></Button>
               </View>
             )
         }

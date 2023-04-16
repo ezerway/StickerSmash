@@ -2,12 +2,13 @@
     "CFBundleDisplayName": "Ez Sticker Smash",
     "Save": "Save",
     "Refresh": "Refresh",
-    "Choose a photo": "Choose a photo",
-    "Use this photo": "Use this photo",
-    "You didn't select any image.": "You didn't select any image.",
-    "Continue editing?": "Continue editing?",
+    "ChooseAPhoto": "Choose a photo",
+    "UseThisPhoto": "Use this photo",
+    "YouDidntSelectAnyImage": "You didn't select any image.",
+    "ContinueEditing": "Continue editing?",
     "Saved": "Saved",
-    "Cancel": "Cancel",
+    "No": "No",
     "OK": "OK",
-    "Choose a sticker": "Choose a sticker"
+    "ChooseASticker": "Choose a sticker",
+    "Error": "Error."
 }
