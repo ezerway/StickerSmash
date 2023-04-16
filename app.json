@@ -23,7 +23,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ezerway.StickerSmash",
-      "buildNumber": "3"
+      "buildNumber": "4",
+      "infoPlist": {
+        "CFBundleAllowMixedLocalizations": true
+      }
     },
     "android": {
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.ezerway.StickerSmash",
@@ -44,7 +47,28 @@
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
-    }
+    },
+    "locales": {
+      "vi": "./languages/vi.json",
+      "en": "./languages/en.json"
+    },
+    "plugins": [
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
+          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you create freely."
+        }
+      ],
+      "expo-localization"
+    ]
   },
   "plugins": [
     [
@@ -59,20 +83,6 @@
       "expo-updates",
       {
         "username": "ezerway"
-      }
-    ],
-    [
-      "expo-media-library",
-      {
-        "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
-        "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
-        "isAccessMediaLocationEnabled": true
-      }
-    ],
-    [
-      "expo-image-picker",
-      {
-        "photosPermission": "The app accesses your photos to let you share them with your friends."
       }
     ]
   ]

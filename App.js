@@ -13,15 +13,19 @@ import CircleButton from './components/CircleButton';
 import EmojiPicker from './components/EmojiPicker';
 import EmojiList from './components/EmojiList';
 import EmojiSicker from './components/EmojiSticker';
+import { imageSize, stickerSize } from './constants/ImageSize';
+import { AppContext } from './contexts/AppContext';
+import { i18n } from './i18n';
 
 const PlaceholderImage = require('./assets/images/background-image.png');
 
 export default function App() {
   const imageRef = useRef();
   const [selectedImage, setSelectedImage] = useState(null);
-  const [selectedSticker, setSelectedSticker] = useState(null);
+  const [selectedStickers, setSelectedStickers] = useState([]);
   const [showAppOptions, setShowAppOptions] = useState(null);
   const [showStickerPicker, setShowStickerPicker] = useState(null);
+  const [previewMode, setPreviewMode] = useState(null);
   const [mediaStatus, requestMediaPermission] = MediaLibrary.usePermissions();
 
   if (!mediaStatus) {
@@ -35,57 +39,70 @@ export default function App() {
     });
 
     if (result.canceled) {
-      return alert('You didn\'t select any image.');
+      return alert(i18n.t("You didn't select any image."));
     }
 
     setSelectedImage(result.assets[0].uri);
     setShowAppOptions(true);
   }, []);
 
+  const onSelectPicker = useCallback((picker) => {
+    setSelectedStickers((selected) => {
+      return [...selected, picker];
+    });
+  }, []);
   const clearAll = useCallback(() => {
     setSelectedImage(null);
-    setSelectedSticker(null);
+    setSelectedStickers([]);
     setShowAppOptions(null);
   }, []);
   const onRefresh = useCallback(() => {
-    setSelectedSticker(null);
+    setSelectedStickers([]);
   }, []);
   const onAddSticker = useCallback(() => {
     setShowStickerPicker(true);
   }, []);
+
+  const removeSticker = useCallback((index) => () => {
+    setSelectedStickers((stickers) => {
+      stickers[index] = null;
+      return stickers.slice();
+    });
+  }, []);
+
   const showSaveAlert = useCallback(() => {
-    const message = "Continue editing?";
+    const message = i18n.t('Continue editing?');
 
     if (Platform.OS === 'web') {
       if (confirm(message)) {
         return;
       }
-      
+
       return clearAll();
     }
 
     Alert.alert(
-      "Saved",
+      i18n.t('Saved'),
       message,
       [
         {
-          text: 'Cancel',
+          text: i18n.t('No'),
           style: 'cancel',
           onPress: () => clearAll(),
         },
         {
-          text: 'OK',
+          text: i18n.t('OK'),
         },
       ]
     );
   }, []);
 
-  const onSaveImage = useCallback(async () => {
+  const saveImage = useCallback(async () => {
     if (Platform.OS !== 'web') {
       try {
         const localUri = await captureRef(imageRef, {
           quality: 1,
-          width: 320
+          width: imageSize.width
         });
 
         if (!localUri) {
@@ -96,12 +113,14 @@ export default function App() {
         showSaveAlert();
       } catch (error) {
         alert(error);
+      } finally {
+        setPreviewMode(false);
       }
       return;
     }
 
     try {
-      const imageLink = await DomToImage.toJpeg(imageRef.current, { quality: 1, width: 320, height: 440 });
+      const imageLink = await DomToImage.toJpeg(imageRef.current, { quality: 1, ...imageSize });
       const link = document.createElement('a');
       link.download = `${Date.now()}.jpeg`;
       link.href = imageLink;
@@ -109,48 +128,66 @@ export default function App() {
       showSaveAlert();
     } catch (error) {
       alert(error)
+    } finally {
+      setPreviewMode(false);
     }
   }, [imageRef]);
+
+  const onClickSaveImage = useCallback(async () => {
+    setPreviewMode(true);
+    setTimeout(saveImage, 500);
+  }, []);
 
   const onModalClose = useCallback(() => {
     setShowStickerPicker(false);
   }, []);
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <View style={styles.imageContainer}>
-        <View ref={imageRef} collapsable={false}>
-          <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} />
-          {
-            selectedSticker
-              ? (<EmojiSicker source={selectedSticker} size={40} />)
-              : null
-          }
+    <AppContext.Provider value={{
+      previewMode
+    }}>
+      <GestureHandlerRootView style={styles.container}>
+        <View style={styles.imageContainer}>
+          <View ref={imageRef} collapsable={false}>
+            <ImageViewer placeholderImageSource={PlaceholderImage} selectedImage={selectedImage} size={imageSize} />
+            {
+              selectedStickers.map((selectedSticker, index) => (
+                <EmojiSicker
+                      key={index}
+                      index={index}
+                      source={selectedSticker}
+                      size={stickerSize}
+                      parentSize={imageSize}
+                      onClickX={removeSticker(index)}
+                      />
+              ))
+            }
+          </View>
         </View>
-      </View>
-      {
-        showAppOptions
-          ? (
-            <View style={styles.optionsContainer}>
-              <View style={styles.optionsRow}>
-                <IconButton icon="refresh" label="Refresh" onPress={onRefresh} />
-                <CircleButton onPress={onAddSticker} />
-                <IconButton icon="save-alt" label="Save" onPress={onSaveImage} />
+        {
+          showAppOptions
+            ? (
+              <View style={styles.optionsContainer}>
+                <View style={styles.optionsRow}>
+                  <IconButton icon="refresh" label={i18n.t('Refresh')} onPress={onRefresh} />
+                  <CircleButton onPress={onAddSticker} />
+                  <IconButton icon="save-alt" label={i18n.t('Save')} onPress={onClickSaveImage} />
+                </View>
               </View>
-            </View>
-          )
-          : (
-            <View style={styles.footerContainer}>
-              <Button theme="primary" label="Choose a photo" onPress={pickImage}></Button>
-              <Button label="Use this photo" onPress={() => setShowAppOptions(true)}></Button>
-            </View>
-          )
-      }
-      <EmojiPicker visible={showStickerPicker} onClose={onModalClose}>
-        <EmojiList onClose={onModalClose} onSelect={setSelectedSticker} />
-      </EmojiPicker>
-      <StatusBar style="auto" />
-    </GestureHandlerRootView>
+            )
+            : (
+              <View style={styles.footerContainer}>
+                <Button theme="primary" label={i18n.t('Choose a photo')} onPress={pickImage}></Button>
+                <Button label={i18n.t('Use this photo')} onPress={() => setShowAppOptions(true)}></Button>
+              </View>
+            )
+        }
+        <EmojiPicker visible={showStickerPicker} onClose={onModalClose}>
+          <EmojiList onClose={onModalClose} onSelect={onSelectPicker} />
+        </EmojiPicker>
+        <StatusBar style="auto" />
+      </GestureHandlerRootView>
+    </AppContext.Provider>
   );
 }
 

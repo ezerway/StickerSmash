@@ -1,9 +1,9 @@
 import { Image, StyleSheet } from "react-native";
 
-export default function ImageViewer({ placeholderImageSource, selectedImage }) {
+export default function ImageViewer({ placeholderImageSource, selectedImage, size = {} }) {
     const source = selectedImage ? { uri: selectedImage } : placeholderImageSource;
     return (
-        <Image style={styles.image} source={source}></Image>
+        <Image style={[styles.image, size]} source={source}></Image>
     )
 }
 
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     image: {
       width: 320,
       height: 440,
-      borderRadius: 18
+      borderRadius: 0
     }
   });
   
