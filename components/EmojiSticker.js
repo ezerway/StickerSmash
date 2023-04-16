@@ -16,10 +16,10 @@ export default function EmojiSicker({
 }) {
 
     if (!source) {
-        return <div style={{
+        return <View style={{
             width: size.width,
             height: size.height
-        }}></div>;
+        }}></View>;
     }
 
     const [position] = useState({

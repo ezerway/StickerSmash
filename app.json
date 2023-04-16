@@ -23,7 +23,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ezerway.StickerSmash",
-      "buildNumber": "6",
+      "buildNumber": "7",
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
       }
@@ -35,7 +35,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.ezerway.StickerSmash",
-      "versionCode": 9
+      "versionCode": 10
     },
     "web": {
       "favicon": "./assets/favicon.png"
