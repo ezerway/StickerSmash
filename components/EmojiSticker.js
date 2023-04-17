@@ -6,6 +6,7 @@ import { AppContext } from "../contexts/AppContext";
 import ZoomOutButton from "./ZoomOutButton";
 import ZoomInButton from "./ZoomInButton";
 import XButton from "./XButton";
+import RotateButton from "./RotateButton";
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedImage = Animated.createAnimatedComponent(Image);
@@ -31,6 +32,7 @@ export default function EmojiSicker({
 
     const translateX = useSharedValue(0);
     const translateY = useSharedValue(0);
+    const rotate = useSharedValue(0);
     const scaleImage = useSharedValue(size.width);
     
     const { previewMode } = useContext(AppContext);
@@ -51,7 +53,9 @@ export default function EmojiSicker({
                 translateX: translateX.value
             }, {
                 translateY: translateY.value
-            }]
+            }, {
+                rotate: rotate.value + 'deg'
+            }],
         }
     });
 
@@ -70,6 +74,10 @@ export default function EmojiSicker({
 
     const onZoomIn = useCallback(() => {
         scaleImage.value = scaleImage.value / 2;
+    }, []);
+
+    const onRotate = useCallback(() => {
+        rotate.value = rotate.value + 15;
     }, []);
 
     const onDrag = useAnimatedGestureHandler({
@@ -95,6 +103,7 @@ export default function EmojiSicker({
                             <ZoomOutButton size={buttonSize} parentSize={size} parentScale={scaleImage} onPress={onZoomOut}/>
                             <ZoomInButton size={buttonSize} parentSize={size} parentScale={scaleImage} onPress={onZoomIn}/>
                             <XButton size={buttonSize} parentSize={size} parentScale={scaleImage} onPress={onClickX}/>
+                            <RotateButton size={buttonSize} parentSize={size} parentScale={scaleImage} onPress={onRotate}/>
                         </>
                     )
                 }

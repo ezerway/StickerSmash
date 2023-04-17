@@ -19,6 +19,12 @@ import { i18n } from './i18n';
 
 const PlaceholderImage = require('./assets/images/background-image.png');
 
+// This is a workaround to a reanimated issue -> https://github.com/software-mansion/react-native-reanimated/issues/3355
+if (Platform.OS === 'web') {
+  // eslint-disable-next-line no-underscore-dangle
+  window._frameTimestamp = null;
+}
+
 export default function App() {
   const imageRef = useRef();
   const [selectedImage, setSelectedImage] = useState(null);
