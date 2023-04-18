@@ -1,6 +1,6 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import EmojiStickButton from "./EmojiStickerButton";
 import { useDerivedValue } from 'react-native-reanimated';
+import EmojiStickButton from '../molecules/EmojiStickerButton';
 
 export default function RotateButton({ onPress, size, parentSize, parentScale }) {
   const position = useDerivedValue(() => {

@@ -1,8 +1,8 @@
 import MaterialIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import EmojiStickButton from "./EmojiStickerButton";
+import EmojiStickButton from '../molecules/EmojiStickerButton';
 import { useDerivedValue } from 'react-native-reanimated';
 
-export default function XButton({ onPress, size, parentSize, parentScale }) {
+export default function ZoomInButton({ onPress, size, parentSize, parentScale }) {
   const position = useDerivedValue(() => {
     return {
       top: -size.height / 2,

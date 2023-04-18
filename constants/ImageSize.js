@@ -1,4 +1,4 @@
-const imageSize = {
+const defaultImageSize = {
     width: 320,
     height: 440
 }
@@ -9,6 +9,6 @@ const stickerSize = {
 }
 
 export {
-    imageSize,
+    defaultImageSize,
     stickerSize
 }

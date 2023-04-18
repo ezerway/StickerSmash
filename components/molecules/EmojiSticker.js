@@ -1,31 +1,28 @@
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useState } from "react";
 import { Image, View } from "react-native";
 import { TapGestureHandler, PanGestureHandler } from "react-native-gesture-handler";
 import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
-import { AppContext } from "../contexts/AppContext";
-import ZoomOutButton from "./ZoomOutButton";
-import ZoomInButton from "./ZoomInButton";
-import XButton from "./XButton";
-import RotateButton from "./RotateButton";
+import XButton from "../atomics/XButton";
+import RotateButton from "../atomics/RotateButton";
+import ZoomOutButton from "../atomics/ZoomOutButton";
+import ZoomInButton from "../atomics/ZoomInButton";
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 export default function EmojiSicker({
-    index = 0, source, size, parentSize,
+    index = 0, source, size, parentSize, previewMode,
     onClickX = () => {}
 }) {
 
     if (!source) {
-        return <View style={{
-            width: size.width,
-            height: size.height
-        }}></View>;
+        return <View></View>;
     }
 
     const [position] = useState({
-        top: -(parentSize.height / 2 + size.height / 2 + size.height * index),
-        right: -(parentSize.width / 2 - size.width / 2)
+        // top: -(parentSize.height / 2 + size.height / 2 + size.height * index),
+        // right: -(parentSize.width / 2 - size.width / 2),
+        position: "absolute"
     });
 
     const [buttonSize] = useState({ width: size.width / 2, height: size.height / 2 });
@@ -34,8 +31,6 @@ export default function EmojiSicker({
     const translateY = useSharedValue(0);
     const rotate = useSharedValue(0);
     const scaleImage = useSharedValue(size.width);
-    
-    const { previewMode } = useContext(AppContext);
 
     const imageStyle = useAnimatedStyle(() => {
         return {

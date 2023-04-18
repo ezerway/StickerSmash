@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import Animated, { useAnimatedStyle, useDerivedValue, withSpring } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, withSpring } from "react-native-reanimated";
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
