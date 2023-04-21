@@ -1,18 +1,30 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-export default function ImageViewer({ placeholderImageSource, selectedImage, size = {} }) {
-    const source = selectedImage ? { uri: selectedImage.uri } : placeholderImageSource;
-    return (
-        <Image style={[styles.image, size]} source={source}></Image>
-    )
+import { defaultImageSize } from '../../constants/ImageSize';
+
+export default function ImageViewer({
+  placeholderImageSource,
+  selectedImage,
+  size = {},
+  onPressOut,
+  onLongPress,
+}) {
+  const source = selectedImage ? { uri: selectedImage.uri } : placeholderImageSource;
+  return (
+    <TouchableOpacity
+      activeOpacity={false}
+      delayLongPress={100}
+      onPressOut={onPressOut}
+      onLongPress={onLongPress}>
+      <Image style={[styles.image, size]} source={source} />
+    </TouchableOpacity>
+  );
 }
 
-
 const styles = StyleSheet.create({
-    image: {
-      width: 320,
-      height: '100%',
-      borderRadius: 0
-    }
-  });
-  
+  image: {
+    width: defaultImageSize.width,
+    height: '100%',
+    borderRadius: 0,
+  },
+});

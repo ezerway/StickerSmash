@@ -1,9 +1,10 @@
+import * as MediaLibrary from 'expo-media-library';
 import { StatusBar } from 'expo-status-bar';
 import { Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import * as MediaLibrary from 'expo-media-library';
-import HomePage from './pages/HomePage';
+
 import { AppContext } from './contexts/AppContext';
+import HomePage from './pages/HomePage';
 
 // This is a workaround to a reanimated issue -> https://github.com/software-mansion/react-native-reanimated/issues/3355
 if (Platform.OS === 'web') {
@@ -30,6 +31,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
 });
