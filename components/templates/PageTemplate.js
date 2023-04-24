@@ -1,11 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
+import { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { footerFlex, headerFlex, mainFlex } from '../../constants/Layout';
+import { AppContext } from '../../contexts/AppContext';
 
 export default function PageTemplate({ header, children, footer }) {
+  const { backgroundColor } = useContext(AppContext);
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor }]}>
       <View style={styles.headerContainer}>{header}</View>
       <View style={styles.mainContainer}>{children}</View>
       <View style={styles.footerContainer}>{footer}</View>
@@ -17,7 +21,6 @@ export default function PageTemplate({ header, children, footer }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#25292e',
     alignItems: 'center',
   },
   headerContainer: {

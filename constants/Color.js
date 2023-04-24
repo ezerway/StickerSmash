@@ -1,6 +1,27 @@
-const stickerButtonColor = '#000';
-const stickerButtonBackground = '#fff';
+const white = '#fff';
+const black = '#000';
+const yellow = '#ffd33d';
 
-const iconButtonColor = '#fff';
+const defaultBackgroundColor = '#25292e';
 
-export { stickerButtonColor, stickerButtonBackground, iconButtonColor };
+const stickerButtonColor = black;
+const stickerButtonBackground = white;
+
+const iconButtonColor = white;
+const iconButtonBackground = defaultBackgroundColor;
+
+const textButtonColor = white;
+const textButtonBackground = defaultBackgroundColor;
+
+export {
+  white,
+  black,
+  yellow,
+  defaultBackgroundColor,
+  stickerButtonColor,
+  stickerButtonBackground,
+  iconButtonColor,
+  iconButtonBackground,
+  textButtonColor,
+  textButtonBackground,
+};

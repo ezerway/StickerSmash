@@ -1,8 +1,10 @@
 import * as MediaLibrary from 'expo-media-library';
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { defaultBackgroundColor } from './constants/Color';
 import { AppContext } from './contexts/AppContext';
 import HomePage from './pages/HomePage';
 
@@ -19,8 +21,14 @@ export default function App() {
     requestMediaPermission();
   }
 
+  const [backgroundColor, setBackgroundColor] = useState(defaultBackgroundColor);
+
   return (
-    <AppContext.Provider value={{}}>
+    <AppContext.Provider
+      value={{
+        backgroundColor,
+        setBackgroundColor,
+      }}>
       <GestureHandlerRootView style={styles.container}>
         <HomePage />
         <StatusBar style="auto" />

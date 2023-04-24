@@ -5,11 +5,12 @@ import { useCallback, useContext } from 'react';
 import { Alert, Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
 
+import { black, white, yellow } from '../../constants/Color';
+import { large } from '../../constants/FontSize';
 import { mainFlex } from '../../constants/Layout';
 import { HomePageContext } from '../../contexts/HomePageContext';
 import { i18n } from '../../i18n';
 import { getFitSize } from '../../services/ResizeService';
-import CircleButton from '../atomics/CircleButton';
 import IconButton from '../atomics/IconButton';
 import EmojiList from '../molecules/EmojiList';
 import EmojiPicker from '../molecules/EmojiPicker';
@@ -153,7 +154,17 @@ export default function HomeFooter() {
         <View style={styles.footerToolbar}>
           <View style={styles.optionsRow}>
             <IconButton icon="refresh" label={i18n.t('Refresh')} onPress={onRefresh} />
-            <CircleButton onPress={onAddSticker} />
+            <WideButton
+              icon="add"
+              color={black}
+              backgroundColor={white}
+              borderColor={yellow}
+              iconSize={38}
+              borderRadius={42}
+              fontSize={large}
+              onPress={onAddSticker}
+              style={styles.addStickerButton}
+            />
             <IconButton icon="save-alt" label={i18n.t('Save')} onPress={onClickSaveImage} />
           </View>
         </View>
@@ -162,10 +173,20 @@ export default function HomeFooter() {
           <WideButton
             label={i18n.t('ChooseAPhoto')}
             icon="photo-library"
+            color={black}
+            backgroundColor={white}
+            borderColor={yellow}
+            borderWidth={5}
+            borderRadius={18}
+            fontSize={large}
             onPress={pickImage}
             style={styles.selectImageSectionButton}
           />
-          <WideButton label={i18n.t('UseThisPhoto')} onPress={() => setShowAppOptions(true)} />
+          <WideButton
+            label={i18n.t('UseThisPhoto')}
+            fontSize={large}
+            onPress={() => setShowAppOptions(true)}
+          />
         </View>
       )}
       <EmojiPicker visible={showStickerPicker} onClose={onModalClose}>
@@ -184,6 +205,15 @@ const styles = StyleSheet.create({
   optionsRow: {
     alignItems: 'center',
     flexDirection: 'row',
+  },
+  addStickerButton: {
+    width: 84,
+    height: 84,
+    marginHorizontal: 60,
+    borderWidth: 4,
+    borderColor: yellow,
+    borderRadius: 42,
+    padding: 3,
   },
   selectImageSectionButton: {
     alignItems: 'center',
