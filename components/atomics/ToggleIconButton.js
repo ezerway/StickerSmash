@@ -36,7 +36,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  iconButtonLabel: {
-    marginTop: 12,
-  },
+  iconButtonLabel: {},
 });

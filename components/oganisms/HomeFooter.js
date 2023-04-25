@@ -202,6 +202,8 @@ const styles = StyleSheet.create({
   optionsRow: {
     alignItems: 'center',
     flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-around',
   },
   addStickerButton: {
     width: 84,

@@ -9,6 +9,7 @@ function getFitSize(originSize = {}, containerSize = {}) {
   const ratio = originSize.width / originSize.height;
 
   if (isPortrait) {
+    // ratio < 1
     const height = containerSize.height;
     const width = height * ratio;
 
@@ -24,8 +25,9 @@ function getFitSize(originSize = {}, containerSize = {}) {
     };
   }
 
+  // ration > 1
   const width = containerSize.width;
-  const height = width * ratio;
+  const height = (width * 1) / ratio;
 
   let delta = 1;
 
