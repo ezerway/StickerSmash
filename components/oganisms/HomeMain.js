@@ -16,6 +16,7 @@ export default function HomeMain() {
     setSelectedStickers,
     editingBox,
     previewMode,
+    flipMode,
     toolePreview,
   } = useContext(HomePageContext);
 
@@ -35,6 +36,7 @@ export default function HomeMain() {
         placeholderImageSource={PlaceholderImage}
         selectedImage={selectedImage}
         size={editingBox}
+        flipMode={flipMode}
         onPressOut={toolePreview}
         onLongPress={toolePreview}
       />

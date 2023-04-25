@@ -3,7 +3,6 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { useCallback, useContext } from 'react';
 import { Alert, Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
-import { captureRef } from 'react-native-view-shot';
 
 import { black, white, yellow } from '../../constants/Color';
 import { large } from '../../constants/FontSize';
@@ -29,6 +28,7 @@ export default function HomeFooter() {
     setPreviewMode,
     setEditingBox,
     clearAll,
+    generateImageUri,
   } = useContext(HomePageContext);
 
   const dim = useWindowDimensions();
@@ -103,10 +103,7 @@ export default function HomeFooter() {
   const saveImage = useCallback(async () => {
     if (Platform.OS !== 'web') {
       try {
-        const localUri = await captureRef(imageRef, {
-          quality: 1,
-          width: editingBox.width,
-        });
+        const localUri = await generateImageUri();
 
         if (!localUri) {
           return alert(i18n.t('Error'));

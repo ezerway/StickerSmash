@@ -1,4 +1,6 @@
+import * as Sharing from 'expo-sharing';
 import { useCallback, useRef, useState } from 'react';
+import { captureRef } from 'react-native-view-shot';
 
 import HomeFooter from '../components/oganisms/HomeFooter';
 import HomeHeader from '../components/oganisms/HomeHeader';
@@ -14,6 +16,7 @@ export default function HomePage() {
   const [showAppOptions, setShowAppOptions] = useState(null);
   const [showStickerPicker, setShowStickerPicker] = useState(null);
   const [previewMode, setPreviewMode] = useState(null);
+  const [flipMode, setFlipMode] = useState(null);
   const [editingBox, setEditingBox] = useState({ ...defaultImageSize });
 
   const clearAll = useCallback(() => {
@@ -21,12 +24,36 @@ export default function HomePage() {
     setShowAppOptions(null);
     setSelectedStickers([]);
     setPreviewMode(null);
+    setFlipMode(null);
     setEditingBox({ ...defaultImageSize });
   }, []);
 
   const toolePreview = useCallback(() => {
     setPreviewMode((value) => {
       return !value;
+    });
+  }, []);
+
+  const toogleFlip = useCallback(() => {
+    setFlipMode((value) => {
+      return !value;
+    });
+  }, []);
+
+  const generateImageUri = useCallback(async () => {
+    try {
+      return await captureRef(imageRef, {
+        quality: 1,
+        width: editingBox.width,
+      });
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const share = useCallback(async () => {
+    Sharing.shareAsync(await generateImageUri(), {}).catch((err) => {
+      console.log(JSON.stringify(err));
     });
   }, []);
 
@@ -39,6 +66,7 @@ export default function HomePage() {
         showAppOptions,
         showStickerPicker,
         previewMode,
+        flipMode,
         editingBox,
         setSelectedImage,
         setSelectedStickers,
@@ -48,6 +76,9 @@ export default function HomePage() {
         setEditingBox,
         clearAll,
         toolePreview,
+        toogleFlip,
+        generateImageUri,
+        share,
       }}>
       <PageTemplate header={showAppOptions ? <HomeHeader /> : null} footer={<HomeFooter />}>
         <HomeMain />

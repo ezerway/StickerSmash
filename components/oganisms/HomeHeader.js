@@ -1,4 +1,5 @@
-import { useContext } from 'react';
+import * as Sharing from 'expo-sharing';
+import { useContext, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { HomePageContext } from '../../contexts/HomePageContext';
@@ -7,7 +8,14 @@ import IconButton from '../atomics/IconButton';
 import ToggleIconButton from '../atomics/ToggleIconButton';
 
 export default function HomeHeader() {
-  const { clearAll, toolePreview } = useContext(HomePageContext);
+  const { clearAll, toolePreview, toogleFlip, share } = useContext(HomePageContext);
+  const [canShare, setCanShare] = useState(null);
+
+  useEffect(() => {
+    Sharing.isAvailableAsync().then((available) => {
+      setCanShare(available);
+    });
+  }, []);
 
   return (
     <View style={styles.headerToolbar}>
@@ -18,6 +26,13 @@ export default function HomeHeader() {
         label={i18n.t('Preview')}
         onPress={toolePreview}
       />
+      <IconButton
+        iconType="MaterialIcons"
+        icon="flip"
+        label={i18n.t('Flip')}
+        onPress={toogleFlip}
+      />
+      {canShare ? <IconButton icon="share" label={i18n.t('Share')} onPress={share} /> : null}
       <IconButton icon="home" label={i18n.t('Home')} onPress={clearAll} />
     </View>
   );

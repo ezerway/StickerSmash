@@ -24,6 +24,7 @@
     "expo-image-picker": "~14.1.1",
     "expo-localization": "~14.1.1",
     "expo-media-library": "~15.2.3",
+    "expo-sharing": "~11.2.2",
     "expo-status-bar": "~1.4.4",
     "expo-updates": "~0.16.4",
     "i18n-js": "^4.2.3",
