@@ -23,10 +23,11 @@ export default function EmojiStickButton({
   });
 
   const Icon = getIcon(iconType);
+  const borderRadius = size.width / 2;
 
   return (
-    <AnimatedView style={[styles.buttonContainer, size, positionStyle]}>
-      <Pressable style={styles.button} onPress={onPress}>
+    <AnimatedView style={[styles.buttonContainer, { borderRadius }, size, positionStyle]}>
+      <Pressable style={[styles.button, { borderRadius }]} onPress={onPress}>
         <Icon name={icon} size={iconSize} color={color} />
       </Pressable>
     </AnimatedView>
@@ -36,13 +37,11 @@ export default function EmojiStickButton({
 const styles = StyleSheet.create({
   buttonContainer: {
     position: 'absolute',
-    borderRadius: '50%',
   },
   button: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: '50%',
     backgroundColor: stickerButtonBackground,
     opacity: 0.8,
   },
