@@ -16,18 +16,15 @@ if (Platform.OS === 'web') {
 
 export default function App() {
   const [mediaStatus, requestMediaPermission] = MediaLibrary.usePermissions();
-
-  if (!mediaStatus) {
-    requestMediaPermission();
-  }
-
   const [backgroundColor, setBackgroundColor] = useState(defaultBackgroundColor);
 
   return (
     <AppContext.Provider
       value={{
         backgroundColor,
+        mediaStatus,
         setBackgroundColor,
+        requestMediaPermission,
       }}>
       <GestureHandlerRootView style={styles.container}>
         <HomePage />

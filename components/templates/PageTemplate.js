@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
 import { useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -22,6 +23,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    paddingTop: Constants.statusBarHeight,
   },
   headerContainer: {
     flex: headerFlex,

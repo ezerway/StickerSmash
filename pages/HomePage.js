@@ -1,5 +1,5 @@
 import * as Sharing from 'expo-sharing';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
 import { captureRef } from 'react-native-view-shot';
 
 import HomeFooter from '../components/oganisms/HomeFooter';
@@ -7,9 +7,11 @@ import HomeHeader from '../components/oganisms/HomeHeader';
 import HomeMain from '../components/oganisms/HomeMain';
 import PageTemplate from '../components/templates/PageTemplate';
 import { defaultImageSize } from '../constants/ImageSize';
+import { AppContext } from '../contexts/AppContext';
 import { HomePageContext } from '../contexts/HomePageContext';
 
 export default function HomePage() {
+  const { mediaStatus, requestMediaPermission } = useContext(AppContext);
   const imageRef = useRef();
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedStickers, setSelectedStickers] = useState([]);
@@ -42,6 +44,9 @@ export default function HomePage() {
 
   const generateImageUri = useCallback(async () => {
     try {
+      if (!mediaStatus) {
+        requestMediaPermission();
+      }
       return await captureRef(imageRef, {
         quality: 1,
         width: editingBox.width,
@@ -52,10 +57,16 @@ export default function HomePage() {
   }, []);
 
   const share = useCallback(async () => {
-    Sharing.shareAsync(await generateImageUri(), {}).catch((err) => {
-      console.log(JSON.stringify(err));
-    });
-  }, []);
+    try {
+      const currentImageUri = await generateImageUri();
+      Sharing.shareAsync(`file://${currentImageUri}`, {
+        dialogTitle: 'Share it.',
+        UTI: 'image/jpge',
+      });
+    } catch (e) {
+      console.log(JSON.stringify(e));
+    }
+  }, [mediaStatus]);
 
   return (
     <HomePageContext.Provider
