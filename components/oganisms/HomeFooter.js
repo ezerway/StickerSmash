@@ -150,7 +150,12 @@ export default function HomeFooter() {
       {showAppOptions ? (
         <View style={styles.footerToolbar}>
           <View style={styles.optionsRow}>
-            <IconButton icon="refresh" label={i18n.t('Refresh')} onPress={onRefresh} />
+            <IconButton
+              style={styles.refreshButton}
+              icon="refresh"
+              label={i18n.t('Refresh')}
+              onPress={onRefresh}
+            />
             <WideButton
               icon="add"
               color={black}
@@ -162,7 +167,12 @@ export default function HomeFooter() {
               onPress={onAddSticker}
               style={styles.addStickerButton}
             />
-            <IconButton icon="save-alt" label={i18n.t('Save')} onPress={onClickSaveImage} />
+            <IconButton
+              style={styles.saveButton}
+              icon="save-alt"
+              label={i18n.t('Save')}
+              onPress={onClickSaveImage}
+            />
           </View>
         </View>
       ) : (
@@ -205,17 +215,18 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-around',
   },
+  selectImageSectionButton: {
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
   addStickerButton: {
     width: 84,
     height: 84,
-    marginHorizontal: 60,
     borderWidth: 4,
     borderColor: yellow,
     borderRadius: 42,
     padding: 3,
   },
-  selectImageSectionButton: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
+  refreshButton: {},
+  saveButton: {},
 });
