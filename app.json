@@ -67,23 +67,21 @@
           "photosPermission": "The app accesses your photos to let you create freely."
         }
       ],
-      "expo-localization"
-    ]
-  },
-  "plugins": [
-    [
-      "expo-build-properties",
-      {
-        "ios": {
-          "flipper": true
+      "expo-localization",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "flipper": true
+          }
         }
-      }
-    ],
-    [
-      "expo-updates",
-      {
-        "username": "ezerway"
-      }
+      ],
+      [
+        "expo-updates",
+        {
+          "username": "ezerway"
+        }
+      ]
     ]
-  ]
+  }
 }
