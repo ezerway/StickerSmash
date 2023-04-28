@@ -25,8 +25,10 @@ export default function ToggleIconButton({
 
   return (
     <TouchableHighlight style={styles.iconButton} onPress={toogleActive}>
-      <Icon name={active ? activeIcon : icon} size={size} color={color} />
-      <Text style={[styles.iconButtonLabel, { color }]}>{label}</Text>
+      <>
+        <Icon name={active ? activeIcon : icon} size={size} color={color} />
+        <Text style={[styles.iconButtonLabel, { color }]}>{label}</Text>
+      </>
     </TouchableHighlight>
   );
 }

@@ -29,8 +29,10 @@ export default function IconButton({
         style,
       ]}
       onPress={onPress}>
-      <Icon name={icon} size={size} color={color} />
-      {label ? <Text style={[styles.iconButtonLabel, { color, fontSize }]}>{label}</Text> : null}
+      <>
+        <Icon name={icon} size={size} color={color} />
+        {label ? <Text style={[styles.iconButtonLabel, { color, fontSize }]}>{label}</Text> : null}
+      </>
     </TouchableHighlight>
   );
 }
