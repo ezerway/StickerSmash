@@ -5,10 +5,9 @@ import { StyleSheet, View } from 'react-native';
 import { HomePageContext } from '../../contexts/HomePageContext';
 import { i18n } from '../../i18n';
 import IconButton from '../atomics/IconButton';
-import ToggleIconButton from '../atomics/ToggleIconButton';
 
 export default function HomeHeader() {
-  const { clearAll, toolePreview, toogleFlip, share } = useContext(HomePageContext);
+  const { clearAll, togglePreview, toogleFlip, share } = useContext(HomePageContext);
   const [canShare, setCanShare] = useState(null);
 
   useEffect(() => {
@@ -19,12 +18,11 @@ export default function HomeHeader() {
 
   return (
     <View style={styles.headerToolbar}>
-      <ToggleIconButton
+      <IconButton
         iconType="MaterialCommunityIcons"
         icon="eye-outline"
-        activeIcon="eye-off-outline"
         label={i18n.t('Preview')}
-        onPress={toolePreview}
+        onPress={togglePreview}
       />
       <IconButton
         iconType="MaterialIcons"

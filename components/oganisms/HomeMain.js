@@ -17,7 +17,7 @@ export default function HomeMain() {
     editingBox,
     previewMode,
     flipMode,
-    toolePreview,
+    togglePreview,
   } = useContext(HomePageContext);
 
   const removeSticker = useCallback(
@@ -37,8 +37,8 @@ export default function HomeMain() {
         selectedImage={selectedImage}
         size={editingBox}
         flipMode={flipMode}
-        onPressOut={toolePreview}
-        onLongPress={toolePreview}
+        onPressOut={togglePreview}
+        onLongPress={togglePreview}
       />
       {selectedStickers.map((selectedSticker, index) => (
         <EmojiSicker

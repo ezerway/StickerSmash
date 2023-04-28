@@ -30,7 +30,7 @@ export default function HomePage() {
     setEditingBox({ ...defaultImageSize });
   }, []);
 
-  const toolePreview = useCallback(() => {
+  const togglePreview = useCallback(() => {
     setPreviewMode((value) => {
       return !value;
     });
@@ -56,16 +56,22 @@ export default function HomePage() {
     }
   }, []);
 
-  const share = useCallback(async () => {
+  const nativeshare = useCallback(async () => {
     try {
       const currentImageUri = await generateImageUri();
-      Sharing.shareAsync(`file://${currentImageUri}`, {
+      await Sharing.shareAsync(`file://${currentImageUri}`, {
         dialogTitle: 'Share it.',
         UTI: 'image/jpge',
       });
+      setPreviewMode(false);
     } catch (e) {
       console.log(JSON.stringify(e));
     }
+  }, [mediaStatus]);
+
+  const share = useCallback(async () => {
+    setPreviewMode(true);
+    setTimeout(nativeshare, 500);
   }, [mediaStatus]);
 
   return (
@@ -86,7 +92,7 @@ export default function HomePage() {
         setPreviewMode,
         setEditingBox,
         clearAll,
-        toolePreview,
+        togglePreview,
         toogleFlip,
         generateImageUri,
         share,

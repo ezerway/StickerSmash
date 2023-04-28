@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight } from 'react-native';
 
 import { textButtonBackground, textButtonColor } from '../../constants/Color';
 import { medium } from '../../constants/FontSize';
@@ -15,11 +15,11 @@ export default function TextButton({
   onPress,
 }) {
   return (
-    <Pressable
+    <TouchableHighlight
       style={[styles.button, { backgroundColor, borderColor, borderWidth, borderRadius }]}
       onPress={onPress}>
       <Text style={[style, { fontSize, color }]}>{label}</Text>
-    </Pressable>
+    </TouchableHighlight>
   );
 }
 

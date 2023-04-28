@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight } from 'react-native';
 
 import { getIcon } from './Icon';
 import { iconButtonBackground, iconButtonColor } from '../../constants/Color';
@@ -22,7 +22,7 @@ export default function IconButton({
   const Icon = getIcon(iconType);
 
   return (
-    <Pressable
+    <TouchableHighlight
       style={[
         styles.iconButton,
         { backgroundColor, borderColor, borderWidth, borderRadius },
@@ -31,7 +31,7 @@ export default function IconButton({
       onPress={onPress}>
       <Icon name={icon} size={size} color={color} />
       {label ? <Text style={[styles.iconButtonLabel, { color, fontSize }]}>{label}</Text> : null}
-    </Pressable>
+    </TouchableHighlight>
   );
 }
 
