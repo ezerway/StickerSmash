@@ -23,7 +23,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.ezerway.StickerSmash",
-      "buildNumber": "13",
+      "buildNumber": "14",
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
       }
