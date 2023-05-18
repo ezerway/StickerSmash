@@ -1,8 +1,10 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import { FlatList, Image, Platform, Pressable, StyleSheet, Text } from 'react-native';
+import { FlatList, Platform, Pressable, StyleSheet, Text } from 'react-native';
 
 import { white } from '../../constants/Color';
-import { large } from '../../constants/FontSize';
+import { small } from '../../constants/FontSize';
+import { stickerSize } from '../../constants/ImageSize';
 import { allowedTools } from '../../constants/Tool';
 
 export default function ToolList({ onClose, onSelect }) {
@@ -22,7 +24,13 @@ export default function ToolList({ onClose, onSelect }) {
             onSelect(item);
             onClose();
           }}>
-          <Text label={item.label} color={white} style={styles.text}>
+          <MaterialCommunityIcons
+            size={stickerSize.width}
+            name={item.icon}
+            color={white}
+            style={styles.icon}
+          />
+          <Text color={white} style={styles.text}>
             {item.label}
           </Text>
         </Pressable>
@@ -51,8 +59,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
+  icon: {},
   text: {
     color: white,
-    fontSize: large,
+    fontSize: small,
+    paddingVertical: 5,
+    width: 100,
+    textAlign: 'center',
   },
 });
