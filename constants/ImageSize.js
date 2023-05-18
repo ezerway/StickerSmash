@@ -1,11 +1,16 @@
+import { Dimensions } from 'react-native';
+
+import { mainFlex } from './Layout';
+const screenDimensions = Dimensions.get('screen');
+
 const iconButtonSize = {
   width: 24,
   height: 24,
 };
 
 const defaultImageSize = {
-  width: 320,
-  height: 440,
+  width: screenDimensions.width - 30,
+  height: Math.floor(screenDimensions.height * mainFlex) - 30,
 };
 
 const stickerSize = {
