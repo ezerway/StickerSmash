@@ -18,7 +18,7 @@
     "@react-native-firebase/crashlytics": "^17.4.3",
     "@react-native-firebase/database": "^17.4.3",
     "@react-native-firebase/perf": "^17.4.3",
-    "@shopify/react-native-skia": "0.1.172",
+    "@shopify/react-native-skia": "0.1.183",
     "dom-to-image": "^2.6.0",
     "expo": "^48.0.4",
     "expo-application": "~5.1.1",

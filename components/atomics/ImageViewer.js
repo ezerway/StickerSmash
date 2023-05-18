@@ -1,5 +1,6 @@
 import { WithSkiaWeb } from '@shopify/react-native-skia/lib/module/web';
-import { Pressable, Text } from 'react-native';
+import { lazy, useMemo } from 'react';
+import { Platform, Pressable, Text } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 const View = Animated.createAnimatedComponent(Pressable);
@@ -15,12 +16,18 @@ export default function ImageViewer({ flipMode = 0 }) {
     };
   });
 
-  return (
-    <View style={transformStyle}>
-      <WithSkiaWeb
-        getComponent={() => import('./SkiaImage')}
-        fallback={<Text style={{ textAlign: 'center' }}>Loading...</Text>}
-      />
-    </View>
-  );
+  const Skia = useMemo(() => {
+    if (Platform.OS === 'web') {
+      return (
+        <WithSkiaWeb
+          getComponent={() => import('./SkiaImage')}
+          fallback={<Text style={{ textAlign: 'center' }}>Loading...</Text>}
+        />
+      );
+    }
+
+    return lazy(() => import('./SkiaImage'));
+  }, [Platform.OS]);
+
+  return <View style={transformStyle}>{Skia}</View>;
 }
