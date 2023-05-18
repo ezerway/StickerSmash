@@ -29,4 +29,20 @@ const allowedFilters = [Original, Juno, Sepia, Grayscale, Gingham, Mayfair, Vale
   })
 );
 
-export { Original, Juno, Sepia, Grayscale, Gingham, Mayfair, Valencia, allowedFilters };
+const OriginalFilter = {
+  type: Original,
+  label: Original,
+  style: styleMap[Original],
+};
+
+export {
+  Original,
+  Juno,
+  Sepia,
+  Grayscale,
+  Gingham,
+  Mayfair,
+  Valencia,
+  allowedFilters,
+  OriginalFilter,
+};

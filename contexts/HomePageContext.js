@@ -3,6 +3,7 @@ import { useCallback, useRef, useState, createContext, useContext } from 'react'
 import { captureRef } from 'react-native-view-shot';
 
 import { AppContext } from './AppContext';
+import { OriginalFilter } from '../constants/Filter';
 import { defaultImageSize } from '../constants/ImageSize';
 
 export const HomePageContext = createContext(null);
@@ -13,7 +14,7 @@ export const HomePageContextProvider = ({ children }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedStickers, setSelectedStickers] = useState([]);
   const [addedTexts, setAddedTexts] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [selectedFilter, setSelectedFilter] = useState(OriginalFilter);
   const [showAppOptions, setShowAppOptions] = useState(null);
   const [showToolPicker, setShowToolPicker] = useState(null);
   const [showStickerPicker, setShowStickerPicker] = useState(null);
@@ -28,7 +29,7 @@ export const HomePageContextProvider = ({ children }) => {
     setShowAppOptions(null);
     setSelectedStickers([]);
     setAddedTexts([]);
-    setSelectedFilter(null);
+    setSelectedFilter(OriginalFilter);
     setPreviewMode(null);
     setFlipMode(null);
     setEditingBox({ ...defaultImageSize });

@@ -5,6 +5,7 @@ import { useCallback, useContext } from 'react';
 import { Alert, Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
 
 import { black, white, yellow } from '../../constants/Color';
+import { OriginalFilter } from '../../constants/Filter';
 import { large } from '../../constants/FontSize';
 import { mainFlex } from '../../constants/Layout';
 import { Filter, Sticker, Text } from '../../constants/Tool';
@@ -113,7 +114,7 @@ export default function HomeFooter() {
   const onRefresh = useCallback(() => {
     setSelectedStickers([]);
     setAddedTexts([]);
-    setSelectedFilter(null);
+    setSelectedFilter(OriginalFilter);
   }, []);
   const onAdd = useCallback(() => {
     setShowToolPicker(true);
