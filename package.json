@@ -6,13 +6,19 @@
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && expo start -c",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "postinstall": "node postinstall.js"
   },
   "dependencies": {
     "@expo/config-plugins": "~6.0.0",
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^18.0.1",
     "@react-native-community/netinfo": "9.3.7",
+    "@react-native-firebase/app": "^17.4.3",
+    "@react-native-firebase/crashlytics": "^17.4.3",
+    "@react-native-firebase/database": "^17.4.3",
+    "@react-native-firebase/perf": "^17.4.3",
+    "@shopify/react-native-skia": "0.1.172",
     "dom-to-image": "^2.6.0",
     "expo": "^48.0.4",
     "expo-application": "~5.1.1",
@@ -25,17 +31,20 @@
     "expo-image-picker": "~14.1.1",
     "expo-localization": "~14.1.1",
     "expo-media-library": "~15.2.3",
+    "expo-notifications": "~0.18.1",
     "expo-sharing": "~11.2.2",
     "expo-status-bar": "~1.4.4",
     "expo-updates": "~0.16.4",
     "i18n-js": "^4.2.3",
+    "moment": "^2.29.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.6",
+    "react-native": "0.71.8",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-reanimated": "~2.14.4",
     "react-native-view-shot": "3.5.0",
-    "react-native-web": "~0.18.9"
+    "react-native-web": "~0.18.9",
+    "reanimated-color-picker": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

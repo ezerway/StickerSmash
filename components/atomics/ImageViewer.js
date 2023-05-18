@@ -1,20 +1,10 @@
-import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { WithSkiaWeb } from '@shopify/react-native-skia/lib/module/web';
+import { Pressable, Text } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
-import { defaultImageSize } from '../../constants/ImageSize';
+const View = Animated.createAnimatedComponent(Pressable);
 
-const AnimatedImage = Animated.createAnimatedComponent(Image);
-
-export default function ImageViewer({
-  placeholderImageSource,
-  selectedImage,
-  size = {},
-  flipMode = 0,
-  onPressOut,
-  onLongPress,
-}) {
-  const source = selectedImage ? { uri: selectedImage.uri } : placeholderImageSource;
-
+export default function ImageViewer({ flipMode = 0 }) {
   const transformStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -26,20 +16,11 @@ export default function ImageViewer({
   });
 
   return (
-    <TouchableOpacity
-      activeOpacity={false}
-      delayLongPress={100}
-      onPressOut={onPressOut}
-      onLongPress={onLongPress}>
-      <AnimatedImage style={[styles.image, size, transformStyle]} source={source} />
-    </TouchableOpacity>
+    <View style={transformStyle}>
+      <WithSkiaWeb
+        getComponent={() => import('./SkiaImage')}
+        fallback={<Text style={{ textAlign: 'center' }}>Loading...</Text>}
+      />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  image: {
-    width: defaultImageSize.width,
-    height: '100%',
-    borderRadius: 0,
-  },
-});

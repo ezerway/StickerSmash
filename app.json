@@ -8,6 +8,7 @@
     "description": "Ez Sticker Mash is an exciting and innovative app that allows users to create their own unique sticker designs quickly and easily. With a user-friendly interface and a wide range of customization options, this app makes it fun and simple to express your creativity and design personalized stickers that are perfect for any occasion. Whether you want to make stickers for your social media posts, decorate your photos, or simply add a fun touch to your messaging conversations, Ez Sticker Mash has everything you need to bring your ideas to life. So why wait? Download the app today and start mashing up your own stickers!",
     "userInterfaceStyle": "light",
     "jsEngine": "hermes",
+    "privacy": "public",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -22,6 +23,8 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "appStoreUrl": "https://apps.apple.com/us/app/ez-sticker-smash/id6447040753",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "bundleIdentifier": "com.ezerway.StickerSmash",
       "buildNumber": "14",
       "infoPlist": {
@@ -30,6 +33,7 @@
     },
     "android": {
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.ezerway.StickerSmash",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -72,7 +76,7 @@
         "expo-build-properties",
         {
           "ios": {
-            "flipper": true
+            "useFrameworks": "static"
           }
         }
       ],
@@ -81,7 +85,10 @@
         {
           "username": "ezerway"
         }
-      ]
+      ],
+      "@react-native-firebase/app",
+      "@react-native-firebase/perf",
+      "@react-native-firebase/crashlytics"
     ]
   }
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "933824176877",
+    "project_id": "ez-sticker-smash-19d8c",
+    "storage_bucket": "ez-sticker-smash-19d8c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933824176877:android:f06abfe10f8a084b91a2e4",
+        "android_client_info": {
+          "package_name": "com.ezerway.StickerSmash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933824176877-qihuvkc3vtv3hukobvtdl0ju79gfhthj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoHXd60EESDRazaRDcUD4O7sgGcM6dJz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933824176877-qihuvkc3vtv3hukobvtdl0ju79gfhthj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

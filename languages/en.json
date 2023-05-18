@@ -14,5 +14,19 @@
     "Preview": "Preview",
     "Home": "Home",
     "Share": "Share",
-    "Flip": "Flip"
+    "Flip": "Flip",
+    "Tools": "Tools",
+    "UpdateApp": "Update App?",
+    "VersionIsNowAvaiable": "Version %{version} is now avaiable.",
+    "WouldYouLikeToUpdateItNow": "Would you like to update it now?",
+    "Later": "Later",
+    "UpdateNow": "Update Now",
+    "Sticker": "Sticker",
+    "Text": "Text",
+    "Filter": "Filter",
+    "Filters": "Filters",
+    "Image": "Image",
+    "AddText": "Add Text",
+    "Add": "Add",
+    "Close": "Close"
 }

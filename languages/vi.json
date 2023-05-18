@@ -14,5 +14,19 @@
     "Preview": "Xem trước",
     "Home": "Trang đầu",
     "Share": "Chia sẻ",
-    "Flip": "Lật"
+    "Flip": "Lật",
+    "Tools": "Các công cụ",
+    "UpdateApp": "Cập nhật Ứng dụng?",
+    "VersionIsNowAvaiable": "Phiên bản %{version} đã ra có.",
+    "WouldYouLikeToUpdateItNow": "Bạn có muốn cập nhật luôn không?",
+    "Later": "Để sau",
+    "UpdateNow": "Cập nhật ngay",
+    "Sticker": "Nhãn",
+    "Text": "Chữ",
+    "Filter": "Tấm nền",
+    "Filters": "Các Tấm nền",
+    "Image": "Hình ảnh",
+    "AddText": "Thêm chữ",
+    "Add": "Thêm",
+    "Close": "Đóng"
 }

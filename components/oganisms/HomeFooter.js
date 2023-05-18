@@ -7,24 +7,37 @@ import { Alert, Platform, StyleSheet, View, useWindowDimensions } from 'react-na
 import { black, white, yellow } from '../../constants/Color';
 import { large } from '../../constants/FontSize';
 import { mainFlex } from '../../constants/Layout';
+import { Filter, Sticker, Text } from '../../constants/Tool';
 import { HomePageContext } from '../../contexts/HomePageContext';
 import { i18n } from '../../i18n';
 import { getFitSize } from '../../services/ResizeService';
 import IconButton from '../atomics/IconButton';
+import AddTextModal from '../molecules/AddTextModal';
 import EmojiList from '../molecules/EmojiList';
-import EmojiPicker from '../molecules/EmojiPicker';
+import FilterList from '../molecules/FilterList';
+import FooterPicker from '../molecules/FooterPicker';
+import ToolList from '../molecules/ToolList';
 import WideButton from '../molecules/WideButton';
 
 export default function HomeFooter() {
   const {
     imageRef,
+    selectedImage,
     showAppOptions,
     editingBox,
+    showToolPicker,
     showStickerPicker,
+    showTextModal,
+    showFilterPicker,
     setSelectedImage,
     setSelectedStickers,
+    setAddedTexts,
+    setSelectedFilter,
     setShowAppOptions,
+    setShowToolPicker,
     setShowStickerPicker,
+    setShowTextModal,
+    setShowFilterPicker,
     setPreviewMode,
     setEditingBox,
     clearAll,
@@ -64,17 +77,46 @@ export default function HomeFooter() {
     setShowAppOptions(true);
   }, []);
 
-  const onSelectPicker = useCallback((picker) => {
+  const onSelectStickerPicker = useCallback((picker) => {
     setSelectedStickers((selected) => {
       return [...selected, picker];
     });
   }, []);
 
+  const onCloseAddTextModal = useCallback(({ text, color }) => {
+    setShowTextModal(false);
+    if (!text) {
+      return;
+    }
+
+    setAddedTexts((added) => {
+      return [...added, { text, color }];
+    });
+  }, []);
+
+  const onSelectFilterPicker = useCallback((filter) => {
+    setSelectedFilter(filter);
+  }, []);
+
+  const onSelectToolPicker = useCallback((selected) => {
+    if (selected.type === Sticker) {
+      return setShowStickerPicker(true);
+    }
+    if (selected.type === Text) {
+      return setShowTextModal(true);
+    }
+    if (selected.type === Filter) {
+      return setShowFilterPicker(true);
+    }
+  }, []);
+
   const onRefresh = useCallback(() => {
     setSelectedStickers([]);
+    setAddedTexts([]);
+    setSelectedFilter(null);
   }, []);
-  const onAddSticker = useCallback(() => {
-    setShowStickerPicker(true);
+  const onAdd = useCallback(() => {
+    setShowToolPicker(true);
   }, []);
 
   const showSaveAlert = useCallback(() => {
@@ -141,8 +183,16 @@ export default function HomeFooter() {
     setTimeout(saveImage, 500);
   }, []);
 
-  const onModalClose = useCallback(() => {
+  const onToolModalClose = useCallback(() => {
+    setShowToolPicker(false);
+  }, []);
+
+  const onStickerModalClose = useCallback(() => {
     setShowStickerPicker(false);
+  }, []);
+
+  const onFilterModalClose = useCallback(() => {
+    setShowFilterPicker(false);
   }, []);
 
   return (
@@ -164,7 +214,7 @@ export default function HomeFooter() {
               iconSize={38}
               borderRadius={42}
               fontSize={large}
-              onPress={onAddSticker}
+              onPress={onAdd}
               style={styles.addStickerButton}
             />
             <IconButton
@@ -196,9 +246,26 @@ export default function HomeFooter() {
           />
         </View>
       )}
-      <EmojiPicker visible={showStickerPicker} onClose={onModalClose}>
-        <EmojiList onClose={onModalClose} onSelect={onSelectPicker} />
-      </EmojiPicker>
+      <FooterPicker label={i18n.t('Tools')} visible={showToolPicker} onClose={onToolModalClose}>
+        <ToolList onClose={onToolModalClose} onSelect={onSelectToolPicker} />
+      </FooterPicker>
+      <FooterPicker
+        label={i18n.t('ChooseASticker')}
+        visible={showStickerPicker}
+        onClose={onStickerModalClose}>
+        <EmojiList onClose={onStickerModalClose} onSelect={onSelectStickerPicker} />
+      </FooterPicker>
+      <AddTextModal visible={showTextModal} onClose={onCloseAddTextModal} />
+      <FooterPicker
+        label={i18n.t('Filters')}
+        visible={showFilterPicker}
+        onClose={onFilterModalClose}>
+        <FilterList
+          selectedImage={selectedImage}
+          onClose={onFilterModalClose}
+          onSelect={onSelectFilterPicker}
+        />
+      </FooterPicker>
     </>
   );
 }
