@@ -1,7 +1,6 @@
 import { useCallback, useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import { PlaceholderImage } from '../../constants/Image';
 import { stickerSize } from '../../constants/ImageSize';
 import { HomePageContext } from '../../contexts/HomePageContext';
 import ImageViewer from '../atomics/ImageViewer';
@@ -45,7 +44,6 @@ export default function HomeMain() {
   return (
     <View ref={imageRef} collapsable={false} style={styles.mainContent}>
       <ImageViewer
-        placeholderImageSource={PlaceholderImage}
         selectedImage={selectedImage}
         filterStyle={selectedFilter?.style}
         size={editingBox}

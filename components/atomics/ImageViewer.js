@@ -1,11 +1,13 @@
-import { WithSkiaWeb } from '@shopify/react-native-skia/lib/module/web';
-import { lazy, useMemo } from 'react';
-import { Platform, Pressable, Text } from 'react-native';
+import { Canvas, ColorMatrix, Image, useImage } from '@shopify/react-native-skia';
+import { Pressable, StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+
+import { PlaceholderImage } from '../../constants/Image';
+import { defaultImageSize } from '../../constants/ImageSize';
 
 const View = Animated.createAnimatedComponent(Pressable);
 
-export default function ImageViewer({ flipMode = 0 }) {
+export default function ImageViewer({ selectedImage, filterStyle, size, flipMode = 0 }) {
   const transformStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -16,18 +18,28 @@ export default function ImageViewer({ flipMode = 0 }) {
     };
   });
 
-  const Skia = useMemo(() => {
-    if (Platform.OS === 'web') {
-      return (
-        <WithSkiaWeb
-          getComponent={() => import('./SkiaImage')}
-          fallback={<Text style={{ textAlign: 'center' }}>Loading...</Text>}
-        />
-      );
-    }
+  const image = useImage(selectedImage ? selectedImage.uri : PlaceholderImage);
 
-    return lazy(() => import('./SkiaImage'));
-  }, [Platform.OS]);
+  if (!image) {
+    return null;
+  }
 
-  return <View style={transformStyle}>{Skia}</View>;
+  return (
+    <View style={transformStyle}>
+      <Canvas style={[styles.canvas, size]}>
+        <Image width={size.width} height={size.height} image={image}>
+          {filterStyle ? <ColorMatrix matrix={filterStyle} /> : null}
+        </Image>
+      </Canvas>
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  canvas: {},
+  image: {
+    width: defaultImageSize.width,
+    height: '100%',
+    borderRadius: 0,
+  },
+});

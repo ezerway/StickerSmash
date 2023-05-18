@@ -1,7 +1,7 @@
 {
   "name": "stickersmash",
   "version": "1.0.1",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "AppEntry.js",
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && expo start -c",
     "android": "expo start --android",
