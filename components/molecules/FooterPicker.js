@@ -1,7 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import { memo } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
-export default function FooterPicker({ label, visible, onClose, children }) {
+export default memo(function FooterPicker({ label, visible, onClose, children }) {
   return (
     <Modal animationType="slide" transparent visible={visible}>
       <View style={styles.modalContent}>
@@ -15,7 +16,7 @@ export default function FooterPicker({ label, visible, onClose, children }) {
       </View>
     </Modal>
   );
-}
+});
 
 const styles = StyleSheet.create({
   modalContent: {

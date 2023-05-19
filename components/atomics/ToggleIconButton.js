@@ -1,11 +1,11 @@
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { StyleSheet, Text, TouchableHighlight } from 'react-native';
 
 import { getIcon } from './Icon';
 import { iconButtonColor } from '../../constants/Color';
 import { iconButtonSize } from '../../constants/ImageSize';
 
-export default function ToggleIconButton({
+export default memo(function ToggleIconButton({
   label,
   iconType,
   icon,
@@ -31,7 +31,7 @@ export default function ToggleIconButton({
       </>
     </TouchableHighlight>
   );
-}
+});
 
 const styles = StyleSheet.create({
   iconButton: {

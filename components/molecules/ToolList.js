@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { FlatList, Platform, Pressable, StyleSheet, Text } from 'react-native';
 
 import { white } from '../../constants/Color';
@@ -7,7 +7,7 @@ import { small } from '../../constants/FontSize';
 import { stickerSize } from '../../constants/ImageSize';
 import { allowedTools } from '../../constants/Tool';
 
-export default function ToolList({ onClose, onSelect }) {
+export default memo(function ToolList({ onClose, onSelect }) {
   const [tools] = useState([...allowedTools]);
 
   return (
@@ -37,7 +37,7 @@ export default function ToolList({ onClose, onSelect }) {
       )}
     />
   );
-}
+});
 
 const styles = StyleSheet.create({
   listContainer: {

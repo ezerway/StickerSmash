@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { StyleSheet, Text, TouchableHighlight } from 'react-native';
 
 import { getIcon } from './Icon';
@@ -5,7 +6,7 @@ import { iconButtonBackground, iconButtonColor } from '../../constants/Color';
 import { medium } from '../../constants/FontSize';
 import { iconButtonSize } from '../../constants/ImageSize';
 
-export default function IconButton({
+export default memo(function IconButton({
   label,
   icon,
   iconType,
@@ -35,7 +36,7 @@ export default function IconButton({
       </>
     </TouchableHighlight>
   );
-}
+});
 
 const styles = StyleSheet.create({
   iconButton: {

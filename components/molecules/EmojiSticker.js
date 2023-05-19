@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Image, View } from 'react-native';
 import { TapGestureHandler, PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
@@ -16,7 +16,7 @@ import ZoomOutButton from '../atomics/ZoomOutButton';
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
-export default function EmojiSicker({
+export default memo(function EmojiSicker({
   index = 0,
   source,
   size,
@@ -141,4 +141,4 @@ export default function EmojiSicker({
       )}
     </>
   );
-}
+});

@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { useDerivedValue } from 'react-native-reanimated';
 
 import EmojiStickButton from './EmojiStickerButton';
 
-export default function XButton({ onPress, size, parentSize, parentScale }) {
+export default memo(function XButton({ onPress, size, parentSize, parentScale }) {
   const position = useDerivedValue(() => {
     return {
       bottom: -size.height / 2,
@@ -11,4 +12,4 @@ export default function XButton({ onPress, size, parentSize, parentScale }) {
   });
 
   return <EmojiStickButton iconType="Feather" icon="x" position={position} onPress={onPress} />;
-}
+});

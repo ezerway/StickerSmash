@@ -1,12 +1,12 @@
 import Constants from 'expo-constants';
 import { StatusBar } from 'expo-status-bar';
-import { useContext } from 'react';
+import { memo, useContext } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { footerFlex, headerFlex, mainFlex } from '../../constants/Layout';
 import { AppContext } from '../../contexts/AppContext';
 
-export default function PageTemplate({ header, children, footer }) {
+export default memo(function PageTemplate({ header, children, footer }) {
   const { backgroundColor } = useContext(AppContext);
 
   return (
@@ -17,7 +17,7 @@ export default function PageTemplate({ header, children, footer }) {
       <StatusBar style="auto" />
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   container: {

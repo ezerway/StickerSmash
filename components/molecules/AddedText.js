@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 import { Text, View } from 'react-native';
 import { TapGestureHandler, PanGestureHandler } from 'react-native-gesture-handler';
 import Animated, {
@@ -16,7 +16,7 @@ import ZoomOutButton from '../atomics/ZoomOutButton';
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedText = Animated.createAnimatedComponent(Text);
 
-export default function AddedText({
+export default memo(function AddedText({
   index = 0,
   text,
   size,
@@ -149,4 +149,4 @@ export default function AddedText({
       )}
     </>
   );
-}
+});

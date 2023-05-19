@@ -1,10 +1,11 @@
 import { Canvas, ColorMatrix, Image, useImage } from '@shopify/react-native-skia';
+import { memo } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { white } from '../../constants/Color';
 import { small } from '../../constants/FontSize';
 
-export default function FilterItem({ item, uri, onSelect }) {
+export default memo(function FilterItem({ item, uri, onSelect }) {
   const image = useImage(uri);
 
   if (!image) {
@@ -26,7 +27,7 @@ export default function FilterItem({ item, uri, onSelect }) {
       </Text>
     </Pressable>
   );
-}
+});
 
 const styles = StyleSheet.create({
   image: {

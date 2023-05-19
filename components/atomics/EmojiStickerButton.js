@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
@@ -7,7 +8,7 @@ import { iconStickerButtonSize, stickerButtonSize } from '../../constants/ImageS
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 
-export default function EmojiStickButton({
+export default memo(function EmojiStickButton({
   iconType,
   icon,
   iconSize = iconStickerButtonSize.width,
@@ -32,7 +33,7 @@ export default function EmojiStickButton({
       </Pressable>
     </AnimatedView>
   );
-}
+});
 
 const styles = StyleSheet.create({
   buttonContainer: {

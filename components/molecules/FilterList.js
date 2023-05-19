@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { FlatList, Platform, StyleSheet } from 'react-native';
 
 import { allowedFilters } from '../../constants/Filter';
 import { PlaceholderImage } from '../../constants/Image';
 import FilterItem from '../atomics/FilterItem';
 
-export default function FilterList({ selectedImage, onClose, onSelect }) {
+export default memo(function FilterList({ selectedImage, onClose, onSelect }) {
   const uri = selectedImage ? selectedImage.uri : PlaceholderImage;
 
   const [filters] = useState(allowedFilters);
@@ -21,7 +21,7 @@ export default function FilterList({ selectedImage, onClose, onSelect }) {
       )}
     />
   );
-}
+});
 
 const styles = StyleSheet.create({
   listContainer: {

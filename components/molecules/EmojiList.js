@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { FlatList, Image, Platform, Pressable, StyleSheet } from 'react-native';
 
-export default function EmojiList({ onClose, onSelect }) {
+export default memo(function EmojiList({ onClose, onSelect }) {
   const [emojis] = useState([
     require('../../assets/images/emoji1.png'),
     require('../../assets/images/emoji2.png'),
@@ -29,7 +29,7 @@ export default function EmojiList({ onClose, onSelect }) {
       )}
     />
   );
-}
+});
 
 const styles = StyleSheet.create({
   listContainer: {

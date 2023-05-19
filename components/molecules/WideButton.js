@@ -1,17 +1,13 @@
 import { StyleSheet, View } from 'react-native';
 
-import {
-  iconButtonBackground,
-  iconButtonColor,
-  textButtonBackground,
-  textButtonColor,
-} from '../../constants/Color';
+import { textButtonBackground, textButtonColor } from '../../constants/Color';
 import { medium } from '../../constants/FontSize';
 import { iconButtonSize } from '../../constants/ImageSize';
 import IconButton from '../atomics/IconButton';
 import TextButton from '../atomics/TextButton';
+import { memo } from 'react';
 
-export default function WideButton({
+export default memo(function WideButton({
   label,
   icon,
   iconType,
@@ -57,7 +53,7 @@ export default function WideButton({
       )}
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   buttonContainer: {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import {
   Modal,
   Pressable,
@@ -14,7 +14,7 @@ import ColorPicker, { Panel5 } from 'reanimated-color-picker';
 import { white } from '../../constants/Color';
 import { i18n } from '../../i18n';
 
-export default function AddTextModal({ visible, onClose }) {
+export default memo(function AddTextModal({ visible, onClose }) {
   const inputRef = useRef();
   const [text, setText] = useState('');
   const [selectedColor, setSelectedColor] = useState(white);
@@ -98,7 +98,7 @@ export default function AddTextModal({ visible, onClose }) {
       </View>
     </Modal>
   );
-}
+});
 
 const styles = StyleSheet.create({
   centeredView: {

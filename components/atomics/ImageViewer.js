@@ -1,4 +1,5 @@
 import { Canvas, ColorMatrix, Image, useImage } from '@shopify/react-native-skia';
+import { memo } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
@@ -7,7 +8,7 @@ import { defaultImageSize } from '../../constants/ImageSize';
 
 const View = Animated.createAnimatedComponent(Pressable);
 
-export default function ImageViewer({ selectedImage, filterStyle, size, flipMode = 0 }) {
+export default memo(function ImageViewer({ selectedImage, filterStyle, size, flipMode = 0 }) {
   const transformStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -33,7 +34,7 @@ export default function ImageViewer({ selectedImage, filterStyle, size, flipMode
       </Canvas>
     </View>
   );
-}
+});
 
 const styles = StyleSheet.create({
   canvas: {},
