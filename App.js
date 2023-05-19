@@ -44,6 +44,10 @@ export default function App() {
 
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
+      if (!token) {
+        return;
+      }
+
       saveCustomer(token);
     });
     return () => {};
