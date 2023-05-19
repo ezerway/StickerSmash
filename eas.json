@@ -25,7 +25,7 @@
       "autoIncrement": true,
       "channel": "preview",
       "ios": {
-        "resourceClass": "m1-medium"
+        "resourceClass": "m-medium"
       }
     },
     "production": {
