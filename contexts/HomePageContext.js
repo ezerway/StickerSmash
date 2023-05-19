@@ -1,17 +1,21 @@
+import { Skia } from '@shopify/react-native-skia';
 import * as Sharing from 'expo-sharing';
-import { useCallback, useRef, useState, createContext, useContext } from 'react';
+import { useCallback, useRef, useState, createContext, useContext, useEffect } from 'react';
 import { captureRef } from 'react-native-view-shot';
 
 import { AppContext } from './AppContext';
 import { OriginalFilter } from '../constants/Filter';
+import { PlaceholderImage } from '../constants/Image';
 import { defaultImageSize } from '../constants/ImageSize';
 
 export const HomePageContext = createContext(null);
 
+let defaultImage = null;
+
 export const HomePageContextProvider = ({ children }) => {
   const { mediaStatus, requestMediaPermission } = useContext(AppContext);
   const imageRef = useRef();
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(defaultImage);
   const [selectedStickers, setSelectedStickers] = useState([]);
   const [addedTexts, setAddedTexts] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(OriginalFilter);
@@ -25,7 +29,7 @@ export const HomePageContextProvider = ({ children }) => {
   const [editingBox, setEditingBox] = useState({ ...defaultImageSize });
 
   const clearAll = useCallback(() => {
-    setSelectedImage(null);
+    setSelectedImage(defaultImage);
     setShowAppOptions(null);
     setSelectedStickers([]);
     setAddedTexts([]);
@@ -50,7 +54,7 @@ export const HomePageContextProvider = ({ children }) => {
   const generateImageUri = useCallback(async () => {
     try {
       if (!mediaStatus) {
-        requestMediaPermission();
+        await requestMediaPermission();
       }
       return await captureRef(imageRef, {
         quality: 1,
@@ -78,6 +82,14 @@ export const HomePageContextProvider = ({ children }) => {
     setPreviewMode(true);
     setTimeout(nativeshare, 500);
   }, [mediaStatus]);
+
+  useEffect(() => {
+    Skia.Data.fromURI(PlaceholderImage).then((imageData) => {
+      const image = Skia.Image.MakeImageFromEncoded(imageData);
+      defaultImage = image;
+      setSelectedImage(image);
+    });
+  }, [PlaceholderImage]);
 
   return (
     <HomePageContext.Provider

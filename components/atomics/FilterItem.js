@@ -1,13 +1,11 @@
-import { Canvas, ColorMatrix, Image, useImage } from '@shopify/react-native-skia';
+import { Canvas, ColorMatrix, Image } from '@shopify/react-native-skia';
 import { memo } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { white } from '../../constants/Color';
 import { small } from '../../constants/FontSize';
 
-export default memo(function FilterItem({ item, uri, onSelect }) {
-  const image = useImage(uri);
-
+export default memo(function FilterItem({ item, image, onSelect }) {
   if (!image) {
     return null;
   }

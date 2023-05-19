@@ -2,12 +2,9 @@ import { memo, useState } from 'react';
 import { FlatList, Platform, StyleSheet } from 'react-native';
 
 import { allowedFilters } from '../../constants/Filter';
-import { PlaceholderImage } from '../../constants/Image';
 import FilterItem from '../atomics/FilterItem';
 
 export default memo(function FilterList({ selectedImage, onClose, onSelect }) {
-  const uri = selectedImage ? selectedImage.uri : PlaceholderImage;
-
   const [filters] = useState(allowedFilters);
 
   return (
@@ -17,7 +14,7 @@ export default memo(function FilterList({ selectedImage, onClose, onSelect }) {
       data={filters}
       showsHorizontalScrollIndicator={Platform.OS === 'web'}
       renderItem={({ item, index }) => (
-        <FilterItem key={index} onSelect={onSelect} item={item} uri={uri} />
+        <FilterItem key={index} onSelect={onSelect} item={item} image={selectedImage} />
       )}
     />
   );

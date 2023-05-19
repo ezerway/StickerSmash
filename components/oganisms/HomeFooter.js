@@ -1,3 +1,4 @@
+import { Skia } from '@shopify/react-native-skia';
 import * as DomToImage from 'dom-to-image';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
@@ -9,6 +10,7 @@ import { OriginalFilter } from '../../constants/Filter';
 import { large } from '../../constants/FontSize';
 import { mainFlex } from '../../constants/Layout';
 import { Filter, Sticker, Text } from '../../constants/Tool';
+import { AppContext } from '../../contexts/AppContext';
 import { HomePageContext } from '../../contexts/HomePageContext';
 import { i18n } from '../../i18n';
 import { getFitSize } from '../../services/ResizeService';
@@ -21,6 +23,8 @@ import ToolList from '../molecules/ToolList';
 import WideButton from '../molecules/WideButton';
 
 export default function HomeFooter() {
+  const { backgroundColor } = useContext(AppContext);
+
   const {
     imageRef,
     selectedImage,
@@ -58,14 +62,10 @@ export default function HomeFooter() {
     }
 
     const { width, height, uri } = result.assets[0];
-    const ratio = width / height;
+    const imageData = await Skia.Data.fromURI(uri);
+    const image = Skia.Image.MakeImageFromEncoded(imageData);
 
-    setSelectedImage({
-      uri,
-      width,
-      height,
-      ratio,
-    });
+    setSelectedImage(image);
     setEditingBox(
       getFitSize(
         { width, height },
@@ -199,7 +199,7 @@ export default function HomeFooter() {
   return (
     <>
       {showAppOptions ? (
-        <View style={styles.footerToolbar}>
+        <View style={[styles.footerToolbar, { backgroundColor }]}>
           <View style={styles.optionsRow}>
             <IconButton
               style={styles.refreshButton}

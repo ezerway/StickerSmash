@@ -9,7 +9,7 @@ const iconButtonSize = {
 };
 
 const defaultImageSize = {
-  width: screenDimensions.width - 30,
+  width: Math.floor(screenDimensions.width) - 30,
   height: Math.floor(screenDimensions.height * mainFlex) - 30,
 };
 

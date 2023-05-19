@@ -1,9 +1,8 @@
-import { Canvas, ColorMatrix, Image, useImage } from '@shopify/react-native-skia';
+import { Canvas, ColorMatrix, Image } from '@shopify/react-native-skia';
 import { memo } from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
-import { PlaceholderImage } from '../../constants/Image';
 import { defaultImageSize } from '../../constants/ImageSize';
 
 const View = Animated.createAnimatedComponent(Pressable);
@@ -19,16 +18,14 @@ export default memo(function ImageViewer({ selectedImage, filterStyle, size, fli
     };
   });
 
-  const image = useImage(selectedImage ? selectedImage.uri : PlaceholderImage);
-
-  if (!image) {
+  if (!selectedImage) {
     return null;
   }
 
   return (
     <View style={transformStyle}>
       <Canvas style={[styles.canvas, size]}>
-        <Image width={size.width} height={size.height} image={image}>
+        <Image x={0} y={0} width={size.width} height={size.height} image={selectedImage}>
           {filterStyle ? <ColorMatrix matrix={filterStyle} /> : null}
         </Image>
       </Canvas>

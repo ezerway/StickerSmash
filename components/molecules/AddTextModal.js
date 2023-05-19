@@ -65,6 +65,7 @@ export default memo(function AddTextModal({ visible, onClose }) {
             <SafeAreaView style={styles.inputContainer}>
               <TextInput
                 ref={inputRef}
+                placeholderTextColor={styles.input.color}
                 style={styles.input}
                 onChangeText={onChangeText}
                 value={text}
