@@ -53,8 +53,6 @@ export default function HomeMain() {
     []
   );
 
-  console.log(addedImages)
-
   return (
     <View ref={imageRef} collapsable={false} style={styles.mainContent}>
       <ImageViewer
