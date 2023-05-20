@@ -9,7 +9,7 @@ import { black, white, yellow } from '../../constants/Color';
 import { OriginalFilter } from '../../constants/Filter';
 import { large } from '../../constants/FontSize';
 import { mainFlex } from '../../constants/Layout';
-import { Filter, Sticker, Text } from '../../constants/Tool';
+import { Filter, Image, Sticker, Text } from '../../constants/Tool';
 import { AppContext } from '../../contexts/AppContext';
 import { HomePageContext } from '../../contexts/HomePageContext';
 import { i18n } from '../../i18n';
@@ -37,6 +37,7 @@ export default function HomeFooter() {
     setSelectedImage,
     setSelectedStickers,
     setAddedTexts,
+    setAddedImages,
     setSelectedFilter,
     setShowAppOptions,
     setShowToolPicker,
@@ -99,6 +100,21 @@ export default function HomeFooter() {
     setSelectedFilter(filter);
   }, []);
 
+  const pickImageByTool = useCallback(async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      quality: 1,
+    });
+
+    if (result.canceled) {
+      return;
+    }
+
+    setAddedImages((selected) => {
+      return [...selected, result.assets[0].uri];
+    });
+  }, []);
+
   const onSelectToolPicker = useCallback((selected) => {
     if (selected.type === Sticker) {
       return setShowStickerPicker(true);
@@ -109,12 +125,16 @@ export default function HomeFooter() {
     if (selected.type === Filter) {
       return setShowFilterPicker(true);
     }
+    if (selected.type === Image) {
+      return pickImageByTool();
+    }
   }, []);
 
   const onRefresh = useCallback(() => {
     setSelectedStickers([]);
     setAddedTexts([]);
     setSelectedFilter(OriginalFilter);
+    setAddedImages([]);
   }, []);
   const onAdd = useCallback(() => {
     setShowToolPicker(true);

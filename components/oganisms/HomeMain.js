@@ -12,10 +12,12 @@ export default function HomeMain() {
     imageRef,
     selectedImage,
     selectedStickers,
+    addedTexts,
+    addedImages,
     selectedFilter,
     setSelectedStickers,
     setAddedTexts,
-    addedTexts,
+    setAddedImages,
     editingBox,
     previewMode,
     flipMode,
@@ -40,6 +42,18 @@ export default function HomeMain() {
     },
     []
   );
+
+  const removeAddedImage = useCallback(
+    (index) => () => {
+      setAddedImages((addedImages) => {
+        addedImages[index] = null;
+        return addedImages.slice();
+      });
+    },
+    []
+  );
+
+  console.log(addedImages)
 
   return (
     <View ref={imageRef} collapsable={false} style={styles.mainContent}>
@@ -73,6 +87,17 @@ export default function HomeMain() {
           parentSize={editingBox}
           previewMode={previewMode}
           onClickX={removeText(index)}
+        />
+      ))}
+      {addedImages.map((addedImage, index) => (
+        <EmojiSicker
+          key={index}
+          index={index}
+          source={addedImage}
+          size={stickerSize}
+          parentSize={editingBox}
+          previewMode={previewMode}
+          onClickX={removeAddedImage(index)}
         />
       ))}
     </View>

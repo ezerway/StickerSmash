@@ -19,6 +19,7 @@ export const HomePageContextProvider = ({ children }) => {
   const [selectedStickers, setSelectedStickers] = useState([]);
   const [addedTexts, setAddedTexts] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(OriginalFilter);
+  const [addedImages, setAddedImages] = useState([]);
   const [showAppOptions, setShowAppOptions] = useState(null);
   const [showToolPicker, setShowToolPicker] = useState(null);
   const [showStickerPicker, setShowStickerPicker] = useState(null);
@@ -33,6 +34,7 @@ export const HomePageContextProvider = ({ children }) => {
     setShowAppOptions(null);
     setSelectedStickers([]);
     setAddedTexts([]);
+    setAddedImages([]);
     setSelectedFilter(OriginalFilter);
     setPreviewMode(null);
     setFlipMode(null);
@@ -107,10 +109,12 @@ export const HomePageContextProvider = ({ children }) => {
         editingBox,
         addedTexts,
         selectedFilter,
+        addedImages,
         setSelectedImage,
         setSelectedStickers,
         setAddedTexts,
         setSelectedFilter,
+        setAddedImages,
         setShowAppOptions,
         setShowStickerPicker,
         setShowTextModal,
