@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { stickerSize } from '../../constants/ImageSize';
 import { HomePageContext } from '../../contexts/HomePageContext';
 import ImageViewer from '../atomics/ImageViewer';
+import AddedImage from '../molecules/AddedImage';
 import AddedText from '../molecules/AddedText';
 import EmojiSicker from '../molecules/EmojiSticker';
 
@@ -88,7 +89,7 @@ export default function HomeMain() {
         />
       ))}
       {addedImages.map((addedImage, index) => (
-        <EmojiSicker
+        <AddedImage
           key={index}
           index={index}
           source={addedImage}

@@ -1,6 +1,6 @@
 import { Canvas, ColorMatrix, Image } from '@shopify/react-native-skia';
 import { memo } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 import { defaultImageSize } from '../../constants/ImageSize';
@@ -19,12 +19,12 @@ export default memo(function ImageViewer({ selectedImage, filterStyle, size, fli
   });
 
   if (!selectedImage) {
-    return null;
+    return <ActivityIndicator />;
   }
 
   return (
     <View style={transformStyle}>
-      <Canvas style={[styles.canvas, size]}>
+      <Canvas mode="continuous" style={[styles.canvas, size]}>
         <Image x={0} y={0} width={size.width} height={size.height} image={selectedImage}>
           {filterStyle ? <ColorMatrix matrix={filterStyle} /> : null}
         </Image>
