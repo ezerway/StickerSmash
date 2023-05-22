@@ -1,13 +1,30 @@
-import { Canvas, ColorMatrix, Image } from '@shopify/react-native-skia';
-import { memo } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet } from 'react-native';
+import { Canvas, ColorMatrix, Image, useCanvasRef } from '@shopify/react-native-skia';
+import { memo, useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Image as CoreImage,
+  Platform,
+  Pressable,
+  StyleSheet,
+} from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 import { defaultImageSize } from '../../constants/ImageSize';
 
 const View = Animated.createAnimatedComponent(Pressable);
 
-export default memo(function ImageViewer({ selectedImage, filterStyle, size, flipMode = 0 }) {
+export default memo(function ImageViewer({
+  selectedImage,
+  filterStyle,
+  size,
+  flipMode = 0,
+  previewMode,
+}) {
+  const canvasRef = useCanvasRef();
+  const [base64Image, setBase64Image] = useState(null);
+  const [isWeb] = useState(Platform.OS === 'web');
+  const [isIos] = useState(Platform.OS === 'ios');
+
   const transformStyle = useAnimatedStyle(() => {
     return {
       transform: [
@@ -18,17 +35,56 @@ export default memo(function ImageViewer({ selectedImage, filterStyle, size, fli
     };
   });
 
+  useEffect(() => {
+    if (!selectedImage || !canvasRef.current || previewMode) {
+      return;
+    }
+
+    const rect = isWeb
+      ? {
+          x: 0,
+          y: 0,
+          width: size.width,
+          height: size.height,
+        }
+      : null;
+    const image = canvasRef.current?.makeImageSnapshot(rect);
+
+    if (isWeb && !image.ref) {
+      return;
+    }
+
+    const base64 = image.encodeToBase64();
+    setBase64Image({ uri: `data:image/png;base64,${base64}` });
+  }, [filterStyle]);
+
   if (!selectedImage) {
     return <ActivityIndicator />;
   }
 
+  if (isIos) {
+    return (
+      <View style={transformStyle}>
+        <Canvas ref={canvasRef} style={[styles.canvas, size]}>
+          <Image x={0} y={0} width={size.width} height={size.height} image={selectedImage}>
+            {filterStyle ? <ColorMatrix matrix={filterStyle} /> : null}
+          </Image>
+        </Canvas>
+      </View>
+    );
+  }
+
   return (
     <View style={transformStyle}>
-      <Canvas mode="continuous" style={[styles.canvas, size]}>
+      <Canvas
+        ref={canvasRef}
+        style={[styles.canvas, size, { display: base64Image ? 'none' : 'flex' }]}>
         <Image x={0} y={0} width={size.width} height={size.height} image={selectedImage}>
           {filterStyle ? <ColorMatrix matrix={filterStyle} /> : null}
         </Image>
       </Canvas>
+
+      {base64Image ? <CoreImage style={[size]} source={base64Image} /> : null}
     </View>
   );
 });

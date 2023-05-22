@@ -61,6 +61,7 @@ export default function HomeMain() {
         filterStyle={selectedFilter?.style}
         size={editingBox}
         flipMode={flipMode}
+        previewMode={previewMode}
       />
       {selectedStickers.map((selectedSticker, index) => (
         <EmojiSicker
