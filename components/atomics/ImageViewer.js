@@ -49,11 +49,6 @@ export default memo(function ImageViewer({
         }
       : null;
     const image = canvasRef.current?.makeImageSnapshot(rect);
-
-    if (isWeb && !image.ref) {
-      return;
-    }
-
     const base64 = image.encodeToBase64();
     setBase64Image({ uri: `data:image/png;base64,${base64}` });
   }, [filterStyle]);
@@ -78,7 +73,15 @@ export default memo(function ImageViewer({
     <View style={transformStyle}>
       <Canvas
         ref={canvasRef}
-        style={[styles.canvas, size, { display: base64Image ? 'none' : 'flex' }]}>
+        mode="continuous"
+        style={[
+          styles.canvas,
+          size,
+          {
+            position: base64Image ? 'absolute' : 'relative',
+            left: base64Image ? -10000 : 0,
+          },
+        ]}>
         <Image x={0} y={0} width={size.width} height={size.height} image={selectedImage}>
           {filterStyle ? <ColorMatrix matrix={filterStyle} /> : null}
         </Image>
