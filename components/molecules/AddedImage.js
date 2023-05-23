@@ -13,7 +13,7 @@ export default memo(function AddedImage({
   return (
     <EmojiSticker
       index={index}
-      source={{ uri: source }}
+      source={source ? { uri: source } : null}
       size={size}
       parentSize={parentSize}
       previewMode={previewMode}

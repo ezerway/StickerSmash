@@ -1,6 +1,8 @@
 import database from '@react-native-firebase/database';
+import * as Application from 'expo-application';
 import { getLocales, getCalendars } from 'expo-localization';
 import moment from 'moment';
+import { Platform } from 'react-native';
 
 async function saveCustomer(expo_push_token) {
   const ref = database().ref('/users');
@@ -13,6 +15,9 @@ async function saveCustomer(expo_push_token) {
   const newReference = ref.push();
   newReference.set({
     expo_push_token,
+    os: Platform.OS,
+    app_version: Application.nativeApplicationVersion,
+    build_version: Application.nativeBuildVersion,
     locale: getLocales()[0].languageTag,
     timezone: getCalendars()[0].timeZone,
     updated_at: moment().toISOString(),
