@@ -73,6 +73,7 @@ export default memo(function ImageViewer({
     <View style={transformStyle}>
       <Canvas
         ref={canvasRef}
+        mode="continuous"
         style={[
           styles.canvas,
           size,
