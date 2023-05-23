@@ -21,7 +21,7 @@ async function saveCustomer(expo_push_token) {
     return ref.push().set(updateData);
   }
 
-  return database().ref(`/users/${snapshot.key}`).update(updateData);
+  return snapshot.ref.update(updateData);
 }
 
 export { saveCustomer };
