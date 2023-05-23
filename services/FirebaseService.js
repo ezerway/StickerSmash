@@ -7,13 +7,7 @@ import { Platform } from 'react-native';
 async function saveCustomer(expo_push_token) {
   const ref = database().ref('/users');
   const snapshot = await ref.orderByChild('expo_push_token').equalTo(expo_push_token).once('value');
-
-  if (snapshot.val() !== null) {
-    return;
-  }
-
-  const newReference = ref.push();
-  newReference.set({
+  const updateData = {
     expo_push_token,
     os: Platform.OS,
     app_version: Application.nativeApplicationVersion,
@@ -21,7 +15,13 @@ async function saveCustomer(expo_push_token) {
     locale: getLocales()[0].languageTag,
     timezone: getCalendars()[0].timeZone,
     updated_at: moment().toISOString(),
-  });
+  };
+
+  if (snapshot.val() === null) {
+    return ref.push().set(updateData);
+  }
+
+  return database().ref(`/users/${snapshot.key}`).update(updateData);
 }
 
 export { saveCustomer };
