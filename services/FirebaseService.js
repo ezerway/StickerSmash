@@ -21,7 +21,8 @@ async function saveCustomer(expo_push_token) {
     return ref.push().set(updateData);
   }
 
-  return snapshot.ref.update(updateData);
+  const [id] = Object.keys(snapshot.toJSON());
+  return database().ref(`/users/${id}`).update(updateData);
 }
 
 export { saveCustomer };
