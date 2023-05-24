@@ -41,6 +41,11 @@
       "android": {
         "serviceAccountKeyPath": "./pc-api-7429549178999695983-644-fd25ade55dd8.json",
         "track": "production"
+      },
+      "ios": {
+        "appleId": "hungn167@gmail.com",
+        "ascAppId": "6447040753",
+        "appleTeamId": "UATKJXUFXL"
       }
     },
     "preview": {
