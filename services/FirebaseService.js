@@ -25,4 +25,10 @@ async function saveCustomer(expo_push_token) {
   return database().ref(`/users/${id}`).update(updateData);
 }
 
-export { saveCustomer };
+async function getStickers() {
+  const ref = database().ref('/stickers');
+  const stickers = await ref.orderByChild('added').once('value');
+  return stickers.toJSON();
+}
+
+export { saveCustomer, getStickers };

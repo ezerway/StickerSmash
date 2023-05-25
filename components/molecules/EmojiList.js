@@ -1,8 +1,10 @@
-import { memo, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { FlatList, Image, Platform, Pressable, StyleSheet } from 'react-native';
 
+import { getStickers } from '../../services/FirebaseService';
+
 export default memo(function EmojiList({ onClose, onSelect }) {
-  const [emojis] = useState([
+  const [emojis, setEmojis] = useState([
     require('../../assets/images/emoji1.png'),
     require('../../assets/images/emoji2.png'),
     require('../../assets/images/emoji3.png'),
@@ -10,6 +12,20 @@ export default memo(function EmojiList({ onClose, onSelect }) {
     require('../../assets/images/emoji5.png'),
     require('../../assets/images/emoji6.png'),
   ]);
+
+  useEffect(() => {
+    getStickers()
+      .then((stickers) => {
+        setEmojis((old) =>
+          old.concat(
+            stickers.map((sticker) => ({
+              uri: sticker.images['512'],
+            }))
+          )
+        );
+      })
+      .catch((e) => console.log(e));
+  }, []);
 
   return (
     <FlatList
