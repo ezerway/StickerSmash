@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from 'react';
-import { FlatList, Image, Platform, Pressable, StyleSheet } from 'react-native';
+import { FlatList, Platform, Pressable, StyleSheet } from 'react-native';
 
+import EmojiListItem from './EmojiListItem';
 import { getStickers } from '../../services/FirebaseService';
 
 export default memo(function EmojiList({ onClose, onSelect }) {
@@ -14,17 +15,15 @@ export default memo(function EmojiList({ onClose, onSelect }) {
   ]);
 
   useEffect(() => {
-    getStickers()
-      .then((stickers) => {
-        setEmojis((old) =>
-          old.concat(
-            stickers.map((sticker) => ({
-              uri: sticker.images['512'],
-            }))
-          )
-        );
-      })
-      .catch((e) => console.log(e));
+    getStickers().then((stickers) => {
+      setEmojis((old) =>
+        old.concat(
+          stickers.map((sticker) => ({
+            uri: sticker.images['512'],
+          }))
+        )
+      );
+    });
   }, []);
 
   return (
@@ -40,7 +39,7 @@ export default memo(function EmojiList({ onClose, onSelect }) {
             onSelect(item);
             onClose();
           }}>
-          <Image source={item} style={styles.image} />
+          <EmojiListItem source={item} />
         </Pressable>
       )}
     />
@@ -55,10 +54,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  image: {
-    width: 100,
-    height: 100,
-    marginRight: 20,
   },
 });

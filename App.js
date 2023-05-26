@@ -24,9 +24,7 @@ export default function App() {
 
     Alert.alert(
       i18n.t('UpdateApp'),
-      `${i18n.t(`VersionIsNowAvaiable`, { version: event.manifest.runtimeVersion })} ${i18n.t(
-        `WouldYouLikeToUpdateItNow`
-      )}`,
+      `${i18n.t(`NewVersionIsNowAvaiable`)} ${i18n.t(`WouldYouLikeToUpdateItNow`)}`,
       [
         {
           text: i18n.t('Later'),

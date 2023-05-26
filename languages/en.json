@@ -18,6 +18,7 @@
     "Tools": "Tools",
     "UpdateApp": "Update App?",
     "VersionIsNowAvaiable": "Version %{version} is now avaiable.",
+    "NewVersionIsNowAvaiable": "New version is now avaiable.",
     "WouldYouLikeToUpdateItNow": "Would you like to update it now?",
     "Later": "Later",
     "UpdateNow": "Update Now",
