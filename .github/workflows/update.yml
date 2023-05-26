@@ -2,7 +2,7 @@ name: update
 on: 
   push:
     branches:
-      - master
+      - production
 jobs:
   update:
     name: EAS Update
