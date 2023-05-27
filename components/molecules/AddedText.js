@@ -26,8 +26,6 @@ export default memo(function AddedText({
   onClickX = () => {},
 }) {
   const [position] = useState({
-    // top: -(parentSize.height / 2 + size.height / 2 + size.height * index),
-    // right: -(parentSize.width / 2 - size.width / 2),
     position: 'absolute',
   });
 
@@ -116,30 +114,10 @@ export default memo(function AddedText({
             </TapGestureHandler>
             {previewMode ? null : (
               <>
-                <ZoomOutButton
-                  size={buttonSize}
-                  parentSize={size}
-                  parentScale={scaleWidth}
-                  onPress={onZoomOut}
-                />
-                <ZoomInButton
-                  size={buttonSize}
-                  parentSize={size}
-                  parentScale={scaleWidth}
-                  onPress={onZoomIn}
-                />
-                <XButton
-                  size={buttonSize}
-                  parentSize={size}
-                  parentScale={scaleWidth}
-                  onPress={onClickX}
-                />
-                <RotateButton
-                  size={buttonSize}
-                  parentSize={size}
-                  parentScale={scaleWidth}
-                  onPress={onRotate}
-                />
+                <ZoomOutButton size={buttonSize} parentScale={scaleWidth} onPress={onZoomOut} />
+                <ZoomInButton size={buttonSize} parentScale={scaleWidth} onPress={onZoomIn} />
+                <XButton size={buttonSize} parentScale={scaleWidth} onPress={onClickX} />
+                <RotateButton size={buttonSize} parentScale={scaleWidth} onPress={onRotate} />
               </>
             )}
           </AnimatedView>

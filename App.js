@@ -41,6 +41,10 @@ export default function App() {
   Updates.useUpdateEvents(eventListener);
 
   useEffect(() => {
+    if (Platform.OS === 'web') {
+      return;
+    }
+
     registerForPushNotificationsAsync().then((token) => {
       if (!token) {
         return;

@@ -15,6 +15,9 @@ export default memo(function EmojiList({ onClose, onSelect }) {
   ]);
 
   useEffect(() => {
+    if (Platform.OS === 'web') {
+      return;
+    }
     getStickers().then((stickers) => {
       setEmojis((old) =>
         old.concat(

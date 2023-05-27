@@ -2,12 +2,14 @@ import { memo } from 'react';
 import { useDerivedValue } from 'react-native-reanimated';
 
 import EmojiStickButton from './EmojiStickerButton';
+import { stickerSize } from '../../constants/ImageSize';
 
-export default memo(function ZoomOutButton({ onPress, size, parentSize, parentScale }) {
+export default memo(function ZoomOutButton({ onPress, size, parentScale }) {
+  const parentScaleWidth = parentScale?.value ? parentScale.value : stickerSize.width;
   const position = useDerivedValue(() => {
     return {
       top: -size.height / 2,
-      left: parentSize.width * (parentScale.value / parentSize.width) - size.width / 2,
+      left: parentScaleWidth - size.width / 2,
     };
   });
 

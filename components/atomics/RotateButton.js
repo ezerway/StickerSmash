@@ -3,7 +3,7 @@ import { useDerivedValue } from 'react-native-reanimated';
 
 import EmojiStickButton from './EmojiStickerButton';
 
-export default memo(function RotateButton({ onPress, size, parentSize, parentScale }) {
+export default memo(function RotateButton({ onPress, size, parentScale }) {
   const position = useDerivedValue(() => {
     return {
       bottom: -size.height / 2,

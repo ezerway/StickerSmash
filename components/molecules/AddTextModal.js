@@ -69,7 +69,7 @@ export default memo(function AddTextModal({ visible, onClose }) {
                 style={styles.input}
                 onChangeText={onChangeText}
                 value={text}
-                placeholder="Text"
+                placeholder={i18n.t('Text')}
                 autoFocus
               />
               <Pressable

@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from 'react';
-import { ActivityIndicator, Image, StyleSheet } from 'react-native';
+import { ActivityIndicator, Image, ImageBackground, StyleSheet } from 'react-native';
 
 export default memo(function EmojiListItem({ source }) {
   const [isLoading, setIsLoading] = useState(null);
@@ -7,9 +7,13 @@ export default memo(function EmojiListItem({ source }) {
   const onLoadEnd = useCallback(() => setIsLoading(false), []);
 
   return (
-    <Image source={source} style={styles.image} onLoadStart={onLoadStart} onLoadEnd={onLoadEnd}>
+    <ImageBackground
+      source={source}
+      style={styles.image}
+      onLoadStart={onLoadStart}
+      onLoadEnd={onLoadEnd}>
       {isLoading ? <ActivityIndicator size="small" /> : null}
-    </Image>
+    </ImageBackground>
   );
 });
 

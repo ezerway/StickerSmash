@@ -6,6 +6,7 @@ import { white } from '../../constants/Color';
 import { small } from '../../constants/FontSize';
 import { stickerSize } from '../../constants/ImageSize';
 import { allowedTools } from '../../constants/Tool';
+import { i18n } from '../../i18n';
 
 export default memo(function ToolList({ onClose, onSelect }) {
   const [tools] = useState([...allowedTools]);
@@ -31,7 +32,7 @@ export default memo(function ToolList({ onClose, onSelect }) {
             style={styles.icon}
           />
           <Text color={white} style={styles.text}>
-            {item.label}
+            {i18n.t(item.label)}
           </Text>
         </Pressable>
       )}

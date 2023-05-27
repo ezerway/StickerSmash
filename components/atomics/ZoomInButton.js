@@ -3,7 +3,7 @@ import { useDerivedValue } from 'react-native-reanimated';
 
 import EmojiStickButton from './EmojiStickerButton';
 
-export default memo(function ZoomInButton({ onPress, size, parentSize, parentScale }) {
+export default memo(function ZoomInButton({ onPress, size, parentScale }) {
   const position = useDerivedValue(() => {
     return {
       top: -size.height / 2,

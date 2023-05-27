@@ -25,8 +25,6 @@ export default memo(function EmojiSicker({
   onClickX = () => {},
 }) {
   const [position] = useState({
-    // top: -(parentSize.height / 2 + size.height / 2 + size.height * index),
-    // right: -(parentSize.width / 2 - size.width / 2),
     position: 'absolute',
   });
 
@@ -44,7 +42,6 @@ export default memo(function EmojiSicker({
     return {
       width: withSpring(scaleImage.value),
       height: withSpring(scaleImage.value),
-      // borderStyle: "dashed",
       borderColor: '#000',
       borderWidth: previewMode ? 0 : 1,
     };
@@ -108,30 +105,10 @@ export default memo(function EmojiSicker({
             </TapGestureHandler>
             {previewMode ? null : (
               <>
-                <ZoomOutButton
-                  size={buttonSize}
-                  parentSize={size}
-                  parentScale={scaleImage}
-                  onPress={onZoomOut}
-                />
-                <ZoomInButton
-                  size={buttonSize}
-                  parentSize={size}
-                  parentScale={scaleImage}
-                  onPress={onZoomIn}
-                />
-                <XButton
-                  size={buttonSize}
-                  parentSize={size}
-                  parentScale={scaleImage}
-                  onPress={onClickX}
-                />
-                <RotateButton
-                  size={buttonSize}
-                  parentSize={size}
-                  parentScale={scaleImage}
-                  onPress={onRotate}
-                />
+                <ZoomOutButton size={buttonSize} parentScale={scaleImage} onPress={onZoomOut} />
+                <ZoomInButton size={buttonSize} parentScale={scaleImage} onPress={onZoomIn} />
+                <XButton size={buttonSize} parentScale={scaleImage} onPress={onClickX} />
+                <RotateButton size={buttonSize} parentScale={scaleImage} onPress={onRotate} />
               </>
             )}
           </AnimatedView>
