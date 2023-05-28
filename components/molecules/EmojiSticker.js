@@ -8,6 +8,7 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
+import DuplicateButton from '../atomics/DuplicateButton';
 import RotateButton from '../atomics/RotateButton';
 import XButton from '../atomics/XButton';
 import ZoomInButton from '../atomics/ZoomInButton';
@@ -23,6 +24,7 @@ export default memo(function EmojiSicker({
   parentSize,
   previewMode,
   onClickX = () => {},
+  onClickDuplicate = () => {},
 }) {
   const [position] = useState({
     position: 'absolute',
@@ -106,6 +108,11 @@ export default memo(function EmojiSicker({
             {previewMode ? null : (
               <>
                 <ZoomOutButton size={buttonSize} parentScale={scaleImage} onPress={onZoomOut} />
+                <DuplicateButton
+                  size={buttonSize}
+                  parentScale={scaleImage}
+                  onPress={onClickDuplicate}
+                />
                 <ZoomInButton size={buttonSize} parentScale={scaleImage} onPress={onZoomIn} />
                 <XButton size={buttonSize} parentScale={scaleImage} onPress={onClickX} />
                 <RotateButton size={buttonSize} parentScale={scaleImage} onPress={onRotate} />

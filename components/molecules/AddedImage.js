@@ -9,6 +9,7 @@ export default memo(function AddedImage({
   parentSize,
   previewMode,
   onClickX = () => {},
+  onClickDuplicate = () => {},
 }) {
   return (
     <EmojiSticker
@@ -18,6 +19,7 @@ export default memo(function AddedImage({
       parentSize={parentSize}
       previewMode={previewMode}
       onClickX={onClickX}
+      onClickDuplicate={onClickDuplicate}
     />
   );
 });

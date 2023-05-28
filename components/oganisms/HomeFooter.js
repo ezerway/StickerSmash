@@ -15,7 +15,7 @@ import { HomePageContext } from '../../contexts/HomePageContext';
 import { i18n } from '../../i18n';
 import { getFitSize } from '../../services/ResizeService';
 import IconButton from '../atomics/IconButton';
-import AddTextModal from '../molecules/AddTextModal';
+import AddTextList from '../molecules/AddTextList';
 import EmojiList from '../molecules/EmojiList';
 import FilterList from '../molecules/FilterList';
 import FooterPicker from '../molecules/FooterPicker';
@@ -276,7 +276,9 @@ export default function HomeFooter() {
         onClose={onStickerModalClose}>
         <EmojiList onClose={onStickerModalClose} onSelect={onSelectStickerPicker} />
       </FooterPicker>
-      <AddTextModal visible={showTextModal} onClose={onCloseAddTextModal} />
+      <FooterPicker label={i18n.t('AddText')} visible={showTextModal} onClose={onCloseAddTextModal}>
+        <AddTextList onClose={onCloseAddTextModal} onSelect={onCloseAddTextModal} />
+      </FooterPicker>
       <FooterPicker
         label={i18n.t('Filters')}
         visible={showFilterPicker}

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Pressable, StyleSheet, View } from 'react-native';
-import Animated, { useAnimatedStyle, withSpring } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 
 import { getIcon } from './Icon';
 import { stickerButtonBackground, stickerButtonColor } from '../../constants/Color';
@@ -19,7 +19,7 @@ export default memo(function EmojiStickButton({
 }) {
   const positionStyle = useAnimatedStyle(() => {
     return {
-      ...withSpring(position.value).current,
+      ...position.value,
     };
   });
 
@@ -27,7 +27,7 @@ export default memo(function EmojiStickButton({
   const borderRadius = size.width / 2;
 
   return (
-    <AnimatedView style={[styles.buttonContainer, { borderRadius }, size, positionStyle]}>
+    <AnimatedView mo style={[styles.buttonContainer, { borderRadius }, size, positionStyle]}>
       <Pressable style={[styles.button, { borderRadius }]} onPress={onPress}>
         <Icon name={icon} size={iconSize} color={color} />
       </Pressable>

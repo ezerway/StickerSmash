@@ -5,8 +5,8 @@ import EmojiStickButton from './EmojiStickerButton';
 import { stickerSize } from '../../constants/ImageSize';
 
 export default memo(function ZoomOutButton({ onPress, size, parentScale }) {
-  const parentScaleWidth = parentScale?.value ? parentScale.value : stickerSize.width;
   const position = useDerivedValue(() => {
+    const parentScaleWidth = parentScale?.value ? parentScale.value : stickerSize.width;
     return {
       top: -size.height / 2,
       left: parentScaleWidth - size.width / 2,

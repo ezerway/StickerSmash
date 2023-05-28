@@ -1,11 +1,27 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { memo } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { memo, useEffect, useState } from 'react';
+import { Keyboard, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default memo(function FooterPicker({ label, visible, onClose, children }) {
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    const showSubscription = Keyboard.addListener('keyboardDidShow', (e) => {
+      setKeyboardHeight(e.endCoordinates.height);
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardHeight(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
   return (
     <Modal animationType="slide" transparent visible={visible}>
-      <View style={styles.modalContent}>
+      <View style={[styles.modalContent, { bottom: keyboardHeight }]}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>{label}</Text>
           <Pressable onPress={onClose}>

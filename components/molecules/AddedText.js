@@ -12,6 +12,7 @@ import RotateButton from '../atomics/RotateButton';
 import XButton from '../atomics/XButton';
 import ZoomInButton from '../atomics/ZoomInButton';
 import ZoomOutButton from '../atomics/ZoomOutButton';
+import DuplicateButton from '../atomics/DuplicateButton';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedText = Animated.createAnimatedComponent(Text);
@@ -24,6 +25,7 @@ export default memo(function AddedText({
   parentSize,
   previewMode,
   onClickX = () => {},
+  onClickDuplicate = () => {},
 }) {
   const [position] = useState({
     position: 'absolute',
@@ -115,6 +117,11 @@ export default memo(function AddedText({
             {previewMode ? null : (
               <>
                 <ZoomOutButton size={buttonSize} parentScale={scaleWidth} onPress={onZoomOut} />
+                <DuplicateButton
+                  size={buttonSize}
+                  parentScale={scaleWidth}
+                  onPress={onClickDuplicate}
+                />
                 <ZoomInButton size={buttonSize} parentScale={scaleWidth} onPress={onZoomIn} />
                 <XButton size={buttonSize} parentScale={scaleWidth} onPress={onClickX} />
                 <RotateButton size={buttonSize} parentScale={scaleWidth} onPress={onRotate} />

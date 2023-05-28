@@ -34,6 +34,17 @@ export default function HomeMain() {
     []
   );
 
+  const duplicateSticker = useCallback(
+    (index) => () => {
+      setSelectedStickers((stickers) => {
+        const newStickers = stickers.slice();
+        newStickers.push(stickers[index]);
+        return newStickers;
+      });
+    },
+    []
+  );
+
   const removeText = useCallback(
     (index) => () => {
       setAddedTexts((addedTexts) => {
@@ -44,11 +55,33 @@ export default function HomeMain() {
     []
   );
 
+  const duplicateText = useCallback(
+    (index) => () => {
+      setAddedTexts((addedTexts) => {
+        const newAddedText = addedTexts.slice();
+        newAddedText.push({ ...addedTexts[index]});
+        return newAddedText;
+      });
+    },
+    []
+  );
+
   const removeAddedImage = useCallback(
     (index) => () => {
       setAddedImages((addedImages) => {
         addedImages[index] = null;
         return addedImages.slice();
+      });
+    },
+    []
+  );
+
+  const duplicateAddedImage = useCallback(
+    (index) => () => {
+      setAddedImages((addedImages) => {
+        const newAddedImages = addedImages.slice();
+        newAddedImages.push(addedImages[index]);
+        return newAddedImages;
       });
     },
     []
@@ -72,6 +105,7 @@ export default function HomeMain() {
           parentSize={editingBox}
           previewMode={previewMode}
           onClickX={removeSticker(index)}
+          onClickDuplicate={duplicateSticker(index)}
         />
       ))}
       {addedTexts.map((addedText, index) => (
@@ -87,6 +121,7 @@ export default function HomeMain() {
           parentSize={editingBox}
           previewMode={previewMode}
           onClickX={removeText(index)}
+          onClickDuplicate={duplicateText(index)}
         />
       ))}
       {addedImages.map((addedImage, index) => (
@@ -98,6 +133,7 @@ export default function HomeMain() {
           parentSize={editingBox}
           previewMode={previewMode}
           onClickX={removeAddedImage(index)}
+          onClickDuplicate={duplicateAddedImage(index)}
         />
       ))}
     </View>
