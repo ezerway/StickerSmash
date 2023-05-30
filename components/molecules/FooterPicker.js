@@ -1,11 +1,15 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { memo, useEffect, useState } from 'react';
-import { Keyboard, Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, Modal, Platform, Pressable, StyleSheet, Text, View } from 'react-native';
 
 export default memo(function FooterPicker({ label, visible, onClose, children }) {
   const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   useEffect(() => {
+    if (Platform.OS === 'android') {
+      return;
+    }
+
     const showSubscription = Keyboard.addListener('keyboardDidShow', (e) => {
       setKeyboardHeight(e.endCoordinates.height);
     });

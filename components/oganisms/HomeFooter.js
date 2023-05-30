@@ -221,7 +221,7 @@ export default function HomeFooter() {
   return (
     <>
       {showAppOptions ? (
-        <View style={[styles.footerToolbar, { backgroundColor }]}>
+        <View style={tailwind('flex-1 justify-center items-center')}>
           <View style={styles.optionsRow}>
             <IconButton
               style={styles.refreshButton}
