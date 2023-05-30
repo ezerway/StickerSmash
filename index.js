@@ -1,13 +1,15 @@
 import { LoadSkiaWeb } from '@shopify/react-native-skia/lib/module/web';
-import registerRootComponent from 'expo/build/launch/registerRootComponent';
+import { version } from 'canvaskit-wasm/package.json';
 import { Platform } from 'react-native';
 
 function init() {
-  import('./App').then((Module) => registerRootComponent(Module.default));
+  import('expo-router/entry');
 }
 
 if (Platform.OS === 'web') {
-  LoadSkiaWeb().then(init);
+  LoadSkiaWeb({
+    locateFile: (file) => `https://cdn.jsdelivr.net/npm/canvaskit-wasm@${version}/bin/full/${file}`,
+  }).then(init);
 } else {
   init();
 }

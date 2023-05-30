@@ -2,6 +2,7 @@
   "expo": {
     "name": "Ez Sticker Smash",
     "slug": "StickerSmash",
+    "scheme": "ez-sticker-smash",
     "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,9 +27,12 @@
       "appStoreUrl": "https://apps.apple.com/us/app/ez-sticker-smash/id6447040753",
       "googleServicesFile": "./GoogleService-Info.plist",
       "bundleIdentifier": "com.ezerway.StickerSmash",
-      "buildNumber": "22",
+      "buildNumber": "23",
       "infoPlist": {
-        "CFBundleAllowMixedLocalizations": true
+        "CFBundleAllowMixedLocalizations": true,
+        "LSApplicationQueriesSchemes": [
+          "itms-apps"
+        ]
       }
     },
     "android": {
@@ -39,10 +43,11 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.ezerway.StickerSmash",
-      "versionCode": 27
+      "versionCode": 28
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "extra": {
       "eas": {

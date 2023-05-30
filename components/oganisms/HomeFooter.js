@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { useCallback, useContext } from 'react';
 import { Alert, Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { useTailwind } from 'tailwind-rn';
 
 import { black, white, yellow } from '../../constants/Color';
 import { OriginalFilter } from '../../constants/Filter';
@@ -23,6 +24,7 @@ import ToolList from '../molecules/ToolList';
 import WideButton from '../molecules/WideButton';
 
 export default function HomeFooter() {
+  const tailwind = useTailwind();
   const { backgroundColor } = useContext(AppContext);
 
   const {
@@ -247,7 +249,7 @@ export default function HomeFooter() {
           </View>
         </View>
       ) : (
-        <View style={styles.footerToolbar}>
+        <View style={tailwind('flex-1 justify-center items-center')}>
           <WideButton
             label={i18n.t('ChooseAPhoto')}
             icon="photo-library"

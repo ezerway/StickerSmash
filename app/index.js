@@ -4,7 +4,7 @@ import HomeMain from '../components/oganisms/HomeMain';
 import PageTemplate from '../components/templates/PageTemplate';
 import { HomePageContextProvider, HomePageContext } from '../contexts/HomePageContext';
 
-export default function HomePage() {
+export default function Home() {
   return (
     <HomePageContextProvider>
       <HomePageContext.Consumer>
