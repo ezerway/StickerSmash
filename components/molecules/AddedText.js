@@ -8,11 +8,11 @@ import Animated, {
   withSpring,
 } from 'react-native-reanimated';
 
+import DuplicateButton from '../atomics/DuplicateButton';
 import RotateButton from '../atomics/RotateButton';
 import XButton from '../atomics/XButton';
 import ZoomInButton from '../atomics/ZoomInButton';
 import ZoomOutButton from '../atomics/ZoomOutButton';
-import DuplicateButton from '../atomics/DuplicateButton';
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedText = Animated.createAnimatedComponent(Text);

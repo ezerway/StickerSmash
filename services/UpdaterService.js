@@ -25,11 +25,7 @@ async function expoUpdate() {
   );
 }
 
-async function checkAndUpdate() {
-  if (Platform.OS === 'web') {
-    return;
-  }
-
+export async function checkAndUpdate() {
   const inAppUpdates = new SpInAppUpdates(
     false // isDebug
   );
@@ -67,5 +63,3 @@ async function checkAndUpdate() {
     inAppUpdates.startUpdate(updateOptions); // https://github.com/SudoPlz/sp-react-native-in-app-updates/blob/master/src/types.ts#L78
   });
 }
-
-export { checkAndUpdate };

@@ -28,4 +28,16 @@ const iconStickerButtonSize = {
   height: 10,
 };
 
-export { iconButtonSize, defaultImageSize, stickerSize, stickerButtonSize, iconStickerButtonSize };
+const modalIconButtonSize = {
+  width: 22,
+  height: 22,
+};
+
+export {
+  iconButtonSize,
+  defaultImageSize,
+  stickerSize,
+  stickerButtonSize,
+  iconStickerButtonSize,
+  modalIconButtonSize,
+};

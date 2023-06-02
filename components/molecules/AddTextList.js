@@ -1,23 +1,16 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import {
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
 import ColorPicker, { Panel5 } from 'reanimated-color-picker';
+import { useTailwind } from 'tailwind-rn';
 
 import { white } from '../../constants/Color';
 import { i18n } from '../../i18n';
 
 export default memo(function AddTextList({ onClose }) {
+  const tailwind = useTailwind();
   const inputRef = useRef();
   const [text, setText] = useState('');
   const [selectedColor, setSelectedColor] = useState(white);
-  const [showColorPanel, setShowColorPanel] = useState(false);
 
   const onChangeText = useCallback((val) => {
     setText(val);
@@ -31,57 +24,41 @@ export default memo(function AddTextList({ onClose }) {
     onClose({ text, color: selectedColor });
   }, [text, selectedColor]);
 
-  const onPressSelectedColor = useCallback(() => {
-    setShowColorPanel((value) => !value);
-  }, []);
-
   const onSelectColor = ({ hex }) => {
     setSelectedColor(() => hex);
-    setShowColorPanel(false);
   };
 
   useEffect(() => {
     setText('');
     setSelectedColor(white);
-    setShowColorPanel(false);
   }, []);
 
   return (
-    <View style={styles.centeredView}>
-      <TextInput
-        ref={inputRef}
-        placeholderTextColor={styles.input.color}
-        style={styles.input}
-        onChangeText={onChangeText}
-        value={text}
-        placeholder={i18n.t('Text')}
-        autoFocus
-      />
-      <Pressable
-        style={[styles.selectedColorButton, { backgroundColor: selectedColor }]}
-        onPress={onPressSelectedColor}
-      />
+    <View style={tailwind('flex-col')}>
+      <View style={tailwind('flex-row m-4')}>
+        <TextInput
+          ref={inputRef}
+          placeholderTextColor={styles.input.color}
+          style={styles.input}
+          onChangeText={onChangeText}
+          value={text}
+          placeholder={i18n.t('Text')}
+          autoFocus
+        />
+        <Pressable style={[styles.selectedColorButton, { backgroundColor: selectedColor }]} />
+        <TouchableHighlight onPress={onClickAdd} style={styles.button}>
+          <Text style={{ color: styles.button.color }}>{i18n.t('Add')}</Text>
+        </TouchableHighlight>
+      </View>
 
-      {showColorPanel ? (
-        <ColorPicker onChange={onSelectColor} style={styles.colorPanel} value={selectedColor}>
-          <Panel5 />
-        </ColorPicker>
-      ) : null}
-      <TouchableHighlight onPress={onClickAdd} style={styles.button}>
-        <Text style={{ color: styles.button.color }}>{i18n.t('Add')}</Text>
-      </TouchableHighlight>
+      <ColorPicker onChange={onSelectColor} style={styles.colorPanel} value={selectedColor}>
+        <Panel5 />
+      </ColorPicker>
     </View>
   );
 });
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingHorizontal: 15,
-  },
   input: {
     flex: 1,
     height: 40,
@@ -100,10 +77,7 @@ const styles = StyleSheet.create({
     borderColor: white,
   },
   colorPanel: {
-    position: 'absolute',
     width: '100%',
-    bottom: 0,
-    zIndex: 1,
   },
   button: {
     flex: 0.3,

@@ -1,3 +1,4 @@
+import * as Device from 'expo-device';
 import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
@@ -19,18 +20,22 @@ if (Platform.OS === 'web') {
 
 export default function RootLayout() {
   useEffect(() => {
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' || !Device.isDevice) {
       return;
     }
 
-    checkAndUpdate();
-    registerForPushNotificationsAsync().then((token) => {
+    const init = async () => {
+      checkAndUpdate();
+      const token = await registerForPushNotificationsAsync();
+
       if (!token) {
         return;
       }
 
       saveCustomer(token);
-    });
+    };
+
+    init();
     return () => {};
   }, []);
 

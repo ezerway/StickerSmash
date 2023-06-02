@@ -11,7 +11,6 @@ import { OriginalFilter } from '../../constants/Filter';
 import { large } from '../../constants/FontSize';
 import { mainFlex } from '../../constants/Layout';
 import { Filter, Image, Sticker, Text } from '../../constants/Tool';
-import { AppContext } from '../../contexts/AppContext';
 import { HomePageContext } from '../../contexts/HomePageContext';
 import { i18n } from '../../i18n';
 import { getFitSize } from '../../services/ResizeService';
@@ -25,7 +24,6 @@ import WideButton from '../molecules/WideButton';
 
 export default function HomeFooter() {
   const tailwind = useTailwind();
-  const { backgroundColor } = useContext(AppContext);
 
   const {
     imageRef,
