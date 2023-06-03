@@ -1,5 +1,6 @@
 import { memo } from 'react';
-import { StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { Text, TouchableHighlight } from 'react-native';
+import { useTailwind } from 'tailwind-rn';
 
 import { getIcon } from './Icon';
 import { iconButtonBackground, iconButtonColor } from '../../constants/Color';
@@ -20,28 +21,25 @@ export default memo(function IconButton({
   style = {},
   onPress,
 }) {
+  const tailwind = useTailwind();
   const Icon = getIcon(iconType);
 
   return (
     <TouchableHighlight
       style={[
-        styles.iconButton,
+        tailwind('items-center justify-center'),
         { backgroundColor, borderColor, borderWidth, borderRadius },
         style,
       ]}
       onPress={onPress}>
       <>
         <Icon name={icon} size={size} color={color} />
-        {label ? <Text style={[styles.iconButtonLabel, { color, fontSize }]}>{label}</Text> : null}
+        {label ? (
+          <Text style={[tailwind('items-center justify-center'), { color, fontSize }]}>
+            {label}
+          </Text>
+        ) : null}
       </>
     </TouchableHighlight>
   );
-});
-
-const styles = StyleSheet.create({
-  iconButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconButtonLabel: {},
 });

@@ -1,5 +1,6 @@
 import { useCallback, useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import { useTailwind } from 'tailwind-rn';
 
 import { stickerSize } from '../../constants/ImageSize';
 import { HomePageContext } from '../../contexts/HomePageContext';
@@ -9,6 +10,7 @@ import AddedText from '../molecules/AddedText';
 import EmojiSicker from '../molecules/EmojiSticker';
 
 export default function HomeMain() {
+  const tailwind = useTailwind();
   const {
     imageRef,
     selectedImage,
@@ -59,7 +61,7 @@ export default function HomeMain() {
     (index) => () => {
       setAddedTexts((addedTexts) => {
         const newAddedText = addedTexts.slice();
-        newAddedText.push({ ...addedTexts[index]});
+        newAddedText.push({ ...addedTexts[index] });
         return newAddedText;
       });
     },
@@ -88,7 +90,7 @@ export default function HomeMain() {
   );
 
   return (
-    <View ref={imageRef} collapsable={false} style={styles.mainContent}>
+    <View ref={imageRef} collapsable={false} style={tailwind('flex-1 items-center justify-center')}>
       <ImageViewer
         selectedImage={selectedImage}
         filterStyle={selectedFilter?.style}
@@ -139,11 +141,3 @@ export default function HomeMain() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  mainContent: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

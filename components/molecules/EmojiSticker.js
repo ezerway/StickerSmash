@@ -7,6 +7,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
+import { useTailwind } from 'tailwind-rn';
 
 import DuplicateButton from '../atomics/DuplicateButton';
 import RotateButton from '../atomics/RotateButton';
@@ -26,6 +27,7 @@ export default memo(function EmojiSicker({
   onClickX = () => {},
   onClickDuplicate = () => {},
 }) {
+  const tailwind = useTailwind();
   const [position] = useState({
     position: 'absolute',
   });

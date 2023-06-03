@@ -30,48 +30,55 @@
   bottom: 0px
 }
 
-.m-2 {
-  margin: 0.5rem
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem
 }
 
-.m-5 {
-  margin: 1.25rem
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem
 }
 
-.m-4 {
-  margin: 1rem
+.my-1 {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem
+}
+
+.mb-4 {
+  margin-bottom: 1rem
 }
 
 .flex {
   display: flex
 }
 
+.h-10 {
+  height: 2.5rem
+}
+
+.h-24 {
+  height: 6rem
+}
+
 .h-8 {
   height: 2rem
 }
 
-.h-\[50\%\] {
-  height: 50%
+.h-full {
+  height: 100%
 }
 
-.h-1\/2 {
-  height: 50%
+.w-10 {
+  width: 2.5rem
 }
 
-.h-1\/4 {
-  height: 25%
+.w-2\/3 {
+  width: 66.666667%
 }
 
-.h-2\/3 {
-  height: 66.666667%
-}
-
-.min-h-\[50\%\] {
-  min-height: 50%
-}
-
-.min-h-\[1\/2\] {
-  min-height: 1/2
+.w-24 {
+  width: 6rem
 }
 
 .w-full {
@@ -102,9 +109,50 @@
   justify-content: space-between
 }
 
+.justify-around {
+  justify-content: space-around
+}
+
+.rounded-full {
+  border-radius: 9999px
+}
+
+.rounded-xl {
+  border-radius: 0.75rem
+}
+
 .rounded-t-2xl {
   border-top-left-radius: 1rem;
   border-top-right-radius: 1rem
+}
+
+.border {
+  border-width: 1px
+}
+
+.border-4 {
+  border-width: 4px
+}
+
+.p-2 {
+  padding: 0.5rem
+}
+
+.p-3 {
+  padding: 0.75rem
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem
+}
+
+.pb-4 {
+  padding-bottom: 1rem
+}
+
+.pl-3 {
+  padding-left: 0.75rem
 }
 
 .pl-4 {
@@ -113,4 +161,20 @@
 
 .pr-1 {
   padding-right: 0.25rem
+}
+
+.pr-3 {
+  padding-right: 0.75rem
+}
+
+.pt-4 {
+  padding-top: 1rem
+}
+
+.text-center {
+  text-align: center
+}
+
+.opacity-80 {
+  opacity: 0.8
 }

@@ -1,5 +1,6 @@
 import { memo, useCallback, useState } from 'react';
-import { StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { Text, TouchableHighlight } from 'react-native';
+import { useTailwind } from 'tailwind-rn';
 
 import { getIcon } from './Icon';
 import { iconButtonColor } from '../../constants/Color';
@@ -14,6 +15,7 @@ export default memo(function ToggleIconButton({
   color = iconButtonColor,
   onPress,
 }) {
+  const tailwind = useTailwind();
   const [active, setActive] = useState(false);
 
   const toogleActive = useCallback(() => {
@@ -24,19 +26,11 @@ export default memo(function ToggleIconButton({
   const Icon = getIcon(iconType);
 
   return (
-    <TouchableHighlight style={styles.iconButton} onPress={toogleActive}>
+    <TouchableHighlight style={tailwind('items-center justify-center')} onPress={toogleActive}>
       <>
         <Icon name={active ? activeIcon : icon} size={size} color={color} />
-        <Text style={[styles.iconButtonLabel, { color }]}>{label}</Text>
+        <Text style={[{ color }]}>{label}</Text>
       </>
     </TouchableHighlight>
   );
-});
-
-const styles = StyleSheet.create({
-  iconButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  iconButtonLabel: {},
 });

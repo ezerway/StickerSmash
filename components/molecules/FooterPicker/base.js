@@ -17,7 +17,7 @@ export default memo(function FooterPicker({ label, visible, bottom = 0, onClose,
     <Modal animationType="slide" transparent visible={visible}>
       <View
         style={[
-          tailwind('absolute bottom-0 h-2/3 w-full rounded-t-2xl'),
+          tailwind(`absolute bottom-0 w-full rounded-t-2xl`),
           { backgroundColor: defaultBackgroundColor },
           { bottom },
         ]}>
@@ -31,7 +31,7 @@ export default memo(function FooterPicker({ label, visible, bottom = 0, onClose,
             <MaterialIcons name="close" size={modalIconButtonSize.width} color={modalHeaderColor} />
           </Pressable>
         </View>
-        {children}
+        <View style={[tailwind('pt-4 pb-4')]}>{children}</View>
       </View>
     </Modal>
   );

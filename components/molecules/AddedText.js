@@ -5,7 +5,6 @@ import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
 } from 'react-native-reanimated';
 
 import DuplicateButton from '../atomics/DuplicateButton';
@@ -44,10 +43,10 @@ export default memo(function AddedText({
 
   const textStyle = useAnimatedStyle(() => {
     return {
-      width: withSpring(scaleWidth.value),
-      height: withSpring(scaleHeight.value),
-      fontSize: withSpring(scaleHeight.value),
-      lineHeight: withSpring(scaleHeight.value),
+      width: scaleWidth.value,
+      height: scaleHeight.value,
+      fontSize: scaleHeight.value,
+      lineHeight: scaleHeight.value,
       color,
       textAlign: 'center',
       borderColor: '#000',

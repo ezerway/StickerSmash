@@ -1,10 +1,12 @@
 import { memo, useEffect, useState } from 'react';
-import { FlatList, Platform, Pressable, StyleSheet } from 'react-native';
+import { FlatList, Platform } from 'react-native';
+import { useTailwind } from 'tailwind-rn';
 
-import EmojiListItem from './EmojiListItem';
 import { getStickers } from '../../services/FirebaseService';
+import EmojiListItem from '../atomics/EmojiListItem';
 
 export default memo(function EmojiList({ onClose, onSelect }) {
+  const tailwind = useTailwind();
   const [emojis, setEmojis] = useState([
     require('../../assets/images/emoji1.png'),
     require('../../assets/images/emoji2.png'),
@@ -32,30 +34,12 @@ export default memo(function EmojiList({ onClose, onSelect }) {
   return (
     <FlatList
       horizontal
-      contentContainerStyle={styles.listContainer}
+      contentContainerStyle={tailwind('flex-row items-center justify-between mx-2 rounded-t-2xl')}
       data={emojis}
       showsHorizontalScrollIndicator={Platform.OS === 'web'}
       renderItem={({ item, index }) => (
-        <Pressable
-          key={index}
-          onPress={() => {
-            onSelect(item);
-            onClose();
-          }}>
-          <EmojiListItem source={item} />
-        </Pressable>
+        <EmojiListItem key={index} onSelect={onSelect} onClose={onClose} item={item} />
       )}
     />
   );
-});
-
-const styles = StyleSheet.create({
-  listContainer: {
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
 });

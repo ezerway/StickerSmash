@@ -1,12 +1,14 @@
 import * as Sharing from 'expo-sharing';
 import { useContext, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import { useTailwind } from 'tailwind-rn';
 
 import { HomePageContext } from '../../contexts/HomePageContext';
 import { i18n } from '../../i18n';
 import IconButton from '../atomics/IconButton';
 
 export default function HomeHeader() {
+  const tailwind = useTailwind();
   const { clearAll, togglePreview, toogleFlip, share } = useContext(HomePageContext);
   const [canShare, setCanShare] = useState(null);
 
@@ -17,7 +19,7 @@ export default function HomeHeader() {
   }, []);
 
   return (
-    <View style={styles.headerToolbar}>
+    <View style={tailwind('flex-1 flex-row justify-around items-center')}>
       <IconButton
         iconType="MaterialCommunityIcons"
         icon="eye-outline"
@@ -35,12 +37,3 @@ export default function HomeHeader() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  headerToolbar: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-});

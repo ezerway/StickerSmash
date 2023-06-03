@@ -1,16 +1,18 @@
 import { memo, useState } from 'react';
-import { FlatList, Platform, StyleSheet } from 'react-native';
+import { FlatList, Platform } from 'react-native';
+import { useTailwind } from 'tailwind-rn';
 
 import { allowedFilters } from '../../constants/Filter';
 import FilterItem from '../atomics/FilterItem';
 
 export default memo(function FilterList({ selectedImage, onClose, onSelect }) {
+  const tailwind = useTailwind();
   const [filters] = useState(allowedFilters);
 
   return (
     <FlatList
       horizontal
-      contentContainerStyle={styles.listContainer}
+      contentContainerStyle={tailwind('flex-row items-center justify-between mx-2 rounded-t-2xl')}
       data={filters}
       showsHorizontalScrollIndicator={Platform.OS === 'web'}
       renderItem={({ item, index }) => (
@@ -18,15 +20,4 @@ export default memo(function FilterList({ selectedImage, onClose, onSelect }) {
       )}
     />
   );
-});
-
-const styles = StyleSheet.create({
-  listContainer: {
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
-    paddingHorizontal: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
 });

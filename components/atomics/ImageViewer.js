@@ -1,15 +1,7 @@
 import { Canvas, ColorMatrix, Image, useCanvasRef } from '@shopify/react-native-skia';
 import { memo, useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Image as CoreImage,
-  Platform,
-  Pressable,
-  StyleSheet,
-} from 'react-native';
+import { ActivityIndicator, Image as CoreImage, Platform, Pressable } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
-
-import { defaultImageSize } from '../../constants/ImageSize';
 
 const View = Animated.createAnimatedComponent(Pressable);
 
@@ -60,7 +52,7 @@ export default memo(function ImageViewer({
   if (isIos) {
     return (
       <View style={transformStyle}>
-        <Canvas ref={canvasRef} style={[styles.canvas, size]}>
+        <Canvas ref={canvasRef} style={[size]}>
           <Image x={0} y={0} width={size.width} height={size.height} image={selectedImage}>
             {filterStyle ? <ColorMatrix matrix={filterStyle} /> : null}
           </Image>
@@ -75,7 +67,6 @@ export default memo(function ImageViewer({
         ref={canvasRef}
         mode="continuous"
         style={[
-          styles.canvas,
           size,
           {
             position: base64Image ? 'absolute' : 'relative',
@@ -90,13 +81,4 @@ export default memo(function ImageViewer({
       {base64Image ? <CoreImage style={[size]} source={base64Image} /> : null}
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  canvas: {},
-  image: {
-    width: defaultImageSize.width,
-    height: '100%',
-    borderRadius: 0,
-  },
 });

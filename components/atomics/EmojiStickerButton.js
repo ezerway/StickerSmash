@@ -1,6 +1,7 @@
 import { memo } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, View } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import { useTailwind } from 'tailwind-rn';
 
 import { getIcon } from './Icon';
 import { stickerButtonBackground, stickerButtonColor } from '../../constants/Color';
@@ -14,9 +15,11 @@ export default memo(function EmojiStickButton({
   iconSize = iconStickerButtonSize.width,
   size = stickerButtonSize,
   color = stickerButtonColor,
+  backgroundColor = stickerButtonBackground,
   position,
   onPress,
 }) {
+  const tailwind = useTailwind();
   const positionStyle = useAnimatedStyle(() => {
     return {
       ...position.value,
@@ -24,26 +27,17 @@ export default memo(function EmojiStickButton({
   });
 
   const Icon = getIcon(iconType);
-  const borderRadius = size.width / 2;
 
   return (
-    <AnimatedView mo style={[styles.buttonContainer, { borderRadius }, size, positionStyle]}>
-      <Pressable style={[styles.button, { borderRadius }]} onPress={onPress}>
+    <AnimatedView style={[tailwind('absolute rounded-full'), size, positionStyle]}>
+      <Pressable
+        style={[
+          tailwind('flex-1 items-center justify-center opacity-80 rounded-full'),
+          { backgroundColor },
+        ]}
+        onPress={onPress}>
         <Icon name={icon} size={iconSize} color={color} />
       </Pressable>
     </AnimatedView>
   );
-});
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    position: 'absolute',
-  },
-  button: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: stickerButtonBackground,
-    opacity: 0.8,
-  },
 });

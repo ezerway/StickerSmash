@@ -3,7 +3,7 @@ import * as DomToImage from 'dom-to-image';
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from 'expo-media-library';
 import { useCallback, useContext } from 'react';
-import { Alert, Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Alert, Platform, View, useWindowDimensions } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { black, white, yellow } from '../../constants/Color';
@@ -16,9 +16,11 @@ import { i18n } from '../../i18n';
 import { getFitSize } from '../../services/ResizeService';
 import IconButton from '../atomics/IconButton';
 import AddTextList from '../molecules/AddTextList';
+import ChoseAPhotoButton from '../molecules/ChoseAPhotoButton';
 import EmojiList from '../molecules/EmojiList';
 import FilterList from '../molecules/FilterList';
 import FooterPicker from '../molecules/FooterPicker';
+import ShowToolButton from '../molecules/ShowToolButton';
 import ToolList from '../molecules/ToolList';
 import WideButton from '../molecules/WideButton';
 
@@ -220,46 +222,15 @@ export default function HomeFooter() {
     <>
       {showAppOptions ? (
         <View style={tailwind('flex-1 justify-center items-center')}>
-          <View style={styles.optionsRow}>
-            <IconButton
-              style={styles.refreshButton}
-              icon="refresh"
-              label={i18n.t('Refresh')}
-              onPress={onRefresh}
-            />
-            <WideButton
-              icon="add"
-              color={black}
-              backgroundColor={white}
-              borderColor={yellow}
-              iconSize={38}
-              borderRadius={42}
-              fontSize={large}
-              onPress={onAdd}
-              style={styles.addStickerButton}
-            />
-            <IconButton
-              style={styles.saveButton}
-              icon="save-alt"
-              label={i18n.t('Save')}
-              onPress={onClickSaveImage}
-            />
+          <View style={tailwind('w-full flex-row justify-around items-center')}>
+            <IconButton icon="refresh" label={i18n.t('Refresh')} onPress={onRefresh} />
+            <ShowToolButton onPress={onAdd} />
+            <IconButton icon="save-alt" label={i18n.t('Save')} onPress={onClickSaveImage} />
           </View>
         </View>
       ) : (
         <View style={tailwind('flex-1 justify-center items-center')}>
-          <WideButton
-            label={i18n.t('ChooseAPhoto')}
-            icon="photo-library"
-            color={black}
-            backgroundColor={white}
-            borderColor={yellow}
-            borderWidth={5}
-            borderRadius={18}
-            fontSize={large}
-            onPress={pickImage}
-            style={styles.selectImageSectionButton}
-          />
+          <ChoseAPhotoButton onPress={pickImage} />
           <WideButton
             label={i18n.t('UseThisPhoto')}
             fontSize={large}
@@ -292,31 +263,3 @@ export default function HomeFooter() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  footerToolbar: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  optionsRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '100%',
-    justifyContent: 'space-around',
-  },
-  selectImageSectionButton: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  addStickerButton: {
-    width: 84,
-    height: 84,
-    borderWidth: 4,
-    borderColor: yellow,
-    borderRadius: 42,
-    padding: 3,
-  },
-  refreshButton: {},
-  saveButton: {},
-});

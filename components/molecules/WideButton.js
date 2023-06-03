@@ -1,13 +1,16 @@
-import { StyleSheet, View } from 'react-native';
+import { memo } from 'react';
+import { View } from 'react-native';
+import { useTailwind } from 'tailwind-rn';
 
 import { textButtonBackground, textButtonColor } from '../../constants/Color';
 import { medium } from '../../constants/FontSize';
 import { iconButtonSize } from '../../constants/ImageSize';
 import IconButton from '../atomics/IconButton';
 import TextButton from '../atomics/TextButton';
-import { memo } from 'react';
 
 export default memo(function WideButton({
+  width = 320,
+  height = 68,
   label,
   icon,
   iconType,
@@ -21,8 +24,9 @@ export default memo(function WideButton({
   style = {},
   onPress,
 }) {
+  const tailwind = useTailwind();
   return (
-    <View style={[styles.buttonContainer, style]}>
+    <View style={[tailwind('mx-4 items-center justify-center'), { width, height }, style]}>
       {icon ? (
         <IconButton
           icon={icon}
@@ -36,7 +40,7 @@ export default memo(function WideButton({
           iconType={iconType}
           onPress={onPress}
           fontSize={fontSize}
-          style={styles.button}
+          style={tailwind('w-full h-full flex-row')}
         />
       ) : (
         <TextButton
@@ -53,19 +57,4 @@ export default memo(function WideButton({
       )}
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    width: 320,
-    height: 68,
-    marginHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    width: '100%',
-    height: '100%',
-    flexDirection: 'row',
-  },
 });

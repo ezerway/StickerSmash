@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, TouchableHighlight, View } from 'react-native';
+import { Pressable, Text, TextInput, TouchableHighlight, View } from 'react-native';
 import ColorPicker, { Panel5 } from 'reanimated-color-picker';
 import { useTailwind } from 'tailwind-rn';
 
@@ -10,6 +10,7 @@ export default memo(function AddTextList({ onClose }) {
   const tailwind = useTailwind();
   const inputRef = useRef();
   const [text, setText] = useState('');
+  const [textColor] = useState(white);
   const [selectedColor, setSelectedColor] = useState(white);
 
   const onChangeText = useCallback((val) => {
@@ -35,55 +36,30 @@ export default memo(function AddTextList({ onClose }) {
 
   return (
     <View style={tailwind('flex-col')}>
-      <View style={tailwind('flex-row m-4')}>
+      <View style={tailwind('flex-row mb-4 mx-4 justify-between')}>
         <TextInput
           ref={inputRef}
-          placeholderTextColor={styles.input.color}
-          style={styles.input}
+          placeholderTextColor={textColor}
+          style={[
+            tailwind('pl-3 pr-3 h-10 w-2/3 border'),
+            { color: textColor, borderColor: textColor },
+          ]}
           onChangeText={onChangeText}
           value={text}
           placeholder={i18n.t('Text')}
           autoFocus
         />
-        <Pressable style={[styles.selectedColorButton, { backgroundColor: selectedColor }]} />
-        <TouchableHighlight onPress={onClickAdd} style={styles.button}>
-          <Text style={{ color: styles.button.color }}>{i18n.t('Add')}</Text>
+        <Pressable style={[tailwind('p-3 h-10 w-10'), { backgroundColor: selectedColor }]} />
+        <TouchableHighlight
+          onPress={onClickAdd}
+          style={tailwind('justify-center items-center pl-3 pr-3')}>
+          <Text style={{ color: textColor }}>{i18n.t('Add')}</Text>
         </TouchableHighlight>
       </View>
 
-      <ColorPicker onChange={onSelectColor} style={styles.colorPanel} value={selectedColor}>
+      <ColorPicker style={tailwind('mx-4')} onChange={onSelectColor} value={selectedColor}>
         <Panel5 />
       </ColorPicker>
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  input: {
-    flex: 1,
-    height: 40,
-    borderWidth: 1,
-    padding: 10,
-    color: white,
-    borderColor: white,
-  },
-  selectedColorButton: {
-    marginLeft: 10,
-    height: 40,
-    aspectRatio: 1 / 1,
-    borderWidth: 1,
-    padding: 10,
-    color: white,
-    borderColor: white,
-  },
-  colorPanel: {
-    width: '100%',
-  },
-  button: {
-    flex: 0.3,
-    paddingVertical: 15,
-    color: white,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
 });
