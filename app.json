@@ -27,7 +27,7 @@
       "appStoreUrl": "https://apps.apple.com/us/app/ez-sticker-smash/id6447040753",
       "googleServicesFile": "./GoogleService-Info.plist",
       "bundleIdentifier": "com.ezerway.StickerSmash",
-      "buildNumber": "23",
+      "buildNumber": "24",
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
         "LSApplicationQueriesSchemes": [
@@ -43,7 +43,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.ezerway.StickerSmash",
-      "versionCode": 28
+      "versionCode": 29
     },
     "web": {
       "favicon": "./assets/favicon.png",
