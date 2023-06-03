@@ -26,6 +26,10 @@ async function expoUpdate() {
 }
 
 export async function checkAndUpdate() {
+  if (__DEV__) {
+    return;
+  }
+
   const inAppUpdates = new SpInAppUpdates(
     false // isDebug
   );

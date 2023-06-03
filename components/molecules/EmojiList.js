@@ -24,7 +24,7 @@ export default memo(function EmojiList({ onClose, onSelect }) {
       setEmojis((old) =>
         old.concat(
           stickers.map((sticker) => ({
-            uri: sticker.images['512'],
+            uri: sticker?.images['512'],
           }))
         )
       );

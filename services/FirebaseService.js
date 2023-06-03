@@ -28,5 +28,6 @@ export async function saveCustomer(expo_push_token) {
 export async function getStickers() {
   const ref = database().ref('/stickers');
   const stickers = await ref.orderByChild('added').once('value');
-  return stickers.toJSON();
+  const object = stickers.toJSON();
+  return Object.values(object);
 }
