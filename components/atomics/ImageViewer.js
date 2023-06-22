@@ -28,21 +28,31 @@ export default memo(function ImageViewer({
   });
 
   useEffect(() => {
-    if (!selectedImage || !canvasRef.current || previewMode) {
-      return;
-    }
+    const toBase64 = () => {
+      if (!selectedImage || !canvasRef.current || !canvasRef.current?.nativeId || previewMode) {
+        return;
+      }
 
-    const rect = isWeb
-      ? {
-          x: 0,
-          y: 0,
-          width: size.width,
-          height: size.height,
-        }
-      : null;
-    const image = canvasRef.current?.makeImageSnapshot(rect);
-    const base64 = image.encodeToBase64();
-    setBase64Image({ uri: `data:image/png;base64,${base64}` });
+      const rect = isWeb
+        ? {
+            x: 0,
+            y: 0,
+            width: size.width,
+            height: size.height,
+          }
+        : null;
+
+      // wait re-render complete
+      setTimeout(() => {
+        const image = canvasRef.current?.makeImageSnapshot(rect);
+        const base64 = image.encodeToBase64();
+        setBase64Image({ uri: `data:image/png;base64,${base64}` });
+      }, 500);
+    };
+
+    toBase64();
+
+    return () => {};
   }, [filterStyle]);
 
   if (!selectedImage) {

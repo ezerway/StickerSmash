@@ -6,7 +6,6 @@ import { useCallback, useContext } from 'react';
 import { Alert, Platform, View, useWindowDimensions } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
-import { black, white, yellow } from '../../constants/Color';
 import { OriginalFilter } from '../../constants/Filter';
 import { large } from '../../constants/FontSize';
 import { mainFlex } from '../../constants/Layout';

@@ -6,6 +6,12 @@ import { Alert, Platform } from 'react-native';
 import { i18n } from '../i18n';
 
 async function expoUpdate() {
+  const update = await Updates.checkForUpdateAsync();
+
+  if (update.isAvailable) {
+    return;
+  }
+
   Alert.alert(
     i18n.t('UpdateApp'),
     `${i18n.t(`NewVersionIsNowAvaiable`)} ${i18n.t(`WouldYouLikeToUpdateItNow`)}`,
@@ -36,12 +42,6 @@ export async function checkAndUpdate() {
   // curVersion is optional if you don't provide it will automatically take from the app using react-native-device-info
   inAppUpdates.checkNeedsUpdate({ curVersion: nativeApplicationVersion }).then(async (result) => {
     if (!result.shouldUpdate) {
-      const update = await Updates.checkForUpdateAsync();
-
-      if (update.isAvailable) {
-        return;
-      }
-
       return expoUpdate();
     }
 
