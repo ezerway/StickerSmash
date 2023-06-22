@@ -1,16 +1,16 @@
 import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
-import { RefreshControl } from 'react-native';
-import { useTailwind } from 'tailwind-rn';
+import { RefreshControl, useWindowDimensions } from 'react-native';
 import useBus from 'use-bus';
 
+import { mainFlex } from '../../../constants/Layout';
 import { getFeeds } from '../../../services/FirebaseService';
 import NewsfeedListItem from '../../atomics/NewsfeedListItem';
 
 export default memo(function NewsfeedList() {
-  const tailwind = useTailwind();
-
+  const dim = useWindowDimensions();
+  const [feedHeight] = useState(dim.height * mainFlex);
   const [feeds, setFeeds] = useState([]);
 
   const [refreshing, setRefreshing] = useState(null);
@@ -68,7 +68,8 @@ export default memo(function NewsfeedList() {
       renderItem={({ item }) => {
         return <NewsfeedListItem onForkPress={pressFork} feed={item} />;
       }}
-      estimatedItemSize={100}
+      estimatedItemSize={feedHeight}
+      onEndReachedThreshold={5}
       onEndReached={onEndReached}
       refreshControl={
         <RefreshControl tintColor="#000" refreshing={refreshing} onRefresh={onRefresh} />
