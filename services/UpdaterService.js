@@ -8,7 +8,7 @@ import { i18n } from '../i18n';
 async function expoUpdate() {
   const update = await Updates.checkForUpdateAsync();
 
-  if (update.isAvailable) {
+  if (!update.isAvailable) {
     return;
   }
 
