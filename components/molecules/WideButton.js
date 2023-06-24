@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { textButtonBackground, textButtonColor } from '../../constants/Color';
@@ -11,6 +11,7 @@ import TextButton from '../atomics/TextButton';
 export default memo(function WideButton({
   width = 320,
   height = 68,
+  badge = 0,
   label,
   icon,
   iconType,
@@ -25,6 +26,7 @@ export default memo(function WideButton({
   onPress,
 }) {
   const tailwind = useTailwind();
+  const displayBadge = Math.min(badge, 999);
   return (
     <View style={[tailwind('mx-4 items-center justify-center'), { width, height }, style]}>
       {icon ? (
@@ -55,6 +57,17 @@ export default memo(function WideButton({
           fontSize={fontSize}
         />
       )}
+      {badge ? (
+        <View
+          style={[
+            tailwind(
+              'absolute flex items-center justify-center w-8 h-8 bg-red-500 border-2 rounded-full -top-2 -right-2 dark:border-gray-900'
+            ),
+            { borderColor: backgroundColor },
+          ]}>
+          <Text style={[tailwind('text-xs font-bold'), { color }]}>{displayBadge}</Text>
+        </View>
+      ) : null}
     </View>
   );
 });

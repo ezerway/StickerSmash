@@ -1,4 +1,5 @@
 import { Skia } from '@shopify/react-native-skia';
+import { useLocalSearchParams } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { useCallback, useRef, useState, createContext, useContext, useEffect } from 'react';
 import { captureRef } from 'react-native-view-shot';
@@ -13,6 +14,7 @@ export const HomePageContext = createContext(null);
 let defaultImage = null;
 
 export const HomePageContextProvider = ({ children }) => {
+  const params = useLocalSearchParams();
   const { mediaStatus, requestMediaPermission } = useContext(AppContext);
   const imageRef = useRef();
   const [selectedImage, setSelectedImage] = useState(defaultImage);
@@ -86,6 +88,15 @@ export const HomePageContextProvider = ({ children }) => {
   }, [mediaStatus]);
 
   useEffect(() => {
+    if (params.image_url) {
+      Skia.Data.fromURI(decodeURIComponent(params.image_url)).then((encoded) => {
+        const image = Skia.Image.MakeImageFromEncoded(encoded);
+        defaultImage = image;
+        setSelectedImage(image);
+      });
+      return;
+    }
+
     Skia.Data.fromURI(PlaceholderImage).then((imageData) => {
       const image = Skia.Image.MakeImageFromEncoded(imageData);
       defaultImage = image;

@@ -22,7 +22,7 @@ export default memo(function EmojiListItem({
     <Pressable style={tailwind('mx-2')} onPress={onPress}>
       <ImageBackground
         source={item}
-        style={{ width, height }}
+        style={[tailwind('items-center justify-center'), { width, height }]}
         onLoadStart={onLoadStart}
         onLoadEnd={onLoadEnd}>
         {isLoading ? <ActivityIndicator size="small" /> : null}

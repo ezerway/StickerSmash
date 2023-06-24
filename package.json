@@ -20,6 +20,7 @@
     "@react-native-firebase/crashlytics": "^17.4.3",
     "@react-native-firebase/database": "^17.4.3",
     "@react-native-firebase/perf": "^17.4.3",
+    "@shopify/flash-list": "1.4.0",
     "@shopify/react-native-skia": "0.1.183",
     "dom-to-image": "^2.6.0",
     "expo": "^48.0.4",
@@ -54,7 +55,8 @@
     "react-native-view-shot": "3.5.0",
     "react-native-web": "~0.18.9",
     "reanimated-color-picker": "^2.3.0",
-    "tailwind-rn": "^4.2.0"
+    "tailwind-rn": "^4.2.0",
+    "use-bus": "^2.5.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
