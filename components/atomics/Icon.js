@@ -1,3 +1,4 @@
+import AntDesign from '@expo/vector-icons/AntDesign';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -10,6 +11,7 @@ const iconTypeMap = {
   Feather,
   FontAwesome,
   Ionicons,
+  AntDesign,
 };
 
 function getIcon(type) {

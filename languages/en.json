@@ -29,5 +29,11 @@
     "Image": "Image",
     "AddText": "Add Text",
     "Add": "Add",
-    "Close": "Close"
+    "Close": "Close",
+    "Bookmarks": "Bookmarks",
+    "Newsfeed": "Newsfeed",
+    "Profile": "Profile",
+    "Liked": "Liked %{liked}",
+    "Downloaded": "%{downloaded} downloads",
+    "TopScorers": "Top Scorers"
 }
