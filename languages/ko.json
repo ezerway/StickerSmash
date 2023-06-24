@@ -29,5 +29,11 @@
   "Image": "이미지",
   "AddText": "텍스트 추가",
   "Add": "추가",
-  "Close": "닫기"
+  "Close": "닫기",
+  "Bookmarks": "북마크",
+  "Newsfeed": "뉴스피드",
+  "Profile": "프로필",
+  "Liked": "좋아요 %{liked}",
+  "Downloaded": "%{downloaded} 다운로드",
+  "TopScorers": "최고점수"
 }
