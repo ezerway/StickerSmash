@@ -29,5 +29,11 @@
     "Image": "Hình ảnh",
     "AddText": "Thêm chữ",
     "Add": "Thêm",
-    "Close": "Đóng"
+    "Close": "Đóng",
+    "Bookmarks": "Đánh dấu",
+    "Newsfeed": "Bảng tin",
+    "Profile": "Cá nhân",
+    "Liked": "Đã thích %{liked}",
+    "Downloaded": "%{downloaded} đã tải",
+    "TopScorers": "Bảng vàng"
 }

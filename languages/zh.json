@@ -29,5 +29,11 @@
   "Image": "图像",
   "AddText": "添加文本",
   "Add": "添加",
-  "Close": "关闭"
+  "Close": "关闭",
+  "Bookmarks": "书签",
+  "Newsfeed": "新闻",
+  "Profile": "个人资料",
+  "Liked": "喜欢 %{liked}",
+  "Downloaded": "%{downloaded} 下载",
+  "TopScorers": "最高分"
 }

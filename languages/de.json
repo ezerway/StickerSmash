@@ -29,5 +29,11 @@
   "Image": "Bild",
   "AddText": "Text hinzufügen",
   "Add": "Hinzufügen",
-  "Close": "Schließen"
+  "Close": "Schließen",
+  "Bookmarks": "Lesezeichen",
+  "Newsfeed": "Nachrichten",
+  "Profile": "Profil",
+  "Liked": "Geliked %{liked}",
+  "Downloaded": "%{downloaded} heruntergeladen",
+  "TopScorers": "Topscorer"
 }

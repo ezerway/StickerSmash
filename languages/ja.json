@@ -29,5 +29,11 @@
   "Image": "画像",
   "AddText": "テキストを追加",
   "Add": "追加",
-  "Close": "閉じる"
+  "Close": "閉じる",
+  "Bookmarks": "ブックマーク",
+  "Newsfeed": "ニュースフィード",
+  "Profile": "プロフィール",
+  "Liked": "いいね %{liked}",
+  "Downloaded": "%{downloaded} ダウンロード",
+  "TopScorers": "トップスコアラー"
 }
