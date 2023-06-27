@@ -178,14 +178,17 @@
   border-top-width: 1px
 }
 
+.border-b-2 {
+  border-bottom-width: 2px
+}
+
+.border-b-4 {
+  border-bottom-width: 4px
+}
+
 .border-white {
   --tw-border-opacity: 1;
   border-color: rgb(255 255 255 / var(--tw-border-opacity))
-}
-
-.border-t-white {
-  --tw-border-opacity: 1;
-  border-top-color: rgb(255 255 255 / var(--tw-border-opacity))
 }
 
 .bg-red-500 {
@@ -247,6 +250,18 @@
 
 .pt-4 {
   padding-top: 1rem
+}
+
+.pb-3 {
+  padding-bottom: 0.75rem
+}
+
+.pb-3\.5 {
+  padding-bottom: 0.875rem
+}
+
+.pb-5 {
+  padding-bottom: 1.25rem
 }
 
 .text-center {

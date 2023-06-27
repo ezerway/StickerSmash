@@ -5,17 +5,21 @@ import { useTailwind } from 'tailwind-rn';
 import { white } from '../../../constants/Color';
 import WideButton from '../../molecules/WideButton';
 
-export default memo(function ScoreBoardHeader({
+export default memo(function ProfileBar({
   label = 'Username',
   liked = '0',
   downloaded = '0',
   textColor = white,
   size = 25,
+  style = {},
 }) {
   const tailwind = useTailwind();
   return (
     <View
-      style={tailwind('flex-row items-center justify-center py-2 border-b border-t text-white')}>
+      style={[
+        tailwind('flex-row items-center justify-center py-2 border-b border-t text-white'),
+        style,
+      ]}>
       <View style={tailwind('flex-1 items-center justify-between')}>
         <Text style={[tailwind('text-white'), { color: textColor }]}>{label}</Text>
       </View>

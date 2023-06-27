@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useTailwind } from 'tailwind-rn';
 
 import { generateName } from '../../services/RandomService';
-import ScoreBoardHeader from '../atomics/ScoreBoardHeader';
+import ProfileBar from '../atomics/ProfileBar';
 import NewsfeedList from '../molecules/NewsfeedList';
 
 export default function ProfileMain() {
+  const tailwind = useTailwind();
   const [userName, setUserName] = useState('');
 
   useEffect(() => {
@@ -14,7 +16,7 @@ export default function ProfileMain() {
   return (
     <>
       <NewsfeedList />
-      <ScoreBoardHeader label={userName} />
+      <ProfileBar label={userName} style={tailwind('pb-4')} />
     </>
   );
 }
