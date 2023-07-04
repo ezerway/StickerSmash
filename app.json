@@ -33,6 +33,9 @@
         "LSApplicationQueriesSchemes": [
           "itms-apps"
         ]
+      },
+      "entitlements": {
+        "com.apple.security.application-groups": ["group.com.ezerway.StickerSmash"]
       }
     },
     "android": {
@@ -93,7 +96,14 @@
       ],
       "@react-native-firebase/app",
       "@react-native-firebase/perf",
-      "@react-native-firebase/crashlytics"
+      "@react-native-firebase/crashlytics",
+      [
+        "ez-expo-share",
+        {
+          "folderName": "EzStickerSmashShare",
+          "swift": false
+        }
+      ]
     ]
   }
 }
