@@ -21,7 +21,9 @@ export async function registerForPushNotificationsAsync() {
     return;
   }
 
-  const token = (await Notifications.getExpoPushTokenAsync()).data;
+  const token = __DEV__
+    ? 'test_expo_push_token'
+    : (await Notifications.getExpoPushTokenAsync()).data;
 
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {

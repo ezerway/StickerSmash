@@ -1,10 +1,13 @@
 import { Link, usePathname } from 'expo-router';
 import { memo } from 'react';
-import { View } from 'react-native';
+import { Pressable, View, Text } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
+import { iconButtonColor } from '../../../constants/Color';
+import { medium } from '../../../constants/FontSize';
+import { iconButtonSize } from '../../../constants/ImageSize';
 import { i18n } from '../../../i18n';
-import IconButton from '../IconButton';
+import { getIcon } from '../Icon';
 
 export default memo(function NavigationItem({
   label = 'Item',
@@ -16,11 +19,27 @@ export default memo(function NavigationItem({
 }) {
   const tailwind = useTailwind();
   const pathname = usePathname();
+  const Icon = getIcon(iconType);
+
   return (
-    <View style={[pathname === href ? tailwind('border-b-2 border-white') : {}, style]}>
-      <Link href={href} onPress={onPress(href)} asChild>
-        <IconButton icon={icon} iconType={iconType} label={i18n.t(label)} />
-      </Link>
-    </View>
+    <Link href={href} onPress={onPress(href)} asChild>
+      <Pressable>
+        <View
+          style={[
+            pathname === href ? tailwind('border-b-2 border-white') : {},
+            tailwind('items-center justify-center'),
+            style,
+          ]}>
+          <Icon name={icon} size={iconButtonSize.width} color={iconButtonColor} />
+          <Text
+            style={[
+              tailwind('items-center justify-center'),
+              { color: iconButtonColor, fontSize: medium },
+            ]}>
+            {i18n.t(label)}
+          </Text>
+        </View>
+      </Pressable>
+    </Link>
   );
 });

@@ -14,6 +14,7 @@ export default memo(function TextButton({
   backgroundColor = textButtonBackground,
   borderColor = textButtonBackground,
   style = {},
+  textStyle = {},
   onPress,
 }) {
   const tailwind = useTailwind();
@@ -22,9 +23,10 @@ export default memo(function TextButton({
       style={[
         tailwind('w-full h-full flex-row items-center justify-center'),
         { backgroundColor, borderColor, borderWidth, borderRadius },
+        style,
       ]}
       onPress={onPress}>
-      <Text style={[style, { fontSize, color }]}>{label}</Text>
+      <Text style={[textStyle, { fontSize, color }]}>{label}</Text>
     </TouchableHighlight>
   );
 });

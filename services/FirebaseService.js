@@ -5,8 +5,8 @@ import moment from 'moment';
 import { Platform } from 'react-native';
 
 import { generateName, randomDate } from './RandomService';
-import { defaultImageSize } from '../constants/ImageSize';
 import { PlaceholderImage } from '../constants/Image';
+import { defaultImageSize } from '../constants/ImageSize';
 
 export async function saveCustomer(expo_push_token) {
   const ref = database().ref('/users');
@@ -22,11 +22,14 @@ export async function saveCustomer(expo_push_token) {
   };
 
   if (snapshot.val() === null) {
-    return ref.push().set(updateData);
+    const newRecord = ref.push();
+    newRecord.set(updateData);
+    return newRecord.key;
   }
 
   const [id] = Object.keys(snapshot.toJSON());
-  return database().ref(`/users/${id}`).update(updateData);
+  database().ref(`/users/${id}`).update(updateData);
+  return id;
 }
 
 export async function getStickers() {
@@ -43,6 +46,7 @@ const fakeFeed = async () => {
     size: defaultImageSize,
     image_url: response.url,
     author: await generateName(),
+    user_id: Math.floor(Math.random() * 1000),
     created_at: randomDate().toISOString(),
   };
 };
@@ -57,6 +61,28 @@ const fakeFeeds = async () => {
   return arr;
 };
 
-export async function getFeeds() {
-  return fakeFeeds();
+export async function getFeeds(user_id = null, isFake = false) {
+  if (isFake) {
+    return fakeFeeds();
+  }
+
+  const ref = database().ref('/feeds');
+  const snapshot = user_id
+    ? await ref.orderByChild('user_id').equalTo(user_id).once('value')
+    : await ref.orderByChild('created_at').once('value');
+
+  if (!snapshot || !snapshot.val()) {
+    return [];
+  }
+
+  const object = snapshot.toJSON();
+  return Object.values(object);
+}
+
+export async function addFeed(feedData, isPublic = true) {
+  feedData.is_public = isPublic ? 1 : 0;
+  const ref = database().ref('/feeds');
+  const newRecord = ref.push();
+  newRecord.set(feedData);
+  return newRecord.key;
 }

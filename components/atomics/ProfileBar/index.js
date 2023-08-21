@@ -12,6 +12,7 @@ export default memo(function ProfileBar({
   textColor = white,
   size = 25,
   style = {},
+  onPressAdd = () => {},
 }) {
   const tailwind = useTailwind();
   return (
@@ -20,6 +21,15 @@ export default memo(function ProfileBar({
         tailwind('flex-row items-center justify-center py-2 border-b border-t text-white'),
         style,
       ]}>
+      <View style={tailwind('flex-none flex-row items-center justify-around')}>
+        <WideButton
+          onPress={onPressAdd}
+          icon="add"
+          width={size}
+          height={size}
+          style={tailwind('flex-none')}
+        />
+      </View>
       <View style={tailwind('flex-1 items-center justify-between')}>
         <Text style={[tailwind('text-white'), { color: textColor }]}>{label}</Text>
       </View>

@@ -5,7 +5,9 @@ import { useTailwind } from 'tailwind-rn';
 
 import { defaultBackgroundColor, white } from '../../../constants/Color';
 import { small } from '../../../constants/FontSize';
+import { defaultImageSize } from '../../../constants/ImageSize';
 import { i18n } from '../../../i18n';
+import { getFitSize } from '../../../services/ResizeService';
 import { timeSince } from '../../../services/TimeService';
 import IconButton from '../IconButton';
 
@@ -24,6 +26,7 @@ export default memo(function NewsfeedListItem({
   const [downloaded, setDownloaded] = useState(feed.downloaded || 0);
   const [userLiked, setUserLiked] = useState(Boolean(feed.user_liked));
   const [createdAt] = useState(timeSince(feed.created_at));
+  const [size] = useState(getFitSize(feed.size, defaultImageSize));
 
   const pressLike = useCallback(() => {
     setUserLiked((liked) => {
@@ -40,7 +43,7 @@ export default memo(function NewsfeedListItem({
   const pressDownload = useCallback(() => {
     setDownloaded((downloaded) => ++downloaded);
     onForkPress(feed);
-  }, [image]);
+  }, [feed]);
 
   const pressViewAuthor = useCallback(() => {}, []);
 
@@ -62,15 +65,11 @@ export default memo(function NewsfeedListItem({
         </Text>
       </View>
       {image ? (
-        <Canvas ref={canvasRef} style={[feed.size]}>
-          <Image x={0} y={0} width={feed.size.width} height={feed.size.height} image={image} />
+        <Canvas ref={canvasRef} style={[size]}>
+          <Image x={0} y={0} width={size.width} height={size.height} image={image} />
         </Canvas>
       ) : (
-        <View
-          style={[
-            tailwind('items-center justify-center'),
-            { width: feed.size.width, height: feed.size.height },
-          ]}>
+        <View style={[tailwind('items-center justify-center'), size]}>
           <ActivityIndicator size="small" />
         </View>
       )}

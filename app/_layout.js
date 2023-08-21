@@ -1,14 +1,13 @@
 import * as Device from 'expo-device';
 import { Slot } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TailwindProvider } from 'tailwind-rn';
 
 import { AppContextProvider } from '../contexts/AppContext';
-import { saveCustomer } from '../services/FirebaseService';
-import { registerForPushNotificationsAsync } from '../services/PushNotificationService';
+import { requestPushNotifications } from '../services/AppService';
 import { checkAndUpdate } from '../services/UpdaterService';
 import utilities from '../tailwind.json';
 
@@ -19,6 +18,8 @@ if (Platform.OS === 'web') {
 }
 
 export default function RootLayout() {
+  const [customerId, setCustomerId] = useState();
+
   useEffect(() => {
     if (Platform.OS === 'web' || !Device.isDevice) {
       return;
@@ -26,13 +27,8 @@ export default function RootLayout() {
 
     const init = async () => {
       checkAndUpdate();
-      const token = await registerForPushNotificationsAsync();
-
-      if (!token) {
-        return;
-      }
-
-      saveCustomer(token);
+      const customerId = await requestPushNotifications();
+      setCustomerId(customerId);
     };
 
     init();
@@ -41,7 +37,7 @@ export default function RootLayout() {
 
   return (
     <TailwindProvider utilities={utilities}>
-      <AppContextProvider>
+      <AppContextProvider appCustomerId={customerId}>
         <GestureHandlerRootView style={styles.container}>
           <Slot />
           <StatusBar style="auto" />

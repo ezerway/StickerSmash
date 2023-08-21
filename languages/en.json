@@ -35,5 +35,9 @@
     "Profile": "Profile",
     "Liked": "Liked %{liked}",
     "Downloaded": "%{downloaded} downloads",
-    "TopScorers": "Top Scorers"
+    "TopScorers": "Top Scorers",
+    "CreatePost": "Create post",
+    "WhatIsOnYourMind": "What's on your mind?",
+    "Public": "Public",
+    "Edit": "Edit"
 }

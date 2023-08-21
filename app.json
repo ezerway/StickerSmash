@@ -35,7 +35,9 @@
         ]
       },
       "entitlements": {
-        "com.apple.security.application-groups": ["group.com.ezerway.StickerSmash"]
+        "com.apple.security.application-groups": [
+          "group.com.ezerway.StickerSmash"
+        ]
       }
     },
     "android": {
@@ -103,7 +105,8 @@
           "folderName": "EzStickerSmashShare",
           "swift": false
         }
-      ]
+      ],
+      "expo-router"
     ]
   }
 }

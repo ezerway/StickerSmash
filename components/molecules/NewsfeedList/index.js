@@ -1,4 +1,5 @@
 import { FlashList } from '@shopify/flash-list';
+import * as FileSystem from 'expo-file-system';
 import { useRouter } from 'expo-router';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { RefreshControl, useWindowDimensions } from 'react-native';
@@ -8,33 +9,45 @@ import { mainFlex } from '../../../constants/Layout';
 import { getFeeds } from '../../../services/FirebaseService';
 import NewsfeedListItem from '../../atomics/NewsfeedListItem';
 
-export default memo(function NewsfeedList() {
+export default memo(function NewsfeedList({ initFeeds = [], customerId = null, isFake = false }) {
   const dim = useWindowDimensions();
   const [feedHeight] = useState(dim.height * mainFlex);
-  const [feeds, setFeeds] = useState([]);
+  const [feeds, setFeeds] = useState(initFeeds);
 
   const [refreshing, setRefreshing] = useState(null);
 
   const onEndReached = useCallback(async () => {
-    const newFeeds = await getFeeds();
+    const newFeeds = await getFeeds(customerId, isFake);
     setFeeds((feeds) => feeds.concat(newFeeds));
-  }, []);
+  }, [customerId, isFake]);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    setFeeds(await getFeeds());
+    setFeeds(await getFeeds(customerId, isFake));
     setRefreshing(false);
-  }, []);
+  }, [customerId]);
 
   useEffect(() => {
     const init = async () => {
       setRefreshing(true);
-      setFeeds(await getFeeds());
+      setFeeds(await getFeeds(customerId, isFake));
       setRefreshing(false);
     };
 
     init();
-  }, []);
+  }, [customerId]);
+
+  useEffect(() => {
+    if (!initFeeds.length) {
+      return;
+    }
+
+    setFeeds((currentFeeds) => {
+      const currentFeedIds = currentFeeds.map((f) => f.feed_id);
+      const newFeeds = initFeeds.filter((feed) => !currentFeedIds.includes(feed.feed_id));
+      return [...newFeeds, ...currentFeeds];
+    });
+  }, [initFeeds]);
 
   const flashListRef = useRef();
 
@@ -51,14 +64,18 @@ export default memo(function NewsfeedList() {
 
   const router = useRouter();
 
-  const pressFork = useCallback(({ feed_id, image_url }) => {
-    router.push({
-      pathname: '/',
-      params: {
-        feed_id,
-        image_url: encodeURIComponent(image_url),
-      },
-    });
+  const pressFork = useCallback(({ image_url }) => {
+    const localImageUri = FileSystem.cacheDirectory + 'temp.png';
+    FileSystem.downloadAsync(image_url, localImageUri)
+      .then(() => {
+        router.push({
+          pathname: '/',
+          params: {
+            localImageUri,
+          },
+        });
+      })
+      .catch((e) => console.log(e));
   }, []);
 
   return (
