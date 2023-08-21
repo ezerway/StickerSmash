@@ -69,7 +69,7 @@ export async function getFeeds(user_id = null, isFake = false) {
   const ref = database().ref('/feeds');
   const snapshot = user_id
     ? await ref.orderByChild('user_id').equalTo(user_id).once('value')
-    : await ref.orderByChild('created_at').once('value');
+    : await ref.orderByChild('is_public').equalTo(1).once('value');
 
   if (!snapshot || !snapshot.val()) {
     return [];
