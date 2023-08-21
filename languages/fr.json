@@ -35,6 +35,9 @@
     "Profile": "Profil",
     "Liked": "Aimé %{liked}",
     "Downloaded": "%{downloaded} téléchargé",
-    "TopScorers": "Meilleurs scores"
+    "TopScorers": "Meilleurs scores",
+    "CreatePost": "Créer un message",
+    "WhatIsOnYourMind": "Quoi de neuf?",
+    "Public": "Public",
+    "Edit": "Modifier"
 }
-  
