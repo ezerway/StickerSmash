@@ -35,5 +35,9 @@
   "Profile": "个人资料",
   "Liked": "喜欢 %{liked}",
   "Downloaded": "%{downloaded} 下载",
-  "TopScorers": "最高分"
+  "TopScorers": "最高分",
+  "CreatePost": "创建帖子",
+  "WhatIsOnYourMind": "你在想什么？",
+  "Public": "公开",
+  "Edit": "编辑"
 }

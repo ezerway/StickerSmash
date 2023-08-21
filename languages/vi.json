@@ -35,5 +35,9 @@
     "Profile": "Cá nhân",
     "Liked": "Đã thích %{liked}",
     "Downloaded": "%{downloaded} đã tải",
-    "TopScorers": "Bảng vàng"
+    "TopScorers": "Bảng vàng",
+    "CreatePost": "Tạo bài",
+    "WhatIsOnYourMind": "Bạn đang nghĩ gì?",
+    "Public": "Công khai",
+    "Edit": "Sửa"
 }
