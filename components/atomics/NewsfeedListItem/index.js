@@ -64,6 +64,11 @@ export default memo(function NewsfeedListItem({
           {createdAt}
         </Text>
       </View>
+      {feed.text ? (
+        <View style={tailwind('w-full justify-start border-black border-t px-2 py-2 bg-white')}>
+          <Text>{feed.text}</Text>
+        </View>
+      ) : null}
       {image ? (
         <Canvas ref={canvasRef} style={[size]}>
           <Image x={0} y={0} width={size.width} height={size.height} image={image} />
