@@ -18,11 +18,16 @@ import TextButton from '../atomics/TextButton';
 
 export default function AddFeedModalMain() {
   const tailwind = useTailwind();
-  const { image_uri, width, height } = useLocalSearchParams();
+  const {
+    image_uri,
+    text = '',
+    width = defaultImageSize.width,
+    height = defaultImageSize.height,
+  } = useLocalSearchParams();
   const { customerId, customerName } = useContext(AppContext);
   const [imageUrl, setImageUrl] = useState(image_uri);
   const [isPublic, setIsPublic] = useState(false);
-  const [text, setText] = useState('');
+  const [textValue, setTextValue] = useState(text);
   const [uploaded, setUploaded] = useState(0);
   const [size, setSize] = useState(getFitSize({ width, height }, defaultImageSize));
 
@@ -126,19 +131,21 @@ export default function AddFeedModalMain() {
           <Checkbox color={activeTextButtonColor} value={isPublic} onValueChange={setIsPublic} />
         </View>
       </View>
-      <TextInput
-        style={tailwind('w-full px-4 py-4')}
-        placeholder={i18n.t('WhatIsOnYourMind')}
-        placeholderTextColor={textButtonColor}
-        color={textButtonColor}
-        cursorColor={activeTextButtonColor}
-        textAlign="left"
-        numberOfLines={4}
-        multiline
-        value={text}
-        onChangeText={setText}
-      />
-      <View style={tailwind('w-full flex-row items-center justify-center')}>
+      <View style={tailwind('w-full flex-row px-4 py-4')}>
+        <TextInput
+          style={tailwind('w-full')}
+          placeholder={i18n.t('WhatIsOnYourMind')}
+          placeholderTextColor={textButtonColor}
+          color={textButtonColor}
+          cursorColor={activeTextButtonColor}
+          textAlign="left"
+          numberOfLines={4}
+          multiline
+          value={textValue}
+          onChangeText={setTextValue}
+        />
+      </View>
+      <View style={tailwind('w-full items-center justify-center')}>
         <Image style={size} source={{ uri: imageUrl }} />
         <View style={[tailwind('absolute top-0 right-0 flex-row items-center px-5 pt-2')]}>
           <IconButton

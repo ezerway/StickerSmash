@@ -16,7 +16,7 @@ export default memo(function BlankPageTemplate({ children }) {
         tailwind('flex-1 items-center'),
         { backgroundColor, paddingTop: Constants.statusBarHeight },
       ]}>
-      <View style={[tailwind('w-full'), { flex: 1 }]}>{children}</View>
+      {children}
       <StatusBar style="auto" />
     </View>
   );

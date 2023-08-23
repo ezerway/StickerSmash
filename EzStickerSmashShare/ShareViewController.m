@@ -35,8 +35,8 @@
         if ([attachment hasItemConformingToTypeIdentifier: (NSString *) kUTTypeImage] != NO) {
             [attachment loadItemForTypeIdentifier:(NSString *) kUTTypeImage options: nil completionHandler:^(__kindof id<NSSecureCoding>  _Nullable data, NSError * _Null_unspecified error) {
                 NSURL *imageUrl = (NSURL *) data;
-                NSString *sharedImageUrl = [self saveImage:imageUrl];
-                [self redirectToHostApp: sharedImageUrl];
+                NSDictionary *sharedImage = [self saveImage:imageUrl];
+                [self redirectToHostApp: sharedImage];
                 [self.extensionContext completeRequestReturningItems:@[] completionHandler:nil];
             }];
         }
@@ -48,7 +48,7 @@
     return @[];
 }
 
-- (NSString *) saveImage: (NSURL *) url {
+- (NSDictionary *) saveImage: (NSURL *) url {
     NSData *imageData = [NSData dataWithContentsOfURL:url];
     UIImage *selectedImage = [UIImage imageWithData:imageData];
 
@@ -58,11 +58,19 @@
     NSString *sharedImageFilePath = [NSString stringWithFormat:@"%@/%@", dirPath, @"image.png"];
     NSData *binaryImageData = UIImagePNGRepresentation(selectedImage);
     [binaryImageData writeToFile:sharedImageFilePath atomically:YES];
-    return sharedImageFilePath;
+  
+    CGFloat width = selectedImage.size.width;
+    CGFloat height = selectedImage.size.height;
+    
+    return @{
+      @"image_uri": sharedImageFilePath,
+      @"width": @(width).stringValue,
+      @"height": @(height).stringValue
+    };
 }
 
-- (void) redirectToHostApp: (NSString *) sharedUrl {
-    NSString *appURL = [NSString stringWithFormat:@"SCHEMA://share?image_uri=%@&text=%@", sharedUrl, self.contentText];
+- (void) redirectToHostApp: (NSDictionary *) sharedImage {
+    NSString *appURL = [NSString stringWithFormat:@"SCHEMA://share?image_uri=%@&width=%@&height=%@&text=%@", sharedImage[@"image_uri"], sharedImage[@"width"], sharedImage[@"height"], self.contentText];
     SEL selectorOpenURL = sel_registerName("openURL:");
     UIResponder *responder = (UIResponder *) self;
     
