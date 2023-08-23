@@ -14,6 +14,7 @@ import IconButton from '../IconButton';
 export default memo(function NewsfeedListItem({
   feed = {},
   textColor = white,
+  isForking = false,
   onLikePress = () => {},
   onForkPress = () => {},
 }) {
@@ -101,12 +102,16 @@ export default memo(function NewsfeedListItem({
           style={tailwind('flex-1')}
           onPress={pressBookmark}
         />
-        <IconButton
-          icon="ios-code-download"
-          iconType="Ionicons"
-          style={tailwind('flex-1')}
-          onPress={pressDownload}
-        />
+        {isForking ? (
+          <ActivityIndicator size="small" />
+        ) : (
+          <IconButton
+            icon="ios-code-download"
+            iconType="Ionicons"
+            style={tailwind('flex-1')}
+            onPress={pressDownload}
+          />
+        )}
       </View>
     </View>
   );
