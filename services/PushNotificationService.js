@@ -1,3 +1,4 @@
+import { isDevice } from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
@@ -21,9 +22,9 @@ export async function registerForPushNotificationsAsync() {
     return;
   }
 
-  const token = __DEV__
-    ? 'test_expo_push_token'
-    : (await Notifications.getExpoPushTokenAsync()).data;
+  const token = isDevice
+    ? (await Notifications.getExpoPushTokenAsync()).data
+    : 'test_expo_push_token';
 
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {

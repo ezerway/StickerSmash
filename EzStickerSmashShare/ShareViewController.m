@@ -62,7 +62,7 @@
 }
 
 - (void) redirectToHostApp: (NSString *) sharedUrl {
-    NSString *appURL = [NSString stringWithFormat:@"SCHEMA://share?url=%@", sharedUrl];
+    NSString *appURL = [NSString stringWithFormat:@"SCHEMA://share?image_uri=%@&text=%@", sharedUrl, self.contentText];
     SEL selectorOpenURL = sel_registerName("openURL:");
     UIResponder *responder = (UIResponder *) self;
     

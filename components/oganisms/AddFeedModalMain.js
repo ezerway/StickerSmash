@@ -94,32 +94,30 @@ export default function AddFeedModalMain() {
           />
         </View>
       )}
-      <View
-        style={tailwind(
-          'w-full flex-row items-center justify-center border-b border-t text-white py-2'
-        )}>
-        <View style={[tailwind('flex-none flex-row items-center justify-around w-1/6')]}>
+      <View style={tailwind('w-full flex-row text-white px-4 py-2')}>
+        <View style={[tailwind('flex-none flex-row w-1/6')]}>
           <IconButton
             onPress={clickCancel}
             icon="x"
             iconType="Feather"
-            style={[tailwind('flex-none')]}
+            style={[tailwind('flex-none justify-start')]}
           />
         </View>
         <View style={[tailwind('flex-1 items-center justify-between')]}>
           <Text style={{ color: textButtonColor }}>{i18n.t('CreatePost')}</Text>
         </View>
 
-        <View style={[tailwind('flex-none flex-row items-center justify-around w-1/6')]}>
+        <View style={[tailwind('flex-none flex-row w-1/6')]}>
           <TextButton
             label={i18n.t('Share')}
             color={activeTextButtonColor}
-            style={[tailwind('flex-none')]}
+            style={[tailwind('flex-none justify-end')]}
+            textStyle={[tailwind('items-end')]}
             onPress={clickShare}
           />
         </View>
       </View>
-      <View style={tailwind('w-full flex-row px-4 pt-2')}>
+      <View style={tailwind('w-full flex-row border-t px-4 pt-2')}>
         <View style={[tailwind('flex-1 flex-row items-center justify-start')]}>
           <IconButton icon="public" style={tailwind('mr-1')} />
           <Text style={{ color: textButtonColor }}>{i18n.t('Public')}</Text>
@@ -129,7 +127,7 @@ export default function AddFeedModalMain() {
         </View>
       </View>
       <TextInput
-        style={tailwind('w-full px-4')}
+        style={tailwind('w-full px-4 py-4')}
         placeholder={i18n.t('WhatIsOnYourMind')}
         placeholderTextColor={textButtonColor}
         color={textButtonColor}

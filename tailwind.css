@@ -145,6 +145,10 @@
   flex-direction: column
 }
 
+.items-start {
+  align-items: flex-start
+}
+
 .items-end {
   align-items: flex-end
 }
@@ -265,6 +269,11 @@
 .py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem
+}
+
+.py-4 {
+  padding-top: 1rem;
+  padding-bottom: 1rem
 }
 
 .pb-2 {
