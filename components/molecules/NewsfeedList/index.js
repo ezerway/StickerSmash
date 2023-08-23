@@ -13,7 +13,6 @@ export default memo(function NewsfeedList({ initFeeds = [], customerId = null, i
   const dim = useWindowDimensions();
   const [feedHeight] = useState(dim.height * mainFlex);
   const [feeds, setFeeds] = useState(initFeeds);
-  const [isForking, setIsForking] = useState(false);
 
   const [refreshing, setRefreshing] = useState(null);
 
@@ -66,11 +65,9 @@ export default memo(function NewsfeedList({ initFeeds = [], customerId = null, i
   const router = useRouter();
 
   const pressFork = useCallback(({ image_url }) => {
-    setIsForking(true);
     const localImageUri = FileSystem.cacheDirectory + 'temp.png';
     FileSystem.downloadAsync(image_url, localImageUri)
       .then(() => {
-        setIsForking(false);
         router.push({
           pathname: '/',
           params: {
@@ -86,7 +83,7 @@ export default memo(function NewsfeedList({ initFeeds = [], customerId = null, i
       ref={flashListRef}
       data={feeds}
       renderItem={({ item }) => {
-        return <NewsfeedListItem isForking={isForking} onForkPress={pressFork} feed={item} />;
+        return <NewsfeedListItem onForkPress={pressFork} feed={item} />;
       }}
       estimatedItemSize={feedHeight}
       onEndReachedThreshold={5}

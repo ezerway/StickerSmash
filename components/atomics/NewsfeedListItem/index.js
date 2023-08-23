@@ -14,7 +14,6 @@ import IconButton from '../IconButton';
 export default memo(function NewsfeedListItem({
   feed = {},
   textColor = white,
-  isForking = false,
   onLikePress = () => {},
   onForkPress = () => {},
 }) {
@@ -28,6 +27,7 @@ export default memo(function NewsfeedListItem({
   const [userLiked, setUserLiked] = useState(Boolean(feed.user_liked));
   const [createdAt] = useState(timeSince(feed.created_at));
   const [size] = useState(getFitSize(feed.size, defaultImageSize));
+  const [isForking, setIsForking] = useState(false);
 
   const pressLike = useCallback(() => {
     setUserLiked((liked) => {
@@ -42,6 +42,7 @@ export default memo(function NewsfeedListItem({
   }, []);
 
   const pressDownload = useCallback(() => {
+    setIsForking(true);
     setDownloaded((downloaded) => ++downloaded);
     onForkPress(feed);
   }, [feed]);
@@ -103,7 +104,9 @@ export default memo(function NewsfeedListItem({
           onPress={pressBookmark}
         />
         {isForking ? (
-          <ActivityIndicator size="small" />
+          <View style={tailwind('flex-1')}>
+            <ActivityIndicator size="small" />
+          </View>
         ) : (
           <IconButton
             icon="ios-code-download"
