@@ -27,7 +27,7 @@
       "appStoreUrl": "https://apps.apple.com/us/app/ez-sticker-smash/id6447040753",
       "googleServicesFile": "./GoogleService-Info.plist",
       "bundleIdentifier": "com.ezerway.StickerSmash",
-      "buildNumber": "28",
+      "buildNumber": "29",
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
         "LSApplicationQueriesSchemes": [

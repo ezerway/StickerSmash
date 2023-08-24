@@ -1,6 +1,7 @@
 import * as Device from 'expo-device';
-import { Slot } from 'expo-router';
+import { Slot, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { addChangeListener as addEzExpoShareChangeListener } from 'ez-expo-share';
 import { useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -19,6 +20,7 @@ if (Platform.OS === 'web') {
 
 export default function RootLayout() {
   const [customerId, setCustomerId] = useState();
+  const router = useRouter();
 
   useEffect(() => {
     if (Platform.OS === 'web' || !Device.isDevice) {
@@ -34,6 +36,21 @@ export default function RootLayout() {
     init();
     return () => {};
   }, []);
+
+  useEffect(() => {
+    const listener = addEzExpoShareChangeListener(({ image_uri }) => {
+      router.replace({
+        pathname: '/add-feed-modal',
+        params: {
+          image_uri,
+        },
+      });
+    });
+
+    return () => {
+      listener.remove();
+    };
+  });
 
   return (
     <TailwindProvider utilities={utilities}>
