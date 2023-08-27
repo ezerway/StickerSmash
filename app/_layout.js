@@ -1,7 +1,7 @@
 import * as Device from 'expo-device';
 import { Slot, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { addChangeListener as addEzExpoShareChangeListener } from 'ez-expo-share';
+import { addChangeListener as addEzExpoShareChangeListener, getSendImageAsync } from 'ez-expo-share';
 import { useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -47,10 +47,14 @@ export default function RootLayout() {
       });
     });
 
+    getSendImageAsync().then((result) => {
+      console.log(result);
+    });
+
     return () => {
       listener.remove();
     };
-  });
+  }, []);
 
   return (
     <TailwindProvider utilities={utilities}>
