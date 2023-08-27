@@ -48,7 +48,10 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.ezerway.StickerSmash",
-      "versionCode": 33
+      "versionCode": 33,
+      "permissions": [
+        "READ_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
