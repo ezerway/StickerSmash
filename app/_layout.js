@@ -47,7 +47,7 @@ export default function RootLayout() {
       });
     });
 
-    getSendImageAsync().then((result) => {
+    getSendImageAsync((result) => {
       console.log(result);
     });
 
