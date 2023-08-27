@@ -50,7 +50,8 @@
       "package": "com.ezerway.StickerSmash",
       "versionCode": 33,
       "permissions": [
-        "READ_EXTERNAL_STORAGE"
+        "READ_EXTERNAL_STORAGE",
+        "MANAGE_DOCUMENTS"
       ]
     },
     "web": {
