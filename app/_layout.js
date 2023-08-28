@@ -47,10 +47,6 @@ export default function RootLayout() {
       });
     });
 
-    getSendImageAsync((result) => {
-      console.log(result);
-    });
-
     return () => {
       listener.remove();
     };
