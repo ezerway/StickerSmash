@@ -35,5 +35,10 @@
   "Profile": "Profil",
   "Liked": "Geliked %{liked}",
   "Downloaded": "%{downloaded} heruntergeladen",
-  "TopScorers": "Topscorer"
+  "TopScorers": "Topscorer",
+  "CreatePost": "Beitrag erstellen",
+  "WhatIsOnYourMind": "Was ist dir auf dem Herzen?",
+  "Public": "Öffentlich",
+  "Edit": "Bearbeiten",
+  "Access": "Zugang"
 }

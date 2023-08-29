@@ -19,6 +19,7 @@ export default memo(function IconButton({
   backgroundColor = iconButtonBackground,
   borderColor = iconButtonBackground,
   style = {},
+  textStyle = {},
   onPress,
 }) {
   const tailwind = useTailwind();
@@ -35,7 +36,7 @@ export default memo(function IconButton({
       <>
         <Icon name={icon} size={size} color={color} />
         {label ? (
-          <Text style={[tailwind('items-center justify-center'), { color, fontSize }]}>
+          <Text style={[tailwind('items-center justify-center'), { color, fontSize }, textStyle]}>
             {label}
           </Text>
         ) : null}

@@ -1,14 +1,15 @@
 import { useContext } from 'react';
 
 import HomeHeader from '../components/oganisms/HomeHeader';
-import NewsfeedMain from '../components/oganisms/NewsfeedMain';
+import ProfileMain from '../components/oganisms/ProfileMain';
 import GuestNewsFeedList from '../components/templates/GuestNewsFeedList';
+import GuestProfileBar from '../components/templates/GuestProfileBar';
 import NoFooterPageTemplate from '../components/templates/NoFooterPageTemplate';
 import { AppContext } from '../contexts/AppContext';
 import { HomePageContextProvider } from '../contexts/HomePageContext';
 import { requestPushNotifications } from '../services/AppService';
 
-export default function Newsfeed() {
+export default function Profile() {
   const { customerId, setCustomerId } = useContext(AppContext);
 
   if (!customerId) {
@@ -20,6 +21,7 @@ export default function Newsfeed() {
       <HomePageContextProvider>
         <NoFooterPageTemplate header={<HomeHeader />}>
           <GuestNewsFeedList />
+          <GuestProfileBar />
         </NoFooterPageTemplate>
       </HomePageContextProvider>
     );
@@ -28,7 +30,7 @@ export default function Newsfeed() {
   return (
     <HomePageContextProvider>
       <NoFooterPageTemplate header={<HomeHeader />}>
-        <NewsfeedMain />
+        <ProfileMain />
       </NoFooterPageTemplate>
     </HomePageContextProvider>
   );
