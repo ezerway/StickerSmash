@@ -205,11 +205,6 @@
 			"flexDirection": "column"
 		}
 	},
-	"items-start": {
-		"style": {
-			"alignItems": "flex-start"
-		}
-	},
 	"items-end": {
 		"style": {
 			"alignItems": "flex-end"

@@ -41,6 +41,7 @@ export default function AddFeedModalMain() {
   }, []);
 
   const clickShare = useCallback(async () => {
+    setUploaded(1);
     const physicalFileParts = imageUrl.split('/');
     const physicalFileName = physicalFileParts[physicalFileParts.length - 1];
     const cloudFilePath = `users/${customerId}/${physicalFileName}`;
@@ -58,7 +59,7 @@ export default function AddFeedModalMain() {
         author: customerName,
         size: { width, height },
         image_url: await reference.getDownloadURL(),
-        text,
+        text: textValue,
         created_at: moment().toISOString(),
       };
       addFeed(newFeed, isPublic);
@@ -88,7 +89,7 @@ export default function AddFeedModalMain() {
   }, []);
 
   return (
-    <View style={tailwind('flex items-center')}>
+    <View style={tailwind('flex w-full items-center')}>
       {uploaded >= 100 ? null : (
         <View style={tailwind('w-full')}>
           <View

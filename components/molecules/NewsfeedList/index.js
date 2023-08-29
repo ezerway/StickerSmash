@@ -1,11 +1,11 @@
 import { FlashList } from '@shopify/flash-list';
-import * as FileSystem from 'expo-file-system';
 import { useRouter } from 'expo-router';
 import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { RefreshControl, useWindowDimensions } from 'react-native';
 import useBus from 'use-bus';
 
 import { mainFlex } from '../../../constants/Layout';
+import { saveImageUriToCache } from '../../../services/FileService';
 import { getFeeds } from '../../../services/FirebaseService';
 import NewsfeedListItem from '../../atomics/NewsfeedListItem';
 
@@ -64,18 +64,14 @@ export default memo(function NewsfeedList({ initFeeds = [], customerId = null, i
 
   const router = useRouter();
 
-  const pressFork = useCallback(({ image_url }) => {
-    const localImageUri = FileSystem.cacheDirectory + 'temp.png';
-    FileSystem.downloadAsync(image_url, localImageUri)
-      .then(() => {
-        router.push({
-          pathname: '/',
-          params: {
-            localImageUri,
-          },
-        });
-      })
-      .catch((e) => console.log(e));
+  const pressFork = useCallback(async ({ image_url }) => {
+    const localImageUri = await saveImageUriToCache(image_url);
+    router.push({
+      pathname: '/',
+      params: {
+        localImageUri,
+      },
+    });
   }, []);
 
   return (
