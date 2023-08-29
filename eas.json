@@ -28,6 +28,14 @@
         "resourceClass": "m-medium"
       }
     },
+    "beta": {
+      "distribution": "store",
+      "autoIncrement": true,
+      "channel": "beta",
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    },
     "production": {
       "autoIncrement": true,
       "channel": "production",
@@ -52,6 +60,12 @@
       "android": {
         "serviceAccountKeyPath": "./pc-api-7429549178999695983-644-fd25ade55dd8.json",
         "track": "internal"
+      }
+    },
+    "beta": {
+      "android": {
+        "serviceAccountKeyPath": "./pc-api-7429549178999695983-644-fd25ade55dd8.json",
+        "track": "beta"
       }
     }
   }
