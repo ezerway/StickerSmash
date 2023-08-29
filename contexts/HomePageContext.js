@@ -1,4 +1,5 @@
 import { Skia } from '@shopify/react-native-skia';
+import * as FileSystem from 'expo-file-system';
 import { useLocalSearchParams } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { useCallback, useRef, useState, createContext, useContext, useEffect } from 'react';
@@ -88,12 +89,18 @@ export const HomePageContextProvider = ({ children }) => {
   }, [mediaStatus]);
 
   useEffect(() => {
-    if (params.image_url) {
-      Skia.Data.fromURI(decodeURIComponent(params.image_url)).then((encoded) => {
-        const image = Skia.Image.MakeImageFromEncoded(encoded);
-        defaultImage = image;
-        setSelectedImage(image);
-      });
+    if (params.localImageUri) {
+      FileSystem.readAsStringAsync(params.localImageUri, {
+        encoding: 'base64',
+      })
+        .then((base64) => {
+          const encoded = Skia.Data.fromBase64(base64);
+          const image = Skia.Image.MakeImageFromEncoded(encoded);
+          defaultImage = image;
+          setSelectedImage(image);
+        })
+        .catch((e) => console.log(e));
+
       return;
     }
 
@@ -102,7 +109,7 @@ export const HomePageContextProvider = ({ children }) => {
       defaultImage = image;
       setSelectedImage(image);
     });
-  }, [PlaceholderImage]);
+  }, [PlaceholderImage, params.localImageUri]);
 
   return (
     <HomePageContext.Provider

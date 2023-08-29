@@ -5,7 +5,9 @@ import { useTailwind } from 'tailwind-rn';
 
 import { defaultBackgroundColor, white } from '../../../constants/Color';
 import { small } from '../../../constants/FontSize';
+import { defaultImageSize } from '../../../constants/ImageSize';
 import { i18n } from '../../../i18n';
+import { getFitSize } from '../../../services/ResizeService';
 import { timeSince } from '../../../services/TimeService';
 import IconButton from '../IconButton';
 
@@ -24,6 +26,8 @@ export default memo(function NewsfeedListItem({
   const [downloaded, setDownloaded] = useState(feed.downloaded || 0);
   const [userLiked, setUserLiked] = useState(Boolean(feed.user_liked));
   const [createdAt] = useState(timeSince(feed.created_at));
+  const [size] = useState(getFitSize(feed.size, defaultImageSize));
+  const [isForking, setIsForking] = useState(false);
 
   const pressLike = useCallback(() => {
     setUserLiked((liked) => {
@@ -38,9 +42,10 @@ export default memo(function NewsfeedListItem({
   }, []);
 
   const pressDownload = useCallback(() => {
+    setIsForking(true);
     setDownloaded((downloaded) => ++downloaded);
     onForkPress(feed);
-  }, [image]);
+  }, [feed]);
 
   const pressViewAuthor = useCallback(() => {}, []);
 
@@ -61,16 +66,17 @@ export default memo(function NewsfeedListItem({
           {createdAt}
         </Text>
       </View>
+      {feed.text ? (
+        <View style={tailwind('w-full justify-start border-black border-t px-2 py-2 bg-white')}>
+          <Text>{feed.text}</Text>
+        </View>
+      ) : null}
       {image ? (
-        <Canvas ref={canvasRef} style={[feed.size]}>
-          <Image x={0} y={0} width={feed.size.width} height={feed.size.height} image={image} />
+        <Canvas ref={canvasRef} style={[size]}>
+          <Image x={0} y={0} width={size.width} height={size.height} image={image} />
         </Canvas>
       ) : (
-        <View
-          style={[
-            tailwind('items-center justify-center'),
-            { width: feed.size.width, height: feed.size.height },
-          ]}>
+        <View style={[tailwind('items-center justify-center'), size]}>
           <ActivityIndicator size="small" />
         </View>
       )}
@@ -97,12 +103,18 @@ export default memo(function NewsfeedListItem({
           style={tailwind('flex-1')}
           onPress={pressBookmark}
         />
-        <IconButton
-          icon="ios-code-download"
-          iconType="Ionicons"
-          style={tailwind('flex-1')}
-          onPress={pressDownload}
-        />
+        {isForking ? (
+          <View style={tailwind('flex-1')}>
+            <ActivityIndicator size="small" />
+          </View>
+        ) : (
+          <IconButton
+            icon="ios-code-download"
+            iconType="Ionicons"
+            style={tailwind('flex-1')}
+            onPress={pressDownload}
+          />
+        )}
       </View>
     </View>
   );

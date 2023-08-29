@@ -35,5 +35,10 @@
   "Profile": "프로필",
   "Liked": "좋아요 %{liked}",
   "Downloaded": "%{downloaded} 다운로드",
-  "TopScorers": "최고점수"
+  "TopScorers": "최고점수",
+  "CreatePost": "새 글 만들기",
+  "WhatIsOnYourMind": "무슨 생각해?",
+  "Public": "공개",
+  "Edit": "편집",
+  "Access": "접근"
 }

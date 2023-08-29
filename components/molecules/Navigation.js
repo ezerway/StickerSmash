@@ -1,9 +1,8 @@
-import { Link, usePathname } from 'expo-router';
+import { usePathname } from 'expo-router';
 import { memo, useCallback } from 'react';
 import { dispatch } from 'use-bus';
 
-import { i18n } from '../../i18n';
-import IconButton from '../atomics/IconButton';
+import NavigationItem from '../atomics/NavigationItem';
 
 export default memo(function Navigation() {
   const pathname = usePathname();
@@ -21,25 +20,20 @@ export default memo(function Navigation() {
 
   return (
     <>
-      <Link href="/top-scorers" onPress={pressLink('/top-scorers')} asChild>
-        <IconButton icon="trophy" iconType="Ionicons" label={i18n.t('TopScorers')} />
-      </Link>
+      <NavigationItem
+        href="/top-scorers"
+        label="TopScorers"
+        icon="trophy"
+        iconType="Ionicons"
+        onPress={pressLink}
+      />
       {isHome ? (
-        <Link href="/bookmarks" onPress={pressLink('/bookmarks')} asChild>
-          <IconButton icon="bookmarks" label={i18n.t('Bookmarks')} />
-        </Link>
+        <NavigationItem href="/bookmarks" label="Bookmarks" icon="bookmarks" onPress={pressLink} />
       ) : null}
-      <Link href="/newsfeed" onPress={pressLink('/newsfeed')} asChild>
-        <IconButton icon="dynamic-feed" label={i18n.t('Newsfeed')} />
-      </Link>
-      <Link href="/profile" onPress={pressLink('/profile')} asChild>
-        <IconButton icon="person-pin" label={i18n.t('Profile')} />
-      </Link>
-      {isHome ? null : (
-        <Link href="/" onPress={pressLink('/')} asChild>
-          <IconButton icon="home" label={i18n.t('Home')} />
-        </Link>
-      )}
+      <NavigationItem href="/newsfeed" label="Newsfeed" icon="dynamic-feed" onPress={pressLink} />
+      <NavigationItem href="/profile" label="Profile" icon="person-pin" onPress={pressLink} />
+
+      {isHome ? null : <NavigationItem href="/" label="Home" icon="home" onPress={pressLink} />}
     </>
   );
 });
