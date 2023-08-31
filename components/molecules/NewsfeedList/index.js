@@ -5,8 +5,15 @@ import { RefreshControl, useWindowDimensions } from 'react-native';
 import useBus from 'use-bus';
 
 import { mainFlex } from '../../../constants/Layout';
+import {
+  bookmarkFeed,
+  forkFeed,
+  getFeeds,
+  likeFeed,
+  unbookmarkFeed,
+  unlikeFeed,
+} from '../../../services/FeedService';
 import { saveImageUriToCache } from '../../../services/FileService';
-import { getFeeds } from '../../../services/FirebaseService';
 import NewsfeedListItem from '../../atomics/NewsfeedListItem';
 
 export default memo(function NewsfeedList({ initFeeds = [], customerId = null, isFake = false }) {
@@ -64,22 +71,47 @@ export default memo(function NewsfeedList({ initFeeds = [], customerId = null, i
 
   const router = useRouter();
 
-  const pressFork = useCallback(async ({ image_url }) => {
-    const localImageUri = await saveImageUriToCache(image_url);
-    router.push({
-      pathname: '/',
-      params: {
-        localImageUri,
+  const pressFork = useCallback(
+    (feed) =>
+      async ({ image_url }) => {
+        forkFeed(customerId, feed);
+        const localImageUri = await saveImageUriToCache(image_url);
+        router.push({
+          pathname: '/',
+          params: {
+            localImageUri,
+          },
+        });
       },
-    });
-  }, []);
+    []
+  );
+
+  const pressLike = useCallback(
+    (feed) => (liked) => liked ? likeFeed(customerId, feed) : unlikeFeed(customerId, feed),
+    []
+  );
+  const pressBookmark = useCallback(
+    (feed) => (bookmarked) =>
+      bookmarked ? bookmarkFeed(customerId, feed) : unbookmarkFeed(customerId, feed),
+    []
+  );
 
   return (
     <FlashList
       ref={flashListRef}
       data={feeds}
       renderItem={({ item }) => {
-        return <NewsfeedListItem onForkPress={pressFork} feed={item} />;
+        return (
+          <NewsfeedListItem
+            onPressLike={pressLike(item)}
+            onPressBookmark={pressBookmark(item)}
+            onForkPress={pressFork(item)}
+            isLiked={item.liked?.includes(customerId)}
+            isBookmarked={item.bookmarked?.includes(customerId)}
+            isForked={item.forked?.includes(customerId)}
+            feed={item}
+          />
+        );
       }}
       estimatedItemSize={feedHeight}
       onEndReachedThreshold={5}

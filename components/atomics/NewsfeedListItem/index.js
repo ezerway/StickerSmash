@@ -15,36 +15,46 @@ export default memo(function NewsfeedListItem({
   feed = {},
   textColor = white,
   onLikePress = () => {},
+  onPressBookmark = () => {},
   onForkPress = () => {},
+  isLiked = false,
+  isBookmarked = false,
+  isForked = false,
 }) {
   const tailwind = useTailwind();
   const canvasRef = useCanvasRef();
   const image = useImage(feed.image_url);
 
-  const [liked, setLiked] = useState(feed.liked || 0);
-  const [bookmarked, setBookmarked] = useState(Boolean(feed.bookmarked));
-  const [downloaded, setDownloaded] = useState(feed.downloaded || 0);
-  const [userLiked, setUserLiked] = useState(Boolean(feed.user_liked));
+  const [liked, setLiked] = useState(isLiked);
+  const [bookmarked, setBookmarked] = useState(isBookmarked);
+  const [forked, setForked] = useState(isForked);
   const [createdAt] = useState(timeSince(feed.created_at));
   const [size] = useState(getFitSize(feed.size, defaultImageSize));
   const [isForking, setIsForking] = useState(false);
 
   const pressLike = useCallback(() => {
-    setUserLiked((liked) => {
+    setLiked((liked) => {
       const newVal = !liked;
-      setLiked((count) => count + (newVal ? 1 : -1));
+      onLikePress(liked);
       return newVal;
     });
   }, []);
 
   const pressBookmark = useCallback(() => {
-    setBookmarked((bookmarked) => !bookmarked);
+    setBookmarked((bookmarked) => {
+      const newVal = !bookmarked;
+      onPressBookmark(bookmarked);
+      return newVal;
+    });
   }, []);
 
   const pressDownload = useCallback(() => {
     setIsForking(true);
-    setDownloaded((downloaded) => ++downloaded);
-    onForkPress(feed);
+    setForked((forked) => {
+      const newVal = !forked;
+      onForkPress(newVal);
+      return newVal;
+    });
   }, [feed]);
 
   const pressViewAuthor = useCallback(() => {}, []);
@@ -85,15 +95,15 @@ export default memo(function NewsfeedListItem({
           'w-full flex-row items-center justify-between border-b mt-1 py-2 border-white text-white'
         )}>
         <Text style={[tailwind('text-white'), { color: textColor }]}>
-          {i18n.t('Liked', { liked })}
+          {i18n.t('Liked', { liked: (feed.liked || []).length })}
         </Text>
         <Text style={[tailwind('text-white'), { color: textColor }]}>
-          {i18n.t('Downloaded', { downloaded })}
+          {i18n.t('Downloaded', { downloaded: (feed.forked || []).length })}
         </Text>
       </View>
       <View style={tailwind('flex-row items-center justify-around mt-1 py-2')}>
         <IconButton
-          icon={userLiked ? 'like1' : 'like2'}
+          icon={liked ? 'like1' : 'like2'}
           iconType="AntDesign"
           style={tailwind('flex-1')}
           onPress={pressLike}

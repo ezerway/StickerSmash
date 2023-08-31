@@ -20,7 +20,7 @@ if (Platform.OS === 'web') {
 }
 
 export default function RootLayout() {
-  const [customerId, setCustomerId] = useState();
+  const [customer, setCustomer] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -30,8 +30,8 @@ export default function RootLayout() {
 
     const init = async () => {
       checkAndUpdate();
-      const customerId = await requestPushNotifications();
-      setCustomerId(customerId);
+      const customer = await requestPushNotifications();
+      setCustomer(customer);
     };
 
     init();
@@ -62,7 +62,7 @@ export default function RootLayout() {
 
   return (
     <TailwindProvider utilities={utilities}>
-      <AppContextProvider appCustomerId={customerId}>
+      <AppContextProvider appCustomer={customer}>
         <GestureHandlerRootView style={styles.container}>
           <Slot />
           <StatusBar style="auto" />

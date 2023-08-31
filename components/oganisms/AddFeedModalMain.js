@@ -55,14 +55,12 @@ export default function AddFeedModalMain() {
       setUploaded(0);
 
       const newFeed = {
-        user_id: customerId,
         author: customerName,
         size: { width, height },
         image_url: await reference.getDownloadURL(),
         text: textValue,
-        created_at: moment().toISOString(),
       };
-      addFeed(newFeed, isPublic);
+      addFeed(customerId, isPublic, newFeed);
 
       if (router.canGoBack()) {
         router.back();
@@ -71,7 +69,7 @@ export default function AddFeedModalMain() {
 
       router.replace('/profile');
     });
-  }, [imageUrl, text, isPublic]);
+  }, [customerName, width, height, textValue, customerId, isPublic]);
 
   const pickImage = useCallback(async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
