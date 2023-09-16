@@ -1,3 +1,4 @@
+import * as Device from 'expo-device';
 import { memo } from 'react';
 import { Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
@@ -27,6 +28,7 @@ export default memo(function WideButton({
 }) {
   const tailwind = useTailwind();
   const displayBadge = Math.min(badge, 999);
+  const isTablet = Device.deviceType === Device.DeviceType.TABLET;
   return (
     <View style={[tailwind('mx-4 items-center justify-center'), { width, height }, style]}>
       {icon ? (
@@ -61,8 +63,9 @@ export default memo(function WideButton({
         <View
           style={[
             tailwind(
-              'absolute flex items-center justify-center w-8 h-8 bg-red-500 border-2 rounded-full -top-2 -right-2 dark:border-gray-900'
+              'absolute flex items-center justify-center w-8 h-8 bg-red-500 border-2 rounded-full -top-2 dark:border-gray-900'
             ),
+            isTablet ? tailwind('right-14') : tailwind('-right-2'),
             { borderColor: backgroundColor },
           ]}>
           <Text style={[tailwind('text-xs font-bold'), { color }]}>{displayBadge}</Text>
