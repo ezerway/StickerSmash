@@ -11,13 +11,13 @@ import { i18n } from '../i18n';
 import { requestPushNotifications } from '../services/AppService';
 
 export default function AddFeedModal() {
-  const { customerId, setCustomerId } = useContext(AppContext);
+  const { customer, setCustomer } = useContext(AppContext);
   const tailwind = useTailwind();
 
-  if (!customerId) {
+  if (!customer) {
     const requestPushNotify = () => {
-      requestPushNotifications().then((newCustomerId) => {
-        setCustomerId(newCustomerId);
+      requestPushNotifications().then((newCustomer) => {
+        setCustomer(newCustomer);
       });
     };
 

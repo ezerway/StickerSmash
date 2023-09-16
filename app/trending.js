@@ -1,14 +1,14 @@
 import { useContext } from 'react';
 
 import HomeHeader from '../components/oganisms/HomeHeader';
-import NewsfeedMain from '../components/oganisms/NewsfeedMain';
-import GuestNewsFeedList from '../components/templates/GuestNewsFeedList';
+import TrendingMain from '../components/oganisms/TrendingMain';
+import GuestTrendingList from '../components/templates/GuestTrendingList';
 import NoFooterPageTemplate from '../components/templates/NoFooterPageTemplate';
 import { AppContext } from '../contexts/AppContext';
 import { HomePageContextProvider } from '../contexts/HomePageContext';
 import { requestPushNotifications } from '../services/AppService';
 
-export default function Newsfeed() {
+export default function Trending() {
   const { customer, setCustomer } = useContext(AppContext);
 
   if (!customer) {
@@ -19,7 +19,7 @@ export default function Newsfeed() {
     return (
       <HomePageContextProvider>
         <NoFooterPageTemplate header={<HomeHeader />}>
-          <GuestNewsFeedList />
+          <GuestTrendingList />
         </NoFooterPageTemplate>
       </HomePageContextProvider>
     );
@@ -28,7 +28,7 @@ export default function Newsfeed() {
   return (
     <HomePageContextProvider>
       <NoFooterPageTemplate header={<HomeHeader />}>
-        <NewsfeedMain />
+        <TrendingMain />
       </NoFooterPageTemplate>
     </HomePageContextProvider>
   );

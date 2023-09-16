@@ -20,16 +20,11 @@ export default memo(function Navigation() {
 
   return (
     <>
-      <NavigationItem
-        href="/top-scorers"
-        label="TopScorers"
-        icon="trophy"
-        iconType="Ionicons"
-        onPress={pressLink}
-      />
       {isHome ? (
-        <NavigationItem href="/bookmarks" label="Bookmarks" icon="bookmarks" onPress={pressLink} />
+        <NavigationItem href="/trending" label="Trending" icon="trending-up" onPress={pressLink} />
       ) : null}
+      <NavigationItem href="/bookmark" label="Bookmark" icon="bookmarks" onPress={pressLink} />
+
       <NavigationItem href="/newsfeed" label="Newsfeed" icon="dynamic-feed" onPress={pressLink} />
       <NavigationItem href="/profile" label="Profile" icon="person-pin" onPress={pressLink} />
 
