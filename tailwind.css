@@ -46,6 +46,54 @@
   top: 0px
 }
 
+.right-2 {
+  right: 0.5rem
+}
+
+.right-5 {
+  right: 1.25rem
+}
+
+.top-2 {
+  top: 0.5rem
+}
+
+.-right-5 {
+  right: -1.25rem
+}
+
+.-right-1 {
+  right: -0.25rem
+}
+
+.-left-5 {
+  left: -1.25rem
+}
+
+.-left-8 {
+  left: -2rem
+}
+
+.left-8 {
+  left: 2rem
+}
+
+.right-4 {
+  right: 1rem
+}
+
+.right-9 {
+  right: 2.25rem
+}
+
+.right-12 {
+  right: 3rem
+}
+
+.right-14 {
+  right: 3.5rem
+}
+
 .m-1 {
   margin: 0.25rem
 }
@@ -58,11 +106,6 @@
 .mx-4 {
   margin-left: 1rem;
   margin-right: 1rem
-}
-
-.mx-auto {
-  margin-left: auto;
-  margin-right: auto
 }
 
 .my-1 {
@@ -147,6 +190,10 @@
   width: 6rem
 }
 
+.w-4\/5 {
+  width: 80%
+}
+
 .w-5\/12 {
   width: 41.666667%
 }
@@ -157,14 +204,6 @@
 
 .w-full {
   width: 100%
-}
-
-.w-4\/5 {
-  width: 80%
-}
-
-.max-w-md {
-  max-width: 28rem
 }
 
 .flex-1 {
@@ -213,10 +252,6 @@
 
 .self-center {
   align-self: center
-}
-
-.overflow-hidden {
-  overflow: hidden
 }
 
 .rounded-full {

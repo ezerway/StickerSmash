@@ -51,10 +51,10 @@ export default memo(function ProfileBar({
           badge={liked}
         />
         <WideButton
-          icon="ios-code-download"
+          icon="code-fork"
+          iconType="FontAwesome"
           width={size}
           height={size}
-          iconType="Ionicons"
           style={tailwind('flex-1')}
           badge={downloaded}
         />
