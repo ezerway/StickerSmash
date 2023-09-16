@@ -1,5 +1,6 @@
+import { Image } from 'expo-image';
 import { memo, useCallback, useState } from 'react';
-import { ActivityIndicator, ImageBackground, Pressable } from 'react-native';
+import { ActivityIndicator, Pressable } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 export default memo(function EmojiListItem({
@@ -20,13 +21,13 @@ export default memo(function EmojiListItem({
 
   return (
     <Pressable style={tailwind('mx-2')} onPress={onPress}>
-      <ImageBackground
+      <Image
         source={item}
         style={[tailwind('items-center justify-center'), { width, height }]}
         onLoadStart={onLoadStart}
         onLoadEnd={onLoadEnd}>
         {isLoading ? <ActivityIndicator size="small" /> : null}
-      </ImageBackground>
+      </Image>
     </Pressable>
   );
 });

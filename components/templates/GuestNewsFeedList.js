@@ -3,7 +3,7 @@ import { memo, useEffect, useRef, useState } from 'react';
 import { RefreshControl, useWindowDimensions } from 'react-native';
 
 import { mainFlex } from '../../constants/Layout';
-import { getFeeds } from '../../services/FirebaseService';
+import { getFeeds } from '../../services/FeedService';
 import NewsfeedListItem from '../atomics/NewsfeedListItem';
 
 export default memo(function GuestNewsfeedList() {
@@ -32,7 +32,6 @@ export default memo(function GuestNewsfeedList() {
         return <NewsfeedListItem feed={item} />;
       }}
       estimatedItemSize={feedHeight}
-      onEndReachedThreshold={5}
       refreshControl={<RefreshControl tintColor="#000" refreshing={refreshing} />}
     />
   );

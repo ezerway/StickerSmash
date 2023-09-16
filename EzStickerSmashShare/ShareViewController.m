@@ -70,7 +70,8 @@
 }
 
 - (void) redirectToHostApp: (NSDictionary *) sharedImage {
-    NSString *appURL = [NSString stringWithFormat:@"SCHEMA://share?image_uri=%@&width=%@&height=%@&text=%@", sharedImage[@"image_uri"], sharedImage[@"width"], sharedImage[@"height"], self.contentText];
+    NSString *escapedText = [self.contentText stringByAddingPercentEncodingWithAllowedCharacters: [NSCharacterSet URLHostAllowedCharacterSet]];
+    NSString *appURL = [NSString stringWithFormat:@"ez-sticker-smash://share?image_uri=%@&width=%@&height=%@&text=%@", sharedImage[@"image_uri"], sharedImage[@"width"], sharedImage[@"height"], escapedText];
     SEL selectorOpenURL = sel_registerName("openURL:");
     UIResponder *responder = (UIResponder *) self;
     

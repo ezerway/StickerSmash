@@ -1,17 +1,17 @@
 import storage from '@react-native-firebase/storage';
 import Checkbox from 'expo-checkbox';
+import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { router, useLocalSearchParams } from 'expo-router';
-import moment from 'moment';
 import { useCallback, useContext, useState } from 'react';
-import { View, Image, Text, TextInput } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { activeTextButtonColor, processorBackground, textButtonColor } from '../../constants/Color';
 import { defaultImageSize, iconButtonSize } from '../../constants/ImageSize';
 import { AppContext } from '../../contexts/AppContext';
 import { i18n } from '../../i18n';
-import { addFeed } from '../../services/FirebaseService';
+import { addFeed } from '../../services/FeedService';
 import { getFitSize } from '../../services/ResizeService';
 import IconButton from '../atomics/IconButton';
 import TextButton from '../atomics/TextButton';
@@ -24,7 +24,7 @@ export default function AddFeedModalMain() {
     width = defaultImageSize.width,
     height = defaultImageSize.height,
   } = useLocalSearchParams();
-  const { customerId, customerName } = useContext(AppContext);
+  const { customer, customerName } = useContext(AppContext);
   const [imageUrl, setImageUrl] = useState(image_uri);
   const [isPublic, setIsPublic] = useState(false);
   const [textValue, setTextValue] = useState(text);
@@ -41,10 +41,10 @@ export default function AddFeedModalMain() {
   }, []);
 
   const clickShare = useCallback(async () => {
-    setUploaded(1);
+    setUploaded(0.1);
     const physicalFileParts = imageUrl.split('/');
     const physicalFileName = physicalFileParts[physicalFileParts.length - 1];
-    const cloudFilePath = `users/${customerId}/${physicalFileName}`;
+    const cloudFilePath = `users/${customer.id}/${physicalFileName}`;
     const reference = storage().ref(cloudFilePath);
     const putTask = reference.putFile(imageUrl);
 
@@ -60,7 +60,7 @@ export default function AddFeedModalMain() {
         image_url: await reference.getDownloadURL(),
         text: textValue,
       };
-      addFeed(customerId, isPublic, newFeed);
+      addFeed(customer.id, isPublic, newFeed);
 
       if (router.canGoBack()) {
         router.back();
@@ -69,7 +69,7 @@ export default function AddFeedModalMain() {
 
       router.replace('/profile');
     });
-  }, [customerName, width, height, textValue, customerId, isPublic]);
+  }, [customerName, width, height, textValue, isPublic]);
 
   const pickImage = useCallback(async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -145,7 +145,7 @@ export default function AddFeedModalMain() {
         />
       </View>
       <View style={tailwind('w-full items-center justify-center')}>
-        <Image style={size} source={{ uri: imageUrl }} />
+        <Image style={size} source={imageUrl} />
         <View style={[tailwind('absolute top-0 right-0 flex-row items-center px-5 pt-2')]}>
           <IconButton
             onPress={pickImage}
