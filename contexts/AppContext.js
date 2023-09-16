@@ -7,15 +7,16 @@ import { generateName } from '../services/RandomService';
 
 export const AppContext = createContext(null);
 
-export const AppContextProvider = ({ children, appCustomerId, appCustomerName = null }) => {
+export const AppContextProvider = ({ children, appCustomer }) => {
   const [mediaStatus, requestMediaPermission] = MediaLibrary.usePermissions();
   const [backgroundColor, setBackgroundColor] = useState(defaultBackgroundColor);
-  const [customerId, setCustomerId] = useState(appCustomerId);
-  const [customerName, setCustomerName] = useState(appCustomerName);
+  const [customer, setCustomer] = useState(appCustomer);
+  const [customerName, setCustomerName] = useState(appCustomer?.name);
 
   const requestPushNotifications = async () => {
-    const customerId = await requestPushNotify();
-    setCustomerId(customerId);
+    const customer = await requestPushNotify();
+    setCustomer(customer);
+    setCustomerName(customer.name);
   };
 
   useEffect(() => {
@@ -31,11 +32,11 @@ export const AppContextProvider = ({ children, appCustomerId, appCustomerName = 
       value={{
         backgroundColor,
         mediaStatus,
-        customerId,
+        customer,
         customerName,
         setBackgroundColor,
         requestMediaPermission,
-        setCustomerId,
+        setCustomer,
         requestPushNotifications,
         setCustomerName,
       }}>

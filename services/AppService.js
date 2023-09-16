@@ -1,5 +1,5 @@
-import { saveCustomer } from './FirebaseService';
 import { registerForPushNotificationsAsync } from './PushNotificationService';
+import { initCustomer } from './UserService';
 
 export async function requestPushNotifications() {
   const token = await registerForPushNotificationsAsync();
@@ -8,6 +8,5 @@ export async function requestPushNotifications() {
     return;
   }
 
-  const customerId = await saveCustomer(token);
-  return customerId;
+  return initCustomer(token);
 }

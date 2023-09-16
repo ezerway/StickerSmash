@@ -1,9 +1,11 @@
 import { memo } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { white } from '../../../constants/Color';
+import { iconStickerButtonSize } from '../../../constants/ImageSize';
 import WideButton from '../../molecules/WideButton';
+import IconButton from '../IconButton';
 
 export default memo(function ProfileBar({
   label = 'Username',
@@ -13,6 +15,7 @@ export default memo(function ProfileBar({
   size = 25,
   style = {},
   onPressAdd = () => {},
+  onPressName = () => {},
 }) {
   const tailwind = useTailwind();
   return (
@@ -31,7 +34,12 @@ export default memo(function ProfileBar({
         />
       </View>
       <View style={tailwind('flex-1 items-center justify-between')}>
-        <Text style={[tailwind('text-white'), { color: textColor }]}>{label}</Text>
+        <Pressable onPress={onPressName}>
+          <Text style={[tailwind('text-white'), { color: textColor }]}>
+            {label}
+            <IconButton icon="edit" size={iconStickerButtonSize.width} />
+          </Text>
+        </Pressable>
       </View>
       <View style={tailwind('flex-1 flex-row items-center justify-around')}>
         <WideButton
@@ -43,10 +51,10 @@ export default memo(function ProfileBar({
           badge={liked}
         />
         <WideButton
-          icon="ios-code-download"
+          icon="code-fork"
+          iconType="FontAwesome"
           width={size}
           height={size}
-          iconType="Ionicons"
           style={tailwind('flex-1')}
           badge={downloaded}
         />

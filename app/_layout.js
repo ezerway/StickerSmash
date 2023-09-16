@@ -1,7 +1,7 @@
 import * as Device from 'expo-device';
 import { Slot, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { addChangeListener as addEzExpoShareChangeListener, getSendImageAsync } from 'ez-expo-share';
+import { addChangeListener as addEzExpoShareChangeListener } from 'ez-expo-share';
 import { useEffect, useState } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -9,6 +9,7 @@ import { TailwindProvider } from 'tailwind-rn';
 
 import { AppContextProvider } from '../contexts/AppContext';
 import { requestPushNotifications } from '../services/AppService';
+import { initImageCacheFolder, saveImageUriToCache } from '../services/FileService';
 import { checkAndUpdate } from '../services/UpdaterService';
 import utilities from '../tailwind.json';
 
@@ -19,7 +20,7 @@ if (Platform.OS === 'web') {
 }
 
 export default function RootLayout() {
-  const [customerId, setCustomerId] = useState();
+  const [customer, setCustomer] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -29,8 +30,8 @@ export default function RootLayout() {
 
     const init = async () => {
       checkAndUpdate();
-      const customerId = await requestPushNotifications();
-      setCustomerId(customerId);
+      const customer = await requestPushNotifications();
+      setCustomer(customer);
     };
 
     init();
@@ -38,11 +39,18 @@ export default function RootLayout() {
   }, []);
 
   useEffect(() => {
-    const listener = addEzExpoShareChangeListener(({ image_uri }) => {
+    initImageCacheFolder();
+
+    const listener = addEzExpoShareChangeListener(async ({ image_uri }) => {
+      if (!image_uri || image_uri === 'null') {
+        return;
+      }
+
+      const localImageUri = await saveImageUriToCache(image_uri);
       router.replace({
         pathname: '/add-feed-modal',
         params: {
-          image_uri,
+          image_uri: localImageUri,
         },
       });
     });
@@ -54,7 +62,7 @@ export default function RootLayout() {
 
   return (
     <TailwindProvider utilities={utilities}>
-      <AppContextProvider appCustomerId={customerId}>
+      <AppContextProvider appCustomer={customer}>
         <GestureHandlerRootView style={styles.container}>
           <Slot />
           <StatusBar style="auto" />

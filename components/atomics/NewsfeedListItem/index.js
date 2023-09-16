@@ -1,6 +1,6 @@
 import { Canvas, Image, useCanvasRef, useImage } from '@shopify/react-native-skia';
 import { memo, useCallback, useState } from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { defaultBackgroundColor, white } from '../../../constants/Color';
@@ -14,37 +14,57 @@ import IconButton from '../IconButton';
 export default memo(function NewsfeedListItem({
   feed = {},
   textColor = white,
-  onLikePress = () => {},
-  onForkPress = () => {},
+  onPressLike = () => {},
+  onPressBookmark = () => {},
+  onPressFork = () => {},
+  isLiked = false,
+  isBookmarked = false,
+  isForked = false,
 }) {
   const tailwind = useTailwind();
   const canvasRef = useCanvasRef();
   const image = useImage(feed.image_url);
 
-  const [liked, setLiked] = useState(feed.liked || 0);
-  const [bookmarked, setBookmarked] = useState(Boolean(feed.bookmarked));
-  const [downloaded, setDownloaded] = useState(feed.downloaded || 0);
-  const [userLiked, setUserLiked] = useState(Boolean(feed.user_liked));
-  const [createdAt] = useState(timeSince(feed.created_at));
+  const [liked, setLiked] = useState(isLiked);
+  const [bookmarked, setBookmarked] = useState(isBookmarked);
+  const [forked, setForked] = useState(isForked);
+  const [createdAt] = useState(timeSince(Math.abs(feed[`${feed.user_id}_created_at`])));
   const [size] = useState(getFitSize(feed.size, defaultImageSize));
   const [isForking, setIsForking] = useState(false);
+  const [likedCount, setLikedCount] = useState((feed.liked || []).length);
+  const [forkedCount] = useState((feed.forked || []).length);
+  const [isPublic] = useState(feed[`${feed.user_id}_public_at`]);
 
   const pressLike = useCallback(() => {
-    setUserLiked((liked) => {
+    setLiked((liked) => {
       const newVal = !liked;
-      setLiked((count) => count + (newVal ? 1 : -1));
+      onPressLike(newVal);
+
+      if (newVal) {
+        setLikedCount((val) => val + 1);
+      } else {
+        setLikedCount((val) => val - 1);
+      }
+
       return newVal;
     });
   }, []);
 
   const pressBookmark = useCallback(() => {
-    setBookmarked((bookmarked) => !bookmarked);
+    setBookmarked((bookmarked) => {
+      const newVal = !bookmarked;
+      onPressBookmark(newVal);
+      return newVal;
+    });
   }, []);
 
-  const pressDownload = useCallback(() => {
+  const pressFork = useCallback(() => {
     setIsForking(true);
-    setDownloaded((downloaded) => ++downloaded);
-    onForkPress(feed);
+    setForked((forked) => {
+      const newVal = !forked;
+      onPressFork(newVal);
+      return newVal;
+    });
   }, [feed]);
 
   const pressViewAuthor = useCallback(() => {}, []);
@@ -53,14 +73,15 @@ export default memo(function NewsfeedListItem({
     <View style={tailwind('items-center justify-center px-4 pb-2 border-b')}>
       <View style={tailwind('w-full flex-row items-center justify-start mt-2 py-2 bg-white')}>
         <IconButton
-          icon="earth"
+          icon={isPublic ? 'earth' : 'settings'}
           iconType="Ionicons"
           backgroundColor={textColor}
           color={defaultBackgroundColor}
           style={tailwind('ml-2 mr-1')}
-          onPress={pressViewAuthor}
         />
-        <Text>{feed.author}</Text>
+        <Pressable onPress={pressViewAuthor}>
+          <Text>{feed.author}</Text>
+        </Pressable>
         <Text style={{ fontSize: small }}>
           {' - '}
           {createdAt}
@@ -85,15 +106,15 @@ export default memo(function NewsfeedListItem({
           'w-full flex-row items-center justify-between border-b mt-1 py-2 border-white text-white'
         )}>
         <Text style={[tailwind('text-white'), { color: textColor }]}>
-          {i18n.t('Liked', { liked })}
+          {i18n.t('Liked', { liked: likedCount })}
         </Text>
         <Text style={[tailwind('text-white'), { color: textColor }]}>
-          {i18n.t('Downloaded', { downloaded })}
+          {i18n.t('Forked', { forked: forkedCount })}
         </Text>
       </View>
       <View style={tailwind('flex-row items-center justify-around mt-1 py-2')}>
         <IconButton
-          icon={userLiked ? 'like1' : 'like2'}
+          icon={liked ? 'like1' : 'like2'}
           iconType="AntDesign"
           style={tailwind('flex-1')}
           onPress={pressLike}
@@ -109,10 +130,10 @@ export default memo(function NewsfeedListItem({
           </View>
         ) : (
           <IconButton
-            icon="ios-code-download"
-            iconType="Ionicons"
+            icon="code-fork"
+            iconType="FontAwesome"
             style={tailwind('flex-1')}
-            onPress={pressDownload}
+            onPress={pressFork}
           />
         )}
       </View>

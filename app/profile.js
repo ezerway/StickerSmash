@@ -10,11 +10,11 @@ import { HomePageContextProvider } from '../contexts/HomePageContext';
 import { requestPushNotifications } from '../services/AppService';
 
 export default function Profile() {
-  const { customerId, setCustomerId } = useContext(AppContext);
+  const { customer, setCustomer } = useContext(AppContext);
 
-  if (!customerId) {
-    requestPushNotifications().then((newCustomerId) => {
-      setCustomerId(newCustomerId);
+  if (!customer) {
+    requestPushNotifications().then((newCustomer) => {
+      setCustomer(newCustomer);
     });
 
     return (

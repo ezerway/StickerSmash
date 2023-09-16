@@ -1,8 +1,13 @@
 // @param - timeStamp - Javascript Date object or date string
+
+import moment from 'moment';
+
+import { Increment } from '../constants/DateFormatTypes';
+
 // @usage - timeSince(new Date().setFullYear(2019))
-export function timeSince(timeStamp) {
+export function timeSince(timeStamp, format = Increment) {
   if (!(timeStamp instanceof Date)) {
-    timeStamp = new Date(timeStamp);
+    timeStamp = moment(timeStamp, format).toDate();
   }
 
   if (isNaN(timeStamp.getDate())) {
@@ -138,15 +143,15 @@ export function timeSince(timeStamp) {
   }
   if (secondsPast < 60) {
     // Less than a minute
-    return parseInt(secondsPast) + 'secs';
+    return parseInt(secondsPast, 10) + 'secs';
   }
   if (secondsPast < 3600) {
     // Less than an hour
-    return parseInt(secondsPast / 60) + 'mins';
+    return parseInt(secondsPast / 60, 10) + 'mins';
   }
   if (secondsPast <= 86400) {
     // Less than a day
-    return parseInt(secondsPast / 3600) + 'hrs';
+    return parseInt(secondsPast / 3600, 10) + 'hrs';
   }
   if (secondsPast <= 172800) {
     // Less than 2 days

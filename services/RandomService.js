@@ -6,7 +6,7 @@ import moment from 'moment';
  * @returns {Date}
  */
 export function randomDate(start = moment().subtract(1, 'months').toDate(), end = new Date()) {
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+  return moment(new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())));
 }
 
 async function fetchData(url) {
