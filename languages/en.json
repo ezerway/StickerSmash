@@ -47,7 +47,7 @@
     "Score": "Score",
     "DisplayName": "Display Name",
     "Bob": "Bob...",
-    "AppWouldLikeToSendYouNotifications": "\"%{app}\" Would Like to Send You Notifications",
+    "AppWouldLikeToSendYouNotifications": "'%{app}' Would Like to Send You Notifications",
     "AppWouldLikeToSendYouNotificationsDesc": "Notifications may include alerts sounds and icon badges. These can be configured in Settings.",
     "Allow": "Allow",
     "DontAllow": "Don't Allow"
