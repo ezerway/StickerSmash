@@ -47,7 +47,7 @@
   "Score": "分数",
   "DisplayName": "显示名称",
   "Bob": "鲍勃...",
-  "AppWouldLikeToSendYouNotifications": "\"%{app}\" 想要向您发送通知",
+  "AppWouldLikeToSendYouNotifications": "'%{app}' 想要向您发送通知",
   "AppWouldLikeToSendYouNotificationsDesc": "通知可能包括警报、声音和图标徽章。这些可以在设置中进行配置。",
   "Allow": "允许",
   "DontAllow": "不允许"

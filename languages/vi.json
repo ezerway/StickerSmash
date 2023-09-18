@@ -47,7 +47,7 @@
     "Score": "Score",
     "DisplayName": "Display Name",
     "Bob": "Bob...",
-    "AppWouldLikeToSendYouNotifications": "\"%{app}\" Muốn gửi thông báo đến bạn",
+    "AppWouldLikeToSendYouNotifications": "'%{app}' Muốn gửi thông báo đến bạn",
     "AppWouldLikeToSendYouNotificationsDesc": "Thông báo có thể chứa icon và nhạc. Chúng có thể thiết lập trong Settings.",
     "Allow": "Cho phép",
     "DontAllow": "Không"
