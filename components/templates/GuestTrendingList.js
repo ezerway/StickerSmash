@@ -2,6 +2,7 @@ import { memo, useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
+import { showResquestNotificationAlert } from '../../hooks/ResquestNotificationAlert';
 import { i18n } from '../../i18n';
 import { fakeFeeds } from '../../services/FeedService';
 import { getFakeTrendingCustomers } from '../../services/UserService';
@@ -27,6 +28,7 @@ export default memo(function GuestTrendingList(imageSize = { width: 70, height: 
     fakeFeeds(6).then((feeds) => {
       setTrendingFeeds(feeds);
       setIsLoadingFeeds(false);
+      showResquestNotificationAlert();
     });
   }, []);
 

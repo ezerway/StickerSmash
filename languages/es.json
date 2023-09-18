@@ -46,5 +46,9 @@
   "TopInfluencers": "Top Influyentes",
   "Score": "Puntuación",
   "DisplayName": "Nombre de visualización",
-  "Bob": "Bob..."
+  "Bob": "Bob...",
+  "AppWouldLikeToSendYouNotifications": "\"%{app}\" quiere enviarte notificaciones",
+  "AppWouldLikeToSendYouNotificationsDesc": "Las notificaciones pueden incluir alertas, sonidos e íconos de insignias. Estos se pueden configurar en la configuración.",
+  "Allow": "Permitir",
+  "DontAllow": "No permitir"
 }

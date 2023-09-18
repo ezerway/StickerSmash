@@ -2,8 +2,8 @@ import * as Device from 'expo-device';
 import { Slot, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { addChangeListener as addEzExpoShareChangeListener } from 'ez-expo-share';
-import { useEffect, useState } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { AppState, Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TailwindProvider } from 'tailwind-rn';
 
@@ -57,6 +57,23 @@ export default function RootLayout() {
 
     return () => {
       listener.remove();
+    };
+  }, []);
+
+  const appState = useRef(AppState.currentState);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', async (nextAppState) => {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        const customer = await requestPushNotifications();
+        setCustomer(customer);
+      }
+
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      subscription.remove();
     };
   }, []);
 
