@@ -46,5 +46,9 @@
   "TopInfluencers": "トップインフルエンサー",
   "Score": "スコア",
   "DisplayName": "表示名",
-  "Bob": "ボブ..."
+  "Bob": "ボブ...",
+  "AppWouldLikeToSendYouNotifications": "\"%{app}\"は通知を送信します",
+  "AppWouldLikeToSendYouNotificationsDesc": "通知には、アラート、サウンド、アイコンバッジが含まれる場合があります。これらは設定で構成できます。",
+  "Allow": "許可する",
+  "DontAllow": "許可しない"
 }
