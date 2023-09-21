@@ -27,7 +27,7 @@ export default memo(function TrendingList({
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    setFeeds(await getFeeds(customerId, isFake, feedType, 0, 0, 6));
+    setFeeds(await getFeeds(customerId, isFake, feedType, 0, 6));
     setTrendingCustomers(await getTrendingCustomers());
     setRefreshing(false);
   }, [customerId]);

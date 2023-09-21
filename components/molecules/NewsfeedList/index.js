@@ -9,7 +9,6 @@ import {
   bookmarkFeed,
   forkFeed,
   getFeeds,
-  getFeedsByTypeOrderByChild,
   likeFeed,
   newsfeedType,
   unbookmarkFeed,
@@ -33,16 +32,9 @@ export default memo(function NewsfeedList({
   const [refreshing, setRefreshing] = useState(null);
 
   const fetchFeeds = useCallback(
-    async (startAtValue = 0, startAtKey = 0, limit, isLoadMore = false) => {
+    async (startAtKey = 0, limit, isLoadMore = false) => {
       setRefreshing(true);
-      const feedResult = await getFeeds(
-        customerId,
-        isFake,
-        feedType,
-        startAtValue,
-        startAtKey,
-        limit
-      );
+      const feedResult = await getFeeds(customerId, isFake, feedType, startAtKey, limit);
 
       if (feedResult.length) {
         setLastItem(feedResult[feedResult.length - 1]);
@@ -55,12 +47,11 @@ export default memo(function NewsfeedList({
   );
 
   const onEndReached = useCallback(async () => {
-    const orderByChild = getFeedsByTypeOrderByChild(feedType, customerId);
-    fetchFeeds(lastItem[orderByChild], lastItem.feed_id, limit, true);
+    fetchFeeds(lastItem.feed_id, limit, true);
   }, [customerId, feedType, lastItem]);
 
   const onRefresh = useCallback(async () => {
-    fetchFeeds(0, 0, limit);
+    fetchFeeds(0, limit);
   }, []);
 
   const flashListRef = useRef();

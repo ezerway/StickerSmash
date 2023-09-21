@@ -7,6 +7,7 @@ import { getDatabase } from './FirebaseService';
 import { generateName } from './RandomService';
 import { Increment } from '../constants/DateFormatTypes';
 import { Bookmark, Fork, Like, Min } from '../constants/FeedScore';
+import { privateFeedsKey, userActionLogsKey } from '../constants/FirebaseKeys';
 
 export async function initCustomer(expo_push_token, data = {}) {
   const ref = getDatabase().ref('/users');
@@ -22,13 +23,15 @@ export async function initCustomer(expo_push_token, data = {}) {
     updated_at: moment().format(Increment),
   };
 
-  if (snapshot.val() === null) {
+  if (!snapshot.exists()) {
     const newRecord = ref.push();
     newRecord.set(updateData);
+
     return {
       id: newRecord.key,
       name: await generateName(),
       scored: Min,
+      ...(await initRelatedTable()),
       ...updateData,
     };
   }
@@ -37,6 +40,7 @@ export async function initCustomer(expo_push_token, data = {}) {
   const user = snapshot.toJSON()[id];
   const newData = {
     ...user,
+    ...(await initRelatedTable(user)),
     ...updateData,
   };
 
@@ -46,6 +50,26 @@ export async function initCustomer(expo_push_token, data = {}) {
     id,
     ...newData,
   };
+}
+
+async function initRelatedTable(user = {}) {
+  // if (!user[privateFeedsKey]) {
+  //   const newPrivateFeedsRecord = getDatabase().ref('/private_feeds').push();
+  //   await newPrivateFeedsRecord.set([]);
+  //   user[privateFeedsKey] = newPrivateFeedsRecord.key;
+  // }
+
+  // if (!user[userActionLogsKey]) {
+  //   const newUserActionLogsRecord = getDatabase().ref('/user_action_logs').push();
+  //   await newUserActionLogsRecord.set({
+  //     liked: [],
+  //     bookmarked: [],
+  //     forked: [],
+  //   });
+  //   user[userActionLogsKey] = newUserActionLogsRecord.key;
+  // }
+
+  return user;
 }
 
 export async function likeCustomer(currentCustomerId, customerId) {

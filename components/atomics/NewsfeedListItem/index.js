@@ -28,12 +28,12 @@ export default memo(function NewsfeedListItem({
   const [liked, setLiked] = useState(isLiked);
   const [bookmarked, setBookmarked] = useState(isBookmarked);
   const [forked, setForked] = useState(isForked);
-  const [createdAt] = useState(timeSince(Math.abs(feed[`${feed.user_id}_created_at`])));
+  const [createdAt] = useState(timeSince(Math.abs(feed.created_at)));
   const [size] = useState(getFitSize(feed.size, defaultImageSize));
   const [isForking, setIsForking] = useState(false);
   const [likedCount, setLikedCount] = useState((feed.liked || []).length);
   const [forkedCount] = useState((feed.forked || []).length);
-  const [isPublic] = useState(feed[`${feed.user_id}_public_at`]);
+  const [isPublic] = useState(feed.public_at);
 
   const pressLike = useCallback(() => {
     setLiked((liked) => {

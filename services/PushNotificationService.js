@@ -24,7 +24,13 @@ export async function registerForPushNotificationsAsync() {
 
   const token = isDevice
     ? (await Notifications.getExpoPushTokenAsync()).data
-    : 'test_expo_push_token';
+    : `test_expo_push_token_${[
+        Platform.OS,
+        Platform.constants.Brand,
+        Platform.constants.Model,
+      ].join('_')}`;
+
+      console.log(token)
 
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {

@@ -60,7 +60,7 @@ export default function AddFeedModalMain() {
         image_url: await reference.getDownloadURL(),
         text: textValue,
       };
-      addFeed(customer.id, isPublic, newFeed);
+      addFeed(customer, isPublic, newFeed);
 
       if (router.canGoBack()) {
         router.back();
