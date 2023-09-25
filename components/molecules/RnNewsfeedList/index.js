@@ -1,10 +1,10 @@
-import { FlashList } from '@shopify/flash-list';
 import { useRouter } from 'expo-router';
-import { memo, useCallback, useRef, useState } from 'react';
-import { RefreshControl, useWindowDimensions } from 'react-native';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { RefreshControl, FlatList, ActivityIndicator, useWindowDimensions } from 'react-native';
 import useBus from 'use-bus';
 
 import { mainFlex } from '../../../constants/Layout';
+import { i18n } from '../../../i18n';
 import {
   bookmarkFeed,
   forkFeed,
@@ -14,22 +14,21 @@ import {
   unbookmarkFeed,
   unlikeFeed,
 } from '../../../services/FeedService';
-// import { saveImageUriToCache } from '../../../services/FileService';
+import IconButton from '../../atomics/IconButton';
 import NewsfeedListItem from '../../atomics/NewsfeedListItem';
 
-export default memo(function NewsfeedList({
+export default memo(function RnNewsfeedList({
   visitorId = null,
   customerId = null,
   isFake = false,
   feedType = newsfeedType,
 }) {
-  const dim = useWindowDimensions();
-  const [feedHeight] = useState(dim.height * mainFlex);
   const [feeds, setFeeds] = useState([]);
   const [lastItem, setLastItem] = useState({});
   const [limit] = useState(5);
 
   const [refreshing, setRefreshing] = useState(null);
+  const [isReachEnd, setIsReachEnd] = useState(null);
 
   const fetchFeeds = useCallback(
     async (startAtKey = 0, limit, isLoadMore = false) => {
@@ -38,6 +37,8 @@ export default memo(function NewsfeedList({
 
       if (feedResult.length) {
         setLastItem(feedResult[feedResult.length - 1]);
+      } else {
+        setIsReachEnd(true);
       }
 
       setFeeds((feeds) => (isLoadMore ? feeds.concat(feedResult) : feedResult));
@@ -47,15 +48,21 @@ export default memo(function NewsfeedList({
   );
 
   const onEndReached = useCallback(async () => {
-    if (refreshing) {
+    if (refreshing || isReachEnd) {
       return;
     }
     fetchFeeds(lastItem.cusor, limit, true);
-  }, [refreshing, customerId, feedType, lastItem]);
+  }, [refreshing, isReachEnd, customerId, feedType, lastItem]);
 
   const onRefresh = useCallback(async () => {
+    setIsReachEnd(null);
     fetchFeeds(0, limit);
   }, []);
+
+  useEffect(() => {
+    setIsReachEnd(null);
+    fetchFeeds(0, limit);
+  }, [limit]);
 
   const flashListRef = useRef();
 
@@ -75,14 +82,6 @@ export default memo(function NewsfeedList({
   const pressFork = useCallback(
     (feed) => async () => {
       forkFeed(visitorId, feed);
-      // const localImageUri = await saveImageUriToCache(feed.image_url);
-      // router.push({
-      //   pathname: '/',
-      //   params: {
-      //     localImageUri,
-      //   },
-      // });
-      // const localImageUri = await saveImageUriToCache(feed.image_url);
       router.push({
         pathname: '/',
         params: {
@@ -103,13 +102,35 @@ export default memo(function NewsfeedList({
     [visitorId]
   );
 
+  const pressAdd = useCallback(async () => {
+    router.push({
+      pathname: '/add-feed-modal',
+      params: {},
+    });
+  }, [visitorId]);
+
+  const dim = useWindowDimensions();
+
+  const EmptyComponent = useMemo(() => {
+    return (
+      <IconButton
+        style={[{ height: dim.height * mainFlex }]}
+        onPress={pressAdd}
+        label={i18n.t('Add')}
+        icon="add"
+      />
+    );
+  }, []);
+
   return (
-    <FlashList
+    <FlatList
       ref={flashListRef}
       data={feeds}
-      renderItem={({ item }) => {
+      refreshing={refreshing}
+      renderItem={({ item, index }) => {
         return (
           <NewsfeedListItem
+            key={index}
             onPressLike={pressLike(item)}
             onPressBookmark={pressBookmark(item)}
             onPressFork={pressFork(item)}
@@ -120,8 +141,8 @@ export default memo(function NewsfeedList({
           />
         );
       }}
-      estimatedItemSize={feedHeight}
-      onEndReachedThreshold={2.5}
+      ListFooterComponent={refreshing ? <ActivityIndicator size="small" /> : null}
+      ListEmptyComponent={EmptyComponent}
       onEndReached={onEndReached}
       refreshControl={
         <RefreshControl tintColor="#000" refreshing={refreshing} onRefresh={onRefresh} />

@@ -7,6 +7,7 @@ import { getDatabase } from './FirebaseService';
 import { generateName } from './RandomService';
 import { Increment } from '../constants/DateFormatTypes';
 import { Bookmark, Fork, Like, Min } from '../constants/FeedScore';
+import { privateFeedsKey, userActionLogsKey } from '../constants/FirebaseKeys';
 
 export async function initCustomer(expo_push_token, data = {}) {
   const ref = getDatabase().ref('/users');
@@ -22,12 +23,14 @@ export async function initCustomer(expo_push_token, data = {}) {
     updated_at: moment().format(Increment),
   };
 
-  if (snapshot.val() === null) {
+  if (!snapshot.exists()) {
     const newRecord = ref.push();
+    const name = await generateName();
     newRecord.set(updateData);
+
     return {
       id: newRecord.key,
-      name: await generateName(),
+      name,
       scored: Min,
       ...updateData,
     };

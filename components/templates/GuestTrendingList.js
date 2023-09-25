@@ -18,6 +18,7 @@ export default memo(function GuestTrendingList(imageSize = { width: 70, height: 
   const [isLoadingFeeds, setIsLoadingFeeds] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
     setIsLoadingCustomers(true);
     getFakeTrendingCustomers().then((customers) => {
       setTrendingCustomers(customers);
@@ -26,10 +27,17 @@ export default memo(function GuestTrendingList(imageSize = { width: 70, height: 
 
     setIsLoadingFeeds(true);
     fakeFeeds(6).then((feeds) => {
-      setTrendingFeeds(feeds);
       setIsLoadingFeeds(false);
+      if (!isMounted) {
+        return;
+      }
+      setTrendingFeeds(feeds);
       showResquestNotificationAlert();
     });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

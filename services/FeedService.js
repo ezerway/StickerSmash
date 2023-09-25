@@ -11,6 +11,7 @@ import {
 } from './UserService';
 import { Increment } from '../constants/DateFormatTypes';
 import * as FeedScore from '../constants/FeedScore';
+import { privateFeedsKey, userActionLogsKey } from '../constants/FirebaseKeys';
 import { PlaceholderImage } from '../constants/Image';
 import { defaultImageSize } from '../constants/ImageSize';
 
@@ -20,6 +21,13 @@ export const likedType = 'likedType';
 export const bookmarkedType = 'bookmarkedType';
 export const forkedType = 'forkedType';
 export const trendingType = 'trendingType';
+
+export const childKeyMap = {
+  [profileType]: privateFeedsKey,
+  [likedType]: userActionLogsKey,
+  [bookmarkedType]: userActionLogsKey,
+  [forkedType]: userActionLogsKey,
+};
 
 const fakeFeed = async () => {
   const response = await fetch(PlaceholderImage);
@@ -32,9 +40,8 @@ const fakeFeed = async () => {
     author: await generateName(),
     user_id: userId,
     public_at: createdAt,
-    [`${userId}_created_at`]: createdAt,
-    [`${userId}_updated_at`]: createdAt,
-    [`${userId}_public_at`]: createdAt,
+    created_at: createdAt,
+    updated_at: createdAt,
     scored: FeedScore.Min + Math.floor(Math.random() * 1000),
     liked: Array(Math.floor(Math.random() * 1000)),
     bookmarked: Array(Math.floor(Math.random() * 1000)),
@@ -52,62 +59,40 @@ export async function fakeFeeds(size = 10) {
   return arr;
 }
 
-export function getFeedsByTypeOrderByChild(type = newsfeedType, userId = null) {
+function getFeedsByType(type = newsfeedType, childKey = null) {
+  const db = getDatabase();
+
   if (type === profileType) {
-    return `${userId}_created_at`;
+    return db.ref('private_feeds').child(childKey).orderByChild('updated_at');
   }
 
   if (type === likedType) {
-    return `${userId}_liked`;
+    return db.ref('user_action_logs').child(childKey).child('liked').orderByChild('updated_at');
   }
 
   if (type === bookmarkedType) {
-    return `${userId}_bookmarked`;
+    return db
+      .ref('user_action_logs')
+      .child(childKey)
+      .child('bookmarked')
+      .orderByChild('updated_at');
   }
 
   if (type === forkedType) {
-    return `${userId}_forked`;
+    return db.ref('user_action_logs').child(childKey).child('forked').orderByChild('updated_at');
   }
 
   if (type === trendingType) {
-    return 'scored';
+    return db.ref('feed_scores').orderByChild('scored');
   }
 
-  return `public_at`;
-}
-
-function getFeedsByType(type = newsfeedType, userId = null) {
-  const ref = getDatabase().ref('/feeds');
-  const orderByChild = getFeedsByTypeOrderByChild(type, userId);
-
-  if (type === profileType) {
-    return ref.orderByChild(orderByChild);
-  }
-
-  if (type === likedType) {
-    return ref.orderByChild(orderByChild).endAt(-1);
-  }
-
-  if (type === bookmarkedType) {
-    return ref.orderByChild(orderByChild).endAt(-1);
-  }
-
-  if (type === forkedType) {
-    return ref.orderByChild(orderByChild).endAt(-1);
-  }
-
-  if (type === trendingType) {
-    return ref.orderByChild(orderByChild).startAt(1);
-  }
-
-  return ref.orderByChild(orderByChild).endAt(-1);
+  return db.ref('public_feeds').orderByChild('updated_at');
 }
 
 export async function getFeeds(
-  userId = null,
+  childKey = null,
   isFake = false,
   feedType = newsfeedType,
-  startAtValue = 0,
   startAtKey = 0,
   limit = 2
 ) {
@@ -115,53 +100,88 @@ export async function getFeeds(
     return fakeFeeds();
   }
 
-  let query = await getFeedsByType(feedType, userId);
+  let query = await getFeedsByType(feedType, childKey);
 
-  if (startAtKey && startAtValue) {
-    query = query.startAt(startAtValue, startAtKey);
+  if (startAtKey) {
+    query = query.startAt(startAtKey, 'updated_at');
   }
 
   query = query.limitToFirst(limit);
   const snapshot = await query.once('value');
-  if (!snapshot || !snapshot.val()) {
+
+  if (!snapshot.exists()) {
     return [];
   }
 
+  const feedCollection = [];
+  snapshot.forEach(async (e) => {
+    feedCollection.push(e.val());
+  });
+
   const feeds = [];
-  snapshot.forEach((e, index) => {
-    if (startAtKey && startAtValue && index === 0) {
-      return;
+  for (let i = 0; i < feedCollection.length; i++) {
+    const { feed_id, updated_at } = feedCollection[i];
+
+    if (!feed_id) {
+      continue;
     }
 
+    const feedRef = getDatabase().ref('feeds');
+    const snapshot = await feedRef.orderByKey().equalTo(feed_id).once('value');
     feeds.push({
-      feed_id: e.key,
-      ...e.val(),
+      cusor: updated_at,
+      feed_id,
+      ...snapshot.toJSON()[feed_id],
     });
-  });
+  }
 
   return feeds;
 }
 
-export async function addFeed(customerId, isPublic = true, feedData = {}) {
+export async function addFeed(user = {}, isPublic = true, feedData = {}) {
+  const userId = user.id;
   const createdAt = -moment().format(Increment);
-  feedData.user_id = customerId;
-  feedData[`${customerId}_created_at`] = createdAt;
-  feedData[`${customerId}_updated_at`] = createdAt;
-  feedData[`${customerId}_bookmarked`] = 0;
-  feedData[`${customerId}_liked`] = 0;
-  feedData[`${customerId}_forked`] = 0;
+  feedData.user_id = userId;
+  feedData.created_at = createdAt;
+  feedData.updated_at = createdAt;
   feedData.scored = FeedScore.Min;
+  feedData[`${userId}_bookmarked`] = 0;
+  feedData[`${userId}_liked`] = 0;
+  feedData[`${userId}_forked`] = 0;
 
   if (isPublic) {
     feedData.public_at = createdAt;
-    feedData[`${customerId}_public_at`] = createdAt;
-  } else {
-    feedData.public_at = 0;
   }
 
   const ref = getDatabase().ref('/feeds');
   const newRecord = ref.push();
   newRecord.set(feedData);
+
+  const privateFeedsRef = getDatabase()
+    .ref('/private_feeds/' + userId)
+    .push();
+  await privateFeedsRef.set({
+    feed_id: newRecord.key,
+    created_at: createdAt,
+    updated_at: createdAt,
+  });
+
+  getDatabase()
+    .ref('/feed_scores/' + newRecord.key)
+    .set({
+      feed_id: newRecord.key,
+      scored: FeedScore.Min,
+    });
+
+  if (isPublic) {
+    const ref = getDatabase().ref('/public_feeds').push();
+    await ref.set({
+      feed_id: newRecord.key,
+      created_at: createdAt,
+      updated_at: createdAt,
+    });
+  }
+
   return newRecord.key;
 }
 
@@ -181,12 +201,29 @@ export async function likeFeed(customerId, { feed_id, user_id, scored, liked }) 
   const updatedAt = -moment().format(Increment);
   const newLiked = liked || [];
   newLiked.push(customerId);
+  getDatabase()
+    .ref('user_action_logs/' + user_id + '/liked')
+    .push({
+      feed_id,
+      updated_at: updatedAt,
+      created_at: updatedAt,
+    });
 
-  return saveFeed(feed_id, {
-    scored: customerId === user_id ? scored || FeedScore.Min : scored + FeedScore.Like,
-    liked: newLiked,
+  const newScored = customerId === user_id ? scored || FeedScore.Min : scored + FeedScore.Like;
+
+  saveFeed(feed_id, {
+    scored: newScored,
     [`${customerId}_liked`]: updatedAt,
   });
+
+  getDatabase().ref(`/feeds/${feed_id}/liked`).update(Object.assign({}, newLiked));
+
+  getDatabase()
+    .ref('/feed_scores/' + feed_id)
+    .update({
+      feed_id,
+      scored: newScored,
+    });
 }
 
 export async function bookmarkFeed(customerId, { feed_id, user_id, scored, bookmarked }) {
@@ -194,31 +231,92 @@ export async function bookmarkFeed(customerId, { feed_id, user_id, scored, bookm
   const updatedAt = -moment().format(Increment);
   const newBookmarked = bookmarked || [];
   newBookmarked.push(customerId);
-  return saveFeed(feed_id, {
-    scored: customerId === user_id ? scored || FeedScore.Min : scored + FeedScore.Bookmark,
-    bookmarked: newBookmarked,
+  getDatabase()
+    .ref('user_action_logs/' + user_id + '/bookmarked')
+    .push({
+      feed_id,
+      updated_at: updatedAt,
+      created_at: updatedAt,
+    });
+
+  const newScored = customerId === user_id ? scored || FeedScore.Min : scored + FeedScore.Bookmark;
+  saveFeed(feed_id, {
+    scored: newScored,
     [`${customerId}_bookmarked`]: updatedAt,
   });
+
+  getDatabase().ref(`/feeds/${feed_id}/bookmarked`).update(Object.assign({}, newBookmarked));
+
+  getDatabase()
+    .ref('/feed_scores/' + feed_id)
+    .update({
+      feed_id,
+      scored: newScored,
+    });
 }
 
 export async function unlikeFeed(customerId, { feed_id, user_id, scored, liked }) {
   unlikeCustomer(customerId, user_id);
   const newLiked = liked ? liked.filter((e) => e !== customerId) : [];
-  return saveFeed(feed_id, {
-    scored: customerId === user_id ? scored || FeedScore.Min : scored - FeedScore.Like,
-    liked: newLiked,
+  const newScored = customerId === user_id ? scored || FeedScore.Min : scored - FeedScore.Like;
+  const updateData = {
+    scored: newScored,
     [`${customerId}_liked`]: 0,
-  });
+  };
+
+  if (newLiked.length) {
+    getDatabase().ref(`/feeds/${feed_id}/liked`).update(Object.assign({}, newLiked));
+  } else {
+    updateData.liked = [];
+  }
+
+  saveFeed(feed_id, updateData);
+
+  getDatabase()
+    .ref('/feed_scores/' + feed_id)
+    .update({
+      feed_id,
+      scored: newScored,
+    });
 }
 
 export async function unbookmarkFeed(customerId, { feed_id, user_id, scored, bookmarked }) {
   unbookmarkCustomer(customerId, user_id);
   const newBookmarked = bookmarked ? bookmarked.filter((e) => e !== customerId) : [];
-  return saveFeed(feed_id, {
-    scored: customerId === user_id ? scored || FeedScore.Min : scored - FeedScore.Bookmark,
-    bookmarked: newBookmarked,
+
+  const ref = getDatabase().ref('user_action_logs/' + user_id + '/bookmarked');
+  const snapshot = await ref.orderByChild('feed_id').equalTo(feed_id).once('value');
+  if (snapshot.exists()) {
+    snapshot.forEach((e) => {
+      getDatabase()
+        .ref('user_action_logs')
+        .child(user_id)
+        .child('bookmarked')
+        .child(e.key)
+        .remove();
+    });
+  }
+
+  const newScored = customerId === user_id ? scored || FeedScore.Min : scored - FeedScore.Bookmark;
+  const updateData = {
+    scored: newScored,
     [`${customerId}_bookmarked`]: 0,
-  });
+  };
+
+  if (newBookmarked.length) {
+    getDatabase().ref(`/feeds/${feed_id}/bookmarked`).update(Object.assign({}, newBookmarked));
+  } else {
+    updateData.bookmarked = [];
+  }
+
+  saveFeed(feed_id, updateData);
+
+  getDatabase()
+    .ref('/feed_scores/' + feed_id)
+    .update({
+      feed_id,
+      scored: newScored,
+    });
 }
 
 export async function forkFeed(customerId, { feed_id, user_id, scored, forked }) {
@@ -227,10 +325,27 @@ export async function forkFeed(customerId, { feed_id, user_id, scored, forked })
   const newForked = forked || [];
   if (!newForked.includes(customerId)) {
     newForked.push(customerId);
+    getDatabase()
+      .ref('user_action_logs/' + user_id + '/forked')
+      .push({
+        feed_id,
+        updated_at: updatedAt,
+        created_at: updatedAt,
+      });
   }
-  return saveFeed(feed_id, {
-    scored: customerId === user_id ? scored || FeedScore.Min : scored + FeedScore.Fork,
-    forked: newForked,
+
+  const newScored = customerId === user_id ? scored || FeedScore.Min : scored + FeedScore.Fork;
+  saveFeed(feed_id, {
+    scored: newScored,
     [`${customerId}_forked`]: updatedAt,
   });
+
+  getDatabase().ref(`/feeds/${feed_id}/forked`).update(Object.assign({}, newForked));
+
+  getDatabase()
+    .ref('/feed_scores/' + feed_id)
+    .update({
+      feed_id,
+      scored: newScored,
+    });
 }

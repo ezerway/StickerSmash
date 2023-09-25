@@ -104,6 +104,18 @@ export const HomePageContextProvider = ({ children }) => {
       return;
     }
 
+    if (params.remoteImageUri) {
+      Skia.Data.fromURI(params.remoteImageUri)
+        .then((encoded) => {
+          const image = Skia.Image.MakeImageFromEncoded(encoded);
+          defaultImage = image;
+          setSelectedImage(image);
+        })
+        .catch((e) => console.log(e));
+
+      return;
+    }
+
     Skia.Data.fromURI(PlaceholderImage).then((imageData) => {
       const image = Skia.Image.MakeImageFromEncoded(imageData);
       defaultImage = image;
