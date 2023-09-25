@@ -10,7 +10,8 @@ import { updateCustomer } from '../../services/UserService';
 import ProfileBar from '../atomics/ProfileBar';
 import AddUserNameList from '../molecules/AddUserNameList';
 import FooterPicker from '../molecules/FooterPicker';
-import NewsfeedList from '../molecules/NewsfeedList';
+// import NewsfeedList from '../molecules/NewsfeedList';
+import RnNewsfeedList from '../molecules/RnNewsfeedList';
 
 export default function ProfileMain() {
   const tailwind = useTailwind();
@@ -68,7 +69,8 @@ export default function ProfileMain() {
 
   return (
     <>
-      <NewsfeedList customerId={customer.id} visitorId={customer.id} feedType={profileType} />
+      {/* <NewsfeedList customerId={customer.id} visitorId={customer.id} feedType={profileType} /> */}
+      <RnNewsfeedList customerId={customer.id} visitorId={customer.id} feedType={profileType} />
       <ProfileBar
         onPressAdd={pickImage}
         onPressName={onPressName}

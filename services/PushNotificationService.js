@@ -30,8 +30,6 @@ export async function registerForPushNotificationsAsync() {
         Platform.constants.Model,
       ].join('_')}`;
 
-      console.log(token)
-
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {
       name: 'default',

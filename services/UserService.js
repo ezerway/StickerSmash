@@ -25,13 +25,13 @@ export async function initCustomer(expo_push_token, data = {}) {
 
   if (!snapshot.exists()) {
     const newRecord = ref.push();
+    const name = await generateName();
     newRecord.set(updateData);
 
     return {
       id: newRecord.key,
-      name: await generateName(),
+      name,
       scored: Min,
-      ...(await initRelatedTable()),
       ...updateData,
     };
   }
@@ -40,7 +40,6 @@ export async function initCustomer(expo_push_token, data = {}) {
   const user = snapshot.toJSON()[id];
   const newData = {
     ...user,
-    ...(await initRelatedTable(user)),
     ...updateData,
   };
 
@@ -50,26 +49,6 @@ export async function initCustomer(expo_push_token, data = {}) {
     id,
     ...newData,
   };
-}
-
-async function initRelatedTable(user = {}) {
-  // if (!user[privateFeedsKey]) {
-  //   const newPrivateFeedsRecord = getDatabase().ref('/private_feeds').push();
-  //   await newPrivateFeedsRecord.set([]);
-  //   user[privateFeedsKey] = newPrivateFeedsRecord.key;
-  // }
-
-  // if (!user[userActionLogsKey]) {
-  //   const newUserActionLogsRecord = getDatabase().ref('/user_action_logs').push();
-  //   await newUserActionLogsRecord.set({
-  //     liked: [],
-  //     bookmarked: [],
-  //     forked: [],
-  //   });
-  //   user[userActionLogsKey] = newUserActionLogsRecord.key;
-  // }
-
-  return user;
 }
 
 export async function likeCustomer(currentCustomerId, customerId) {
