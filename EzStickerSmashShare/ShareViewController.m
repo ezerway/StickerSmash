@@ -55,7 +55,11 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *sharedContainer = [fileManager containerURLForSecurityApplicationGroupIdentifier:@"APP_GROUPS"];
     NSString *dirPath = sharedContainer.path;
-    NSString *sharedImageFilePath = [NSString stringWithFormat:@"%@/%@", dirPath, @"image.png"];
+    NSDate *currDate = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"ddMMYYHHmmss"];
+    NSString *dateString = [dateFormatter stringFromDate:currDate];
+    NSString *sharedImageFilePath = [NSString stringWithFormat:@"%@/%@.png", dirPath, dateString];
     NSData *binaryImageData = UIImagePNGRepresentation(selectedImage);
     [binaryImageData writeToFile:sharedImageFilePath atomically:YES];
   

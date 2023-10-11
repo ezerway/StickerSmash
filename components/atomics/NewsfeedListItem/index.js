@@ -91,13 +91,15 @@ export default memo(function NewsfeedListItem({
           <Text>{feed.text}</Text>
         </View>
       ) : null}
-      <Image
-        source={image}
-        style={[tailwind('items-center justify-center'), size]}
-        onLoadStart={onLoadStart}
-        onLoadEnd={onLoadEnd}>
-        {isLoading ? <ActivityIndicator size="small" /> : null}
-      </Image>
+      {image ? (
+        <Image
+          source={image}
+          style={[tailwind('items-center justify-center'), size]}
+          onLoadStart={onLoadStart}
+          onLoadEnd={onLoadEnd}>
+          {isLoading ? <ActivityIndicator size="small" /> : null}
+        </Image>
+      ) : null}
       <View
         style={tailwind(
           'w-full flex-row items-center justify-between border-b mt-1 py-2 border-white text-white'

@@ -53,12 +53,12 @@ export default memo(function TrendingList({
 
   const pressViewItem = useCallback(
     (feed) => async () => {
-      router.push({
-        pathname: '/view-feed',
-        params: {
-          feed,
-        },
-      });
+      // router.push({
+      //   pathname: '/view-feed',
+      //   params: {
+      //     feed,
+      //   },
+      // });
     },
     []
   );

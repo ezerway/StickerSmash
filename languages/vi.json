@@ -35,7 +35,7 @@
     "Profile": "Cá nhân",
     "Liked": "Đã thích %{liked}",
     "Fork": "Dùng",
-    "Forked": "%Đã dùng {forked}",
+    "Forked": "Đã dùng %{forked}",
     "Trending": "Trending",
     "CreatePost": "Tạo bài",
     "WhatIsOnYourMind": "Bạn đang nghĩ gì?",
