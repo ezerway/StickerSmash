@@ -1,4 +1,4 @@
-import { Canvas, Image, useCanvasRef, useImage } from '@shopify/react-native-skia';
+import { Image } from 'expo-image';
 import { memo, useCallback, useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
@@ -22,18 +22,20 @@ export default memo(function NewsfeedListItem({
   isForked = false,
 }) {
   const tailwind = useTailwind();
-  const canvasRef = useCanvasRef();
-  const image = useImage(feed.image_url);
+  const [image] = useState(feed.image_url);
 
   const [liked, setLiked] = useState(isLiked);
   const [bookmarked, setBookmarked] = useState(isBookmarked);
   const [forked, setForked] = useState(isForked);
-  const [createdAt] = useState(timeSince(Math.abs(feed[`${feed.user_id}_created_at`])));
+  const [createdAt] = useState(timeSince(Math.abs(feed.created_at)));
   const [size] = useState(getFitSize(feed.size, defaultImageSize));
   const [isForking, setIsForking] = useState(false);
   const [likedCount, setLikedCount] = useState((feed.liked || []).length);
   const [forkedCount] = useState((feed.forked || []).length);
-  const [isPublic] = useState(feed[`${feed.user_id}_public_at`]);
+  const [isPublic] = useState(feed.public_at);
+  const [isLoading, setIsLoading] = useState(null);
+  const onLoadStart = useCallback(() => setIsLoading(true), []);
+  const onLoadEnd = useCallback(() => setIsLoading(false), []);
 
   const pressLike = useCallback(() => {
     setLiked((liked) => {
@@ -60,12 +62,9 @@ export default memo(function NewsfeedListItem({
 
   const pressFork = useCallback(() => {
     setIsForking(true);
-    setForked((forked) => {
-      const newVal = !forked;
-      onPressFork(newVal);
-      return newVal;
-    });
-  }, [feed]);
+    setForked(!forked);
+    onPressFork(!forked);
+  }, [feed, forked]);
 
   const pressViewAuthor = useCallback(() => {}, []);
 
@@ -93,14 +92,14 @@ export default memo(function NewsfeedListItem({
         </View>
       ) : null}
       {image ? (
-        <Canvas ref={canvasRef} style={[size]}>
-          <Image x={0} y={0} width={size.width} height={size.height} image={image} />
-        </Canvas>
-      ) : (
-        <View style={[tailwind('items-center justify-center'), size]}>
-          <ActivityIndicator size="small" />
-        </View>
-      )}
+        <Image
+          source={image}
+          style={[tailwind('items-center justify-center'), size]}
+          onLoadStart={onLoadStart}
+          onLoadEnd={onLoadEnd}>
+          {isLoading ? <ActivityIndicator size="small" /> : null}
+        </Image>
+      ) : null}
       <View
         style={tailwind(
           'w-full flex-row items-center justify-between border-b mt-1 py-2 border-white text-white'

@@ -4,7 +4,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useContext, useState } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, ActivityIndicator } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { activeTextButtonColor, processorBackground, textButtonColor } from '../../constants/Color';
@@ -26,7 +26,7 @@ export default function AddFeedModalMain() {
   } = useLocalSearchParams();
   const { customer, customerName } = useContext(AppContext);
   const [imageUrl, setImageUrl] = useState(image_uri);
-  const [isPublic, setIsPublic] = useState(false);
+  const [isPublic, setIsPublic] = useState(true);
   const [textValue, setTextValue] = useState(text);
   const [uploaded, setUploaded] = useState(0);
   const [size, setSize] = useState(getFitSize({ width, height }, defaultImageSize));
@@ -41,7 +41,25 @@ export default function AddFeedModalMain() {
   }, []);
 
   const clickShare = useCallback(async () => {
-    setUploaded(0.1);
+    setUploaded(1);
+
+    if (!imageUrl) {
+      const newFeed = {
+        author: customerName,
+        size: { width, height },
+        image_url: null,
+        text: textValue,
+      };
+      addFeed(customer, isPublic, newFeed);
+
+      if (router.canGoBack()) {
+        router.back();
+        return;
+      }
+
+      return router.replace('/profile');
+    }
+
     const physicalFileParts = imageUrl.split('/');
     const physicalFileName = physicalFileParts[physicalFileParts.length - 1];
     const cloudFilePath = `users/${customer.id}/${physicalFileName}`;
@@ -49,18 +67,17 @@ export default function AddFeedModalMain() {
     const putTask = reference.putFile(imageUrl);
 
     putTask.on('state_changed', (taskSnapshot) => {
-      setUploaded((taskSnapshot.bytesTransferred * 100) / taskSnapshot.totalBytes);
+      setUploaded(Math.min((taskSnapshot.bytesTransferred * 100) / taskSnapshot.totalBytes, 100));
     });
     putTask.then(async () => {
-      setUploaded(0);
-
       const newFeed = {
         author: customerName,
         size: { width, height },
         image_url: await reference.getDownloadURL(),
         text: textValue,
       };
-      addFeed(customer.id, isPublic, newFeed);
+      addFeed(customer, isPublic, newFeed);
+      setUploaded(0);
 
       if (router.canGoBack()) {
         router.back();
@@ -88,7 +105,7 @@ export default function AddFeedModalMain() {
 
   return (
     <View style={tailwind('flex w-full items-center')}>
-      {uploaded >= 100 ? null : (
+      {uploaded ? (
         <View style={tailwind('w-full')}>
           <View
             style={[
@@ -97,7 +114,7 @@ export default function AddFeedModalMain() {
             ]}
           />
         </View>
-      )}
+      ) : null}
       <View style={tailwind('w-full flex-row text-white px-4 py-2')}>
         <View style={[tailwind('flex-none flex-row w-1/6')]}>
           <IconButton
@@ -112,13 +129,24 @@ export default function AddFeedModalMain() {
         </View>
 
         <View style={[tailwind('flex-none flex-row w-1/6')]}>
-          <TextButton
-            label={i18n.t('Share')}
-            color={activeTextButtonColor}
-            style={[tailwind('flex-none justify-end')]}
-            textStyle={[tailwind('items-end')]}
-            onPress={clickShare}
-          />
+          {uploaded ? (
+            <View
+              style={[
+                tailwind(
+                  'w-full h-full flex-row items-center justify-center flex-none justify-end'
+                ),
+              ]}>
+              <ActivityIndicator size="small" />
+            </View>
+          ) : (
+            <TextButton
+              label={i18n.t('Share')}
+              color={activeTextButtonColor}
+              style={[tailwind('flex-none justify-end')]}
+              textStyle={[tailwind('items-end')]}
+              onPress={clickShare}
+            />
+          )}
         </View>
       </View>
       <View style={tailwind('w-full flex-row border-t px-4 pt-2')}>

@@ -42,56 +42,12 @@
   right: 0px
 }
 
-.top-0 {
-  top: 0px
-}
-
-.right-2 {
-  right: 0.5rem
-}
-
-.right-5 {
-  right: 1.25rem
-}
-
-.top-2 {
-  top: 0.5rem
-}
-
-.-right-5 {
-  right: -1.25rem
-}
-
-.-right-1 {
-  right: -0.25rem
-}
-
-.-left-5 {
-  left: -1.25rem
-}
-
-.-left-8 {
-  left: -2rem
-}
-
-.left-8 {
-  left: 2rem
-}
-
-.right-4 {
-  right: 1rem
-}
-
-.right-9 {
-  right: 2.25rem
-}
-
-.right-12 {
-  right: 3rem
-}
-
 .right-14 {
   right: 3.5rem
+}
+
+.top-0 {
+  top: 0px
 }
 
 .m-1 {

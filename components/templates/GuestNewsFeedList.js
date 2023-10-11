@@ -15,14 +15,22 @@ export default memo(function GuestNewsfeedList() {
   const [refreshing, setRefreshing] = useState(null);
 
   useEffect(() => {
+    let isMounted = true;
     const init = async () => {
       setRefreshing(true);
       setFeeds(await getFeeds(null, true));
       setRefreshing(false);
+      if (!isMounted) {
+        return;
+      }
       showResquestNotificationAlert();
     };
 
     init();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const flashListRef = useRef();
