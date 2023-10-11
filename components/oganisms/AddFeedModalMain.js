@@ -26,7 +26,7 @@ export default function AddFeedModalMain() {
   } = useLocalSearchParams();
   const { customer, customerName } = useContext(AppContext);
   const [imageUrl, setImageUrl] = useState(image_uri);
-  const [isPublic, setIsPublic] = useState(false);
+  const [isPublic, setIsPublic] = useState(true);
   const [textValue, setTextValue] = useState(text);
   const [uploaded, setUploaded] = useState(0);
   const [size, setSize] = useState(getFitSize({ width, height }, defaultImageSize));
@@ -42,6 +42,24 @@ export default function AddFeedModalMain() {
 
   const clickShare = useCallback(async () => {
     setUploaded(1);
+
+    if (!imageUrl) {
+      const newFeed = {
+        author: customerName,
+        size: { width, height },
+        image_url: null,
+        text: textValue,
+      };
+      addFeed(customer, isPublic, newFeed);
+
+      if (router.canGoBack()) {
+        router.back();
+        return;
+      }
+
+      return router.replace('/profile');
+    }
+
     const physicalFileParts = imageUrl.split('/');
     const physicalFileName = physicalFileParts[physicalFileParts.length - 1];
     const cloudFilePath = `users/${customer.id}/${physicalFileName}`;
