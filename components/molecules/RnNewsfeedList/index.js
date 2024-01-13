@@ -1,6 +1,14 @@
 import { useRouter } from 'expo-router';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { RefreshControl, FlatList, ActivityIndicator, useWindowDimensions } from 'react-native';
+import {
+  RefreshControl,
+  FlatList,
+  ActivityIndicator,
+  useWindowDimensions,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import { useTailwind } from 'tailwind-rn';
 import useBus from 'use-bus';
 
 import { mainFlex } from '../../../constants/Layout';
@@ -78,6 +86,7 @@ export default memo(function RnNewsfeedList({
   );
 
   const router = useRouter();
+  const tailwind = useTailwind();
 
   const pressFork = useCallback(
     (feed) => async () => {
@@ -122,6 +131,23 @@ export default memo(function RnNewsfeedList({
     );
   }, []);
 
+  const pressId = useCallback(() => {
+    router.push({
+      pathname: '/debug',
+    });
+  }, []);
+
+  const FooterComponent = useMemo(() => {
+    if (refreshing) {
+      return <ActivityIndicator size="small" />;
+    }
+    return customerId ? (
+      <TouchableOpacity onPress={pressId}>
+        <Text style={tailwind('justify-center text-white')}>ID: {customerId}</Text>
+      </TouchableOpacity>
+    ) : null;
+  }, [refreshing, customerId]);
+
   return (
     <FlatList
       ref={flashListRef}
@@ -141,7 +167,7 @@ export default memo(function RnNewsfeedList({
           />
         );
       }}
-      ListFooterComponent={refreshing ? <ActivityIndicator size="small" /> : null}
+      ListFooterComponent={FooterComponent}
       ListEmptyComponent={EmptyComponent}
       onEndReached={onEndReached}
       refreshControl={
