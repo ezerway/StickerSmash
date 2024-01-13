@@ -1,5 +1,3 @@
-import { DEBUG_MODE } from "./constants/AppSettings";
-
 const {
     default: withAppleSettings,
     Switch,
@@ -27,7 +25,7 @@ const {
             // similar to React Native.
             Switch({
               title: "Debug",
-              key: DEBUG_MODE,
+              key: "enabled_debug",
               value: false,
             }),
           ],
