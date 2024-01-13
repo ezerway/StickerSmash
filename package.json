@@ -1,6 +1,6 @@
 {
   "name": "stickersmash",
-  "version": "1.0.1",
+  "version": "1.4.0",
   "main": "expo-router/entry",
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && expo start -c",
@@ -31,10 +31,10 @@
     "expo-checkbox": "~2.4.0",
     "expo-constants": "~14.4.2",
     "expo-crypto": "~12.4.1",
-    "expo-dev-client": "~2.4.10",
+    "expo-dev-client": "~2.4.12",
     "expo-device": "~5.4.0",
-    "expo-file-system": "~15.4.4",
-    "expo-image": "~1.3.3",
+    "expo-file-system": "~15.4.5",
+    "expo-image": "~1.3.5",
     "expo-image-picker": "~14.3.2",
     "expo-linking": "~5.0.2",
     "expo-localization": "~14.3.0",
@@ -45,14 +45,14 @@
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "expo-system-ui": "~2.4.0",
-    "expo-updates": "~0.18.13",
+    "expo-updates": "~0.18.19",
     "ez-expo-share": "^0.1.17",
     "ez-sp-react-native-in-app-updates": "^1.3.0",
     "i18n-js": "^4.3.0",
     "moment": "^2.29.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.72.4",
+    "react-native": "0.72.6",
     "react-native-device-info": "^10.6.0",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-reanimated": "~3.3.0",
@@ -79,6 +79,12 @@
   },
   "eslintConfig": {
     "extends": "universe/native"
+  },
+  "overrides": {
+    "react-refresh": "~0.14.0"
+  },
+  "resolutions": {
+    "react-refresh": "~0.14.0"
   },
   "private": true
 }

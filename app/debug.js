@@ -4,6 +4,7 @@ import { FlatList, SafeAreaView, Text, TouchableOpacity, View } from 'react-nati
 import { useTailwind } from 'tailwind-rn';
 
 import { DebugContext } from '../contexts/DebugContext';
+import { i18n } from '../i18n';
 
 export default function Debug() {
   const { logs, addLog, clearAllLogs } = useContext(DebugContext);
@@ -25,9 +26,9 @@ export default function Debug() {
   const Header = useMemo(() => {
     return (
       <View style={taiwind('w-full bg-black flex-row items-end py-2 justify-center')}>
-        <HeaderButton text="Test" onPress={() => addLog('test')} />
-        <HeaderButton text="Clear" onPress={clearAllLogs} />
-        <HeaderButton text="Back" onPress={() => router.back()} />
+        <HeaderButton text={i18n.t('Test')} onPress={() => addLog('test')} />
+        <HeaderButton text={i18n.t('Clear')} onPress={clearAllLogs} />
+        <HeaderButton text={i18n.t('Back')} onPress={() => router.back()} />
       </View>
     );
   }, []);

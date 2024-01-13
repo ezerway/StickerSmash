@@ -9,15 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
-import {
-  RefreshControl,
-  FlatList,
-  ActivityIndicator,
-  useWindowDimensions,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import { useTailwind } from 'tailwind-rn';
 import useBus from 'use-bus';
 
 import { mainFlex } from '../../../constants/Layout';
@@ -95,7 +86,6 @@ export default memo(function RnNewsfeedList({
   );
 
   const router = useRouter();
-  const tailwind = useTailwind();
   const tailwind = useTailwind();
 
   const pressFork = useCallback(
@@ -179,7 +169,6 @@ export default memo(function RnNewsfeedList({
           />
         );
       }}
-      ListFooterComponent={FooterComponent}
       ListFooterComponent={FooterComponent}
       ListEmptyComponent={EmptyComponent}
       onEndReached={onEndReached}

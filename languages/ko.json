@@ -50,5 +50,8 @@
   "AppWouldLikeToSendYouNotifications": "'%{app}'은 알림을 보내고 싶어합니다.",
   "AppWouldLikeToSendYouNotificationsDesc": "알림에는 경고, 소리, 아이콘 배지가 포함될 수 있습니다. 이러한 설정은 설정에서 구성할 수 있습니다.",
   "Allow": "허용",
-  "DontAllow": "허용하지 않음"
+  "DontAllow": "허용하지 않음",
+  "Test": "테스트",
+  "Back": "뒤로",
+  "Clear": "지우기"
 }
