@@ -7,7 +7,7 @@ import { getDatabase } from './FirebaseService';
 import { generateName } from './RandomService';
 import { Increment } from '../constants/DateFormatTypes';
 import { Bookmark, Fork, Like, Min } from '../constants/FeedScore';
-import { privateFeedsKey, userActionLogsKey } from '../constants/FirebaseKeys';
+// import { privateFeedsKey, userActionLogsKey } from '../constants/FirebaseKeys';
 
 export async function initCustomer(expo_push_token, data = {}) {
   const ref = getDatabase().ref('/users');

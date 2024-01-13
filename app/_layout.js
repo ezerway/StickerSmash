@@ -8,7 +8,9 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TailwindProvider } from 'tailwind-rn';
 
 import { AppContextProvider } from '../contexts/AppContext';
+import { DebugContextProvider } from '../contexts/DebugContext';
 import { requestPushNotifications } from '../services/AppService';
+import * as DebugService from '../services/DebugService';
 import { initImageCacheFolder, saveImageUriToCache } from '../services/FileService';
 import { checkAndUpdate } from '../services/UpdaterService';
 import utilities from '../tailwind.json';
@@ -28,10 +30,15 @@ export default function RootLayout() {
       return;
     }
 
+    DebugService.addLog('before init');
     const init = async () => {
-      checkAndUpdate();
+      DebugService.addLog('init');
       const customer = await requestPushNotifications();
+      DebugService.addLog('init -> customer -> ' + JSON.stringify(customer));
       setCustomer(customer);
+      DebugService.addLog('init -> customer -> checkAndUpdate');
+      checkAndUpdate();
+      DebugService.addLog('init -> customer -> checkAndUpdate done.');
     };
 
     init();
@@ -79,12 +86,14 @@ export default function RootLayout() {
 
   return (
     <TailwindProvider utilities={utilities}>
-      <AppContextProvider appCustomer={customer}>
-        <GestureHandlerRootView style={styles.container}>
-          <Slot />
-          <StatusBar style="auto" />
-        </GestureHandlerRootView>
-      </AppContextProvider>
+      <DebugContextProvider>
+        <AppContextProvider appCustomer={customer}>
+          <GestureHandlerRootView style={styles.container}>
+            <Slot />
+            <StatusBar style="auto" />
+          </GestureHandlerRootView>
+        </AppContextProvider>
+      </DebugContextProvider>
     </TailwindProvider>
   );
 }
