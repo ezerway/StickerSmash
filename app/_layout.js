@@ -9,7 +9,9 @@ import { TailwindProvider } from 'tailwind-rn';
 
 import { AppContextProvider } from '../contexts/AppContext';
 import { DebugContextProvider } from '../contexts/DebugContext';
+import { DebugContextProvider } from '../contexts/DebugContext';
 import { requestPushNotifications } from '../services/AppService';
+import * as DebugService from '../services/DebugService';
 import * as DebugService from '../services/DebugService';
 import { initImageCacheFolder, saveImageUriToCache } from '../services/FileService';
 import { checkAndUpdate } from '../services/UpdaterService';
@@ -86,6 +88,14 @@ export default function RootLayout() {
 
   return (
     <TailwindProvider utilities={utilities}>
+      <DebugContextProvider>
+        <AppContextProvider appCustomer={customer}>
+          <GestureHandlerRootView style={styles.container}>
+            <Slot />
+            <StatusBar style="auto" />
+          </GestureHandlerRootView>
+        </AppContextProvider>
+      </DebugContextProvider>
       <DebugContextProvider>
         <AppContextProvider appCustomer={customer}>
           <GestureHandlerRootView style={styles.container}>
