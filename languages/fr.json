@@ -53,5 +53,6 @@
     "DontAllow": "Ne pas autoriser",
     "Test": "Tester",
     "Back": "Retour",
-    "Clear": "Effacer"
+    "Clear": "Effacer",
+    "Debug": "Debug"
 }

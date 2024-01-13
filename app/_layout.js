@@ -32,13 +32,13 @@ export default function RootLayout() {
 
     DebugService.addLog('before init');
     const init = async () => {
-      DebugService.addLog('init');
+      await DebugService.addLog('init');
       const customer = await requestPushNotifications();
-      DebugService.addLog('init -> customer -> ' + JSON.stringify(customer));
+      await DebugService.addLog('init -> customer -> ' + JSON.stringify(customer));
       setCustomer(customer);
-      DebugService.addLog('init -> customer -> checkAndUpdate');
+      await DebugService.addLog('init -> customer -> checkAndUpdate');
       checkAndUpdate();
-      DebugService.addLog('init -> customer -> checkAndUpdate done.');
+      await DebugService.addLog('init -> customer -> checkAndUpdate done.');
     };
 
     init();
