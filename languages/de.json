@@ -53,5 +53,6 @@
   "DontAllow": "Nicht zulassen",
   "Test": "Test",
   "Back": "Zurück",
-  "Clear": "Löschen"
+  "Clear": "Löschen",
+  "Debug": "Debug"
 }

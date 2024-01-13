@@ -53,5 +53,6 @@
   "DontAllow": "허용하지 않음",
   "Test": "테스트",
   "Back": "뒤로",
-  "Clear": "지우기"
+  "Clear": "지우기",
+  "Debug": "Debug"
 }
