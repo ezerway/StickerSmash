@@ -50,5 +50,8 @@
     "AppWouldLikeToSendYouNotifications": "'%{app}' Would Like to Send You Notifications",
     "AppWouldLikeToSendYouNotificationsDesc": "Notifications may include alerts sounds and icon badges. These can be configured in Settings.",
     "Allow": "Allow",
-    "DontAllow": "Don't Allow"
+    "DontAllow": "Don't Allow",
+    "Test": "Test",
+    "Back": "Back",
+    "Clear": "Clear"
 }
