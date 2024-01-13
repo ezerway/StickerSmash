@@ -1,6 +1,6 @@
 {
   "name": "stickersmash",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "expo-router/entry",
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && expo start -c",
@@ -12,6 +12,7 @@
     "dev:tailwind": "concurrently \"tailwindcss --input input.css --output tailwind.css --no-autoprefixer --watch\" \"tailwind-rn --watch\""
   },
   "dependencies": {
+    "@config-plugins/apple-settings": "^0.0.5",
     "@expo/config-plugins": "~7.2.2",
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^19.0.0",
