@@ -2,14 +2,13 @@ import * as Device from 'expo-device';
 import { Slot, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { addChangeListener as addEzExpoShareChangeListener } from 'ez-expo-share';
-import { useEffect, useRef, useState } from 'react';
-import { AppState, Platform, StyleSheet, Text } from 'react-native';
+import { useEffect } from 'react';
+import { Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { TailwindProvider } from 'tailwind-rn';
 
 import { AppContextProvider } from '../contexts/AppContext';
 import { DebugContextProvider } from '../contexts/DebugContext';
-import { requestPushNotifications } from '../services/AppService';
 import * as DebugService from '../services/DebugService';
 import { initImageCacheFolder, saveImageUriToCache } from '../services/FileService';
 import { checkAndUpdate } from '../services/UpdaterService';
@@ -22,7 +21,6 @@ if (Platform.OS === 'web') {
 }
 
 export default function RootLayout() {
-  const [customer, setCustomer] = useState();
   const router = useRouter();
 
   useEffect(() => {
@@ -30,15 +28,10 @@ export default function RootLayout() {
       return;
     }
 
-    DebugService.addLog('before init');
     const init = async () => {
-      await DebugService.addLog('init');
-      const customer = await requestPushNotifications();
-      await DebugService.addLog('init -> customer -> ' + JSON.stringify(customer));
-      setCustomer(customer);
-      await DebugService.addLog('init -> customer -> checkAndUpdate');
+      await DebugService.addLog('init -> checkAndUpdate');
       checkAndUpdate();
-      await DebugService.addLog('init -> customer -> checkAndUpdate done.');
+      await DebugService.addLog('init -> checkAndUpdate done.');
     };
 
     init();
@@ -67,27 +60,10 @@ export default function RootLayout() {
     };
   }, []);
 
-  const appState = useRef(AppState.currentState);
-
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', async (nextAppState) => {
-      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
-        const customer = await requestPushNotifications();
-        setCustomer(customer);
-      }
-
-      appState.current = nextAppState;
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
-
   return (
     <TailwindProvider utilities={utilities}>
       <DebugContextProvider>
-        <AppContextProvider appCustomer={customer}>
+        <AppContextProvider>
           <GestureHandlerRootView style={styles.container}>
             <Slot />
             <StatusBar style="auto" />
