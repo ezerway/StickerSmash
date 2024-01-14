@@ -2,7 +2,7 @@ import { usePathname } from 'expo-router';
 import { memo, useCallback, useContext } from 'react';
 import { dispatch } from 'use-bus';
 
-import AppContext from '../../contexts/AppContext';
+import { AppContext } from '../../contexts/AppContext';
 import NavigationItem from '../atomics/NavigationItem';
 
 export default memo(function Navigation() {
