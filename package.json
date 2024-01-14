@@ -1,6 +1,6 @@
 {
   "name": "stickersmash",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "main": "expo-router/entry",
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && expo start -c",
