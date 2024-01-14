@@ -1,16 +1,14 @@
 import { usePathname } from 'expo-router';
-import { memo, useCallback } from 'react';
-import { Platform, Settings } from 'react-native';
+import { memo, useCallback, useContext } from 'react';
 import { dispatch } from 'use-bus';
 
-import { DEBUG_MODE } from '../../constants/AppSettings';
+import AppContext from '../../contexts/AppContext';
 import NavigationItem from '../atomics/NavigationItem';
 
 export default memo(function Navigation() {
   const pathname = usePathname();
-  const isIos = Platform.OS === 'ios';
 
-  const isDebugMode = isIos ? Settings.get(DEBUG_MODE) : false;
+  const { customer } = useContext(AppContext);
 
   const pressLink = useCallback(() => {
     return (targetPathname) => {
@@ -35,9 +33,9 @@ export default memo(function Navigation() {
 
       {isHome ? null : <NavigationItem href="/" label="Home" icon="home" onPress={pressLink} />}
 
-      {isDebugMode ? (
+      {customer ? null : (
         <NavigationItem href="/debug" label="Debug" icon="bug-report" onPress={pressLink} />
-      ) : null}
+      )}
     </>
   );
 });
