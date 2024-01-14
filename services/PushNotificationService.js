@@ -2,6 +2,8 @@ import { isDevice } from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
+import * as DebugService from './DebugService';
+
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -11,10 +13,14 @@ Notifications.setNotificationHandler({
 });
 
 export async function registerForPushNotificationsAsync() {
+  await DebugService.addLog('registerForPushNotificationsAsync init');
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  await DebugService.addLog('getPermissionsAsync done.');
   let finalStatus = existingStatus;
   if (existingStatus !== 'granted') {
+    await DebugService.addLog('requestPermissionsAsync init ' + existingStatus);
     const { status } = await Notifications.requestPermissionsAsync();
+    await DebugService.addLog('requestPermissionsAsync done ' + status);
     finalStatus = status;
   }
 
@@ -22,6 +28,7 @@ export async function registerForPushNotificationsAsync() {
     return;
   }
 
+  await DebugService.addLog('getExpoPushTokenAsync init');
   const token = isDevice
     ? (await Notifications.getExpoPushTokenAsync()).data
     : `test_expo_push_token_${[
@@ -29,6 +36,7 @@ export async function registerForPushNotificationsAsync() {
         Platform.constants.Brand,
         Platform.constants.Model,
       ].join('_')}`;
+  await DebugService.addLog('getExpoPushTokenAsync done.');
 
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {

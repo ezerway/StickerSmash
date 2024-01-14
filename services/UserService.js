@@ -3,6 +3,7 @@ import { getLocales, getCalendars } from 'expo-localization';
 import moment from 'moment';
 import { Platform } from 'react-native';
 
+import * as DebugService from './DebugService';
 import { getDatabase } from './FirebaseService';
 import { generateName } from './RandomService';
 import { Increment } from '../constants/DateFormatTypes';
@@ -10,8 +11,11 @@ import { Bookmark, Fork, Like, Min } from '../constants/FeedScore';
 // import { privateFeedsKey, userActionLogsKey } from '../constants/FirebaseKeys';
 
 export async function initCustomer(expo_push_token, data = {}) {
+  await DebugService.addLog('initCustomer init');
   const ref = getDatabase().ref('/users');
+  await DebugService.addLog('snapshot init');
   const snapshot = await ref.orderByChild('expo_push_token').equalTo(expo_push_token).once('value');
+  await DebugService.addLog('snapshot done.');
   const updateData = {
     expo_push_token,
     os: Platform.OS,
@@ -23,9 +27,13 @@ export async function initCustomer(expo_push_token, data = {}) {
     updated_at: moment().format(Increment),
   };
 
+  await DebugService.addLog('snapshot exists init');
   if (!snapshot.exists()) {
+    await DebugService.addLog('snapshot exists = false');
     const newRecord = ref.push();
+    await DebugService.addLog('generateName init');
     const name = await generateName();
+    await DebugService.addLog('generateName done');
     newRecord.set(updateData);
 
     return {
