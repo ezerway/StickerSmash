@@ -1,12 +1,17 @@
+import * as DebugService from './DebugService';
 import { registerForPushNotificationsAsync } from './PushNotificationService';
 import { initCustomer } from './UserService';
 
 export async function requestPushNotifications() {
-  const token = await registerForPushNotificationsAsync();
+  try {
+    const token = await registerForPushNotificationsAsync();
 
-  if (!token) {
-    return;
+    if (!token) {
+      return;
+    }
+
+    return initCustomer(token);
+  } catch (e) {
+    await DebugService.addLog('requestPushNotifications error: ' + (Object.is(e) ? e.toString : e));
   }
-
-  return initCustomer(token);
 }
