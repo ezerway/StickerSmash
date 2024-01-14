@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import { isDevice } from 'expo-device';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
@@ -30,7 +31,11 @@ export async function registerForPushNotificationsAsync() {
 
   await DebugService.addLog('getExpoPushTokenAsync init');
   const token = isDevice
-    ? (await Notifications.getExpoPushTokenAsync()).data
+    ? (
+        await Notifications.getExpoPushTokenAsync({
+          projectId: Constants.expoConfig.extra.eas.projectId,
+        })
+      ).data
     : `test_expo_push_token_${[
         Platform.OS,
         Platform.constants.Brand,
