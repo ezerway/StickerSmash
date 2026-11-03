@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { memo, useCallback, useState } from 'react';
-import { ActivityIndicator, Pressable, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { defaultBackgroundColor, white } from '../../../constants/Color';
@@ -92,13 +92,19 @@ export default memo(function NewsfeedListItem({
         </View>
       ) : null}
       {image ? (
-        <Image
-          source={image}
-          style={[tailwind('items-center justify-center'), size]}
-          onLoadStart={onLoadStart}
-          onLoadEnd={onLoadEnd}>
-          {isLoading ? <ActivityIndicator size="small" /> : null}
-        </Image>
+        <View style={[tailwind('items-center justify-center'), size]}>
+          <Image
+            source={image}
+            style={size}
+            onLoadStart={onLoadStart}
+            onLoadEnd={onLoadEnd}
+          />
+          {isLoading ? (
+            <View style={[StyleSheet.absoluteFill, tailwind('items-center justify-center')]}>
+              <ActivityIndicator size="small" />
+            </View>
+          ) : null}
+        </View>
       ) : null}
       <View
         style={tailwind(
@@ -113,8 +119,8 @@ export default memo(function NewsfeedListItem({
       </View>
       <View style={tailwind('flex-row items-center justify-around mt-1 py-2')}>
         <IconButton
-          icon={liked ? 'like1' : 'like2'}
-          iconType="AntDesign"
+          icon={liked ? 'thumbs-up' : 'thumbs-o-up'}
+          iconType="FontAwesome"
           style={tailwind('flex-1')}
           onPress={pressLike}
         />

@@ -22,8 +22,8 @@ export default memo(function TrendingListHeader() {
             backgroundColor="transparent"
             color={defaultBackgroundColor}
             size={scoreIconSize}
-            icon="like1"
-            iconType="AntDesign"
+            icon="thumbs-up"
+            iconType="FontAwesome"
           />
         </View>
         <View style={tailwind('w-8 flex-row justify-center items-center')}>

@@ -1,5 +1,5 @@
 import { memo, useCallback, useState } from 'react';
-import { Text, TouchableHighlight } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { getIcon } from './Icon';
@@ -27,10 +27,10 @@ export default memo(function ToggleIconButton({
 
   return (
     <TouchableHighlight style={tailwind('items-center justify-center')} onPress={toogleActive}>
-      <>
+      <View style={tailwind('items-center justify-center')}>
         <Icon name={active ? activeIcon : icon} size={size} color={color} />
         <Text style={[{ color }]}>{label}</Text>
-      </>
+      </View>
     </TouchableHighlight>
   );
 });

@@ -46,8 +46,8 @@ export default memo(function TrendingListFooterItem({ customer = {}, onPress = (
                 backgroundColor="transparent"
                 color={defaultBackgroundColor}
                 size={scoreIconSize}
-                icon="like1"
-                iconType="AntDesign"
+                icon="thumbs-up"
+                iconType="FontAwesome"
                 style={tailwind('mr-1')}
               />{' '}
               {forked}{' '}

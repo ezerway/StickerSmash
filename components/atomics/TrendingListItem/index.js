@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { memo, useCallback, useState } from 'react';
-import { Text, View, Pressable, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { Min } from '../../../constants/FeedScore';
@@ -28,17 +28,24 @@ export default memo(function TrendingListItem({
     <Pressable onPress={onPress}>
       <View style={tailwind('flex flex-row px-2 py-2 items-center')}>
         <View style={tailwind('w-5/12 flex flex-row')}>
-          <Image
+          <View
             style={[
-              tailwind('mr-2 self-center items-center justify-center self-center'),
+              tailwind('mr-2 self-center items-center justify-center'),
               imageSize,
-            ]}
-            contentFit="cover"
-            source={feed.image_url}
-            onLoadStart={onLoadStart}
-            onLoadEnd={onLoadEnd}>
-            {isLoading ? <ActivityIndicator size="small" /> : null}
-          </Image>
+            ]}>
+            <Image
+              style={imageSize}
+              contentFit="cover"
+              source={feed.image_url}
+              onLoadStart={onLoadStart}
+              onLoadEnd={onLoadEnd}
+            />
+            {isLoading ? (
+              <View style={[StyleSheet.absoluteFill, tailwind('items-center justify-center')]}>
+                <ActivityIndicator size="small" />
+              </View>
+            ) : null}
+          </View>
           <View style={tailwind('flex flex-col')}>
             <Text style={tailwind('text-sm font-bold')}>{feed.author}</Text>
             <Text style={tailwind('text-gray-600')}>{feed.text}</Text>

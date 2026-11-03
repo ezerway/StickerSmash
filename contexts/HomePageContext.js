@@ -1,5 +1,5 @@
 import { Skia } from '@shopify/react-native-skia';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { useLocalSearchParams } from 'expo-router';
 import * as Sharing from 'expo-sharing';
 import { useCallback, useRef, useState, createContext, useContext, useEffect } from 'react';

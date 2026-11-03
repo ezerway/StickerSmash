@@ -1,4 +1,4 @@
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import moment from 'moment';
 
 const IMAGE_CACHE_FOLDER = FileSystem.cacheDirectory + 'images/';

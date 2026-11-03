@@ -1,7 +1,8 @@
 import * as Device from 'expo-device';
 import { Slot, useRouter } from 'expo-router';
+export { ErrorBoundary } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { addChangeListener as addEzExpoShareChangeListener } from 'ez-expo-share';
+import { isRunningInExpoGo } from 'expo';
 import { useEffect } from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,7 +12,7 @@ import { AppContextProvider } from '../contexts/AppContext';
 import { DebugContextProvider } from '../contexts/DebugContext';
 import * as DebugService from '../services/DebugService';
 import { initImageCacheFolder, saveImageUriToCache } from '../services/FileService';
-import { checkAndUpdate } from '../services/UpdaterService';
+// import { checkAndUpdate } from '../services/UpdaterService';
 import utilities from '../tailwind.json';
 
 // This is a workaround to a reanimated issue -> https://github.com/software-mansion/react-native-reanimated/issues/3355
@@ -20,11 +21,14 @@ if (Platform.OS === 'web') {
   window._frameTimestamp = null;
 }
 
+const isExpoGo = isRunningInExpoGo();
+const skipCheckAndUpdate = isExpoGo || Platform.OS === 'web' || !Device.isDevice;
+
 export default function RootLayout() {
   const router = useRouter();
 
   useEffect(() => {
-    if (Platform.OS === 'web' || !Device.isDevice) {
+    if (skipCheckAndUpdate) {
       return;
     }
 
@@ -35,11 +39,16 @@ export default function RootLayout() {
     };
 
     init();
-    return () => {};
+    return () => { };
   }, []);
 
   useEffect(() => {
     initImageCacheFolder();
+
+    if (skipCheckAndUpdate) {
+      return () => { };
+    }
+    const addEzExpoShareChangeListener = require('ez-expo-share').addChangeListener;
 
     const listener = addEzExpoShareChangeListener(async ({ image_uri }) => {
       if (!image_uri || image_uri === 'null') {

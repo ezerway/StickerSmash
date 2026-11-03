@@ -43,10 +43,10 @@ export default memo(function ProfileBar({
       </View>
       <View style={tailwind('flex-1 flex-row items-center justify-around')}>
         <WideButton
-          icon="like1"
+          icon="thumbs-up"
           width={size}
           height={size}
-          iconType="AntDesign"
+          iconType="FontAwesome"
           style={tailwind('flex-1')}
           badge={liked}
         />

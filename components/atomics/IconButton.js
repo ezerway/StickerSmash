@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { useTailwind } from 'tailwind-rn';
 
 import { getIcon } from './Icon';
@@ -23,7 +23,22 @@ export default memo(function IconButton({
   onPress,
 }) {
   const tailwind = useTailwind();
-  const Icon = getIcon(iconType);
+
+  let effectiveIcon = icon;
+  let effectiveIconType = iconType;
+  if (iconType === 'AntDesign') {
+    if (icon === 'like1') {
+      effectiveIcon = 'thumbs-up';
+      effectiveIconType = 'FontAwesome';
+    } else if (icon === 'like2') {
+      effectiveIcon = 'thumbs-o-up';
+      effectiveIconType = 'FontAwesome';
+    }
+  }
+
+  const Icon = getIcon(effectiveIconType);
+  const flattenedStyle = StyleSheet.flatten(style);
+  const flexDirection = flattenedStyle?.flexDirection || 'column';
 
   return (
     <TouchableHighlight
@@ -33,14 +48,14 @@ export default memo(function IconButton({
         style,
       ]}
       onPress={onPress}>
-      <>
-        <Icon name={icon} size={size} color={color} />
+      <View style={[tailwind('items-center justify-center'), { flexDirection }]}>
+        <Icon name={effectiveIcon} size={size} color={color} />
         {label ? (
           <Text style={[tailwind('items-center justify-center'), { color, fontSize }, textStyle]}>
             {label}
           </Text>
         ) : null}
-      </>
+      </View>
     </TouchableHighlight>
   );
 });

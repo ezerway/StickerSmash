@@ -15,32 +15,31 @@ async function fetchData(url) {
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    return response.json();
+    const json = await response.json();
+    const record = json.results[0];
+    return {
+      firstName: record.name.first,
+      lastName: record.name.last,
+      email: record.email,
+      phone: record.phone,
+      gender: record.gender,
+      picture: record.picture.large,
+      nationality: record.nat,
+      birthday: record.dob.date,
+    };
   } catch (error) {
     console.error('Unable to fetch data:', error);
   }
 }
 
-function fetchNames(nameType) {
-  return fetchData(`https://www.randomlists.com/data/names-${nameType}.json`);
+function fetchNames() {
+  return fetchData(`https://randomuser.me/api/`);
 }
 
-function pickRandom(list) {
-  return list[Math.floor(Math.random() * list.length)];
-}
-
-export async function generateName(gender) {
+export async function generateName() {
   try {
-    const response = await Promise.all([
-      fetchNames(gender || pickRandom(['male', 'female'])),
-      fetchNames('surnames'),
-    ]);
-
-    const [firstNames, lastNames] = response;
-
-    const firstName = pickRandom(firstNames.data);
-    const lastName = pickRandom(lastNames.data);
-
+    const response = await fetchNames();
+    const { firstName, lastName } = response;
     return `${firstName} ${lastName}`;
   } catch (error) {
     console.error('Unable to generate name:', error);
